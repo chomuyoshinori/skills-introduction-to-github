@@ -32,12 +32,14 @@
 | `market-researcher` | 市場・競合・需要リサーチ |
 | `trend-scout` | 先進国の流行・トレンド先読み |
 | `product-planner` | 商品企画・差別化・スペック設計 |
+| `creative-designer` | クリエイティブ・デザイン・撮影ディレクション |
 | `china-sourcing-expert` | 中国の仕入れ・OEM交渉・工場品質 |
 | `global-logistics-expert` | 国際物流・通関・関税・世界の流通 |
 | `inventory-manager` | 在庫・発注・倉庫オペレーション |
 | `marketing-specialist` | Amazon内マーケ・広告・LP/CRO |
 | `sns-specialist` | SNS集客・ブランド・外部流入 |
 | `sales-specialist` | 価格戦略・販路拡大・卸/B2B |
+| `data-analyst` | データ分析・KPI・需要予測・A/Bテスト |
 | `accountant` | 個人事業の経理・税務・資金繰り |
 | `legal-advisor` | 法務（輸入規制・表示・知財・規約） |
 | `ethics-compliance` | 倫理・コンプライアンス・リスク |
