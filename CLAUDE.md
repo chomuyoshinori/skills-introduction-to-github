@@ -18,6 +18,7 @@
 
 - `amazon-oem-playbook.md` … 中国OEM×Amazon リサーチ〜販売の実践手法
 - `amazon-sns-playbook.md` … SNS（Instagram）外部集客で広告依存を脱却する手法
+- `amazon-ai-automation-playbook.md` … ChatGPT/Claude API/Helium10等でAmazon全業務をAI効率化・自動化する手法
 
 中国OEM×Amazon の特に重要な判断軸：
 
