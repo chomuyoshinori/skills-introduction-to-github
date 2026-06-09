@@ -1,3 +1,17 @@
+# === 蔵書RAGプロジェクト: 載せてはいけないもの ===
+# 実データ（重い & 著作物）と秘密情報は Git に載せない。
+config/config.yaml          # 個人設定（パス等）
+*.pdf                       # PDF原本
+work/                       # OCRテキスト等の中間生成物
+chroma/                     # ベクトルDB
+*.sa.json                   # サービスアカウント鍵
+.env                        # APIキー等
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
 # Compiled source #
 ###################
 *.com

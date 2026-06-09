@@ -1,0 +1,41 @@
+# 設定テンプレート。
+# このファイルを config/config.yaml にコピーして、自分の環境に合わせて編集する。
+# config.yaml と認証情報は Git に載せない（.gitignore 済み）。
+#
+# APIキーは環境変数で渡す:
+#   export ANTHROPIC_API_KEY=...                       # Claude
+#   export GOOGLE_APPLICATION_CREDENTIALS=/path/sa.json # Document AI を使う場合
+#   export OPENAI_API_KEY=...                           # OpenAI 埋め込みを使う場合
+
+paths:
+  # PDF原本の置き場（外付けSSD）
+  books_dir: "/Volumes/SSD/claude-lab/books"
+  # OCRテキストなど中間生成物の置き場
+  work_dir:  "/Volumes/SSD/claude-lab/work"
+  # ベクトルDB（Chroma）の永続化先
+  db_dir:    "/Volumes/SSD/claude-lab/chroma"
+
+ocr:
+  backend: "claude"          # "claude"（高精度）| "documentai"（安価・大量向き）
+  dpi: 200                   # PDF→画像の解像度。細かい字の本は 300 などに上げる
+  claude_model: "claude-opus-4-8"
+  documentai:                # backend: documentai のとき使用
+    project_id: ""
+    location: "us"           # "us" または "eu"
+    processor_id: ""
+
+embedding:
+  provider: "local"          # "local"（無料・日本語強い）| "openai"（API課金・楽）
+  local_model: "intfloat/multilingual-e5-large"
+  openai_model: "text-embedding-3-large"
+
+chunk:
+  size: 800                  # 1チャンクの文字数
+  overlap: 150               # チャンク間の重なり文字数
+
+query:
+  model: "claude-opus-4-8"
+  top_k: 8                   # 検索で取ってくる関連チャンク数
+
+# Chroma のコレクション名
+collection: "books"

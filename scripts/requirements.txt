@@ -1,0 +1,14 @@
+# 蔵書RAG 依存パッケージ
+# インストール: pip install -r scripts/requirements.txt
+
+anthropic>=0.40          # Claude API（OCR・回答生成）
+pymupdf>=1.24            # PDF → 画像レンダリング（fitz）
+chromadb>=0.5            # ベクトルDB
+pyyaml>=6.0              # 設定ファイル読込
+
+# 埋め込み: embedding.provider に応じて必要なものを入れる
+sentence-transformers>=3.0   # provider: local（multilingual-e5 等）
+# openai>=1.0                  # provider: openai を使う場合はコメントを外す
+
+# OCR backend: documentai を使う場合のみ
+# google-cloud-documentai>=2.20
