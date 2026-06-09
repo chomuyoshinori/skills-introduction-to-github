@@ -18,14 +18,20 @@
 ## 1. このリポジトリをローカルに取得
 
 レシピ抽出とは別プロジェクトなので、好きな場所に clone する。
+**スクリプト類は作業ブランチ `claude/wizardly-brahmagupta-4br1r5` にある**（`main` にはまだ無い）ので、
+必ずブランチを指定して取得すること。
 
 ```bash
-cd ~/projects   # 任意の作業場所
-git clone <このリポジトリのURL> books-rag
+cd ~/Documents   # 任意の作業場所（例）
+git clone -b claude/wizardly-brahmagupta-4br1r5 \
+  https://github.com/chomuyoshinori/skills-introduction-to-github.git books-rag
 cd books-rag
 ```
 
-> すでに clone 済みなら `git pull` で最新化するだけ。
+> すでに clone 済みなら最新化＋ブランチ切替:
+> `git fetch origin && git checkout claude/wizardly-brahmagupta-4br1r5 && git pull`
+>
+> 取得できたか確認: `ls scripts/` に `00_identify.py` が見えればOK。
 
 ---
 
@@ -71,6 +77,12 @@ export ANTHROPIC_API_KEY="sk-ant-..."
 ```
 
 > キーは config.yaml に直書きしない（環境変数で渡す）。
+>
+> ⚠️ **このAPIキーは、Claude Code/Claude.ai の月額サブスクとは別物**。
+> [console.anthropic.com](https://console.anthropic.com) で発行し、**従量課金（クレジット）の設定が必要**。
+> `Settings → API Keys` で作成、`Billing` でクレジットを入れておく。
+>
+> ※ この `export` はそのターミナルを閉じると消える。毎回打つか、`~/.zshrc` に書いておく。
 
 ---
 
@@ -78,6 +90,11 @@ export ANTHROPIC_API_KEY="sk-ant-..."
 
 フォルダ全体ではなく、**ファイルを明示**して3〜5冊試す。状態の違う本を混ぜると判定材料になる
 （きれいな本／古い本／縦書き／横書き 等）。
+
+**SSDのパスの調べ方:**
+- 接続中のドライブ一覧: `ls /Volumes`
+- 💡 **裏ワザ**: `python scripts/00_identify.py ` まで打ったあと、Finderから対象PDFを
+  **ターミナルにドラッグ＆ドロップ**すると、フルパスが自動入力される（複数まとめてドラッグも可）。
 
 ```bash
 python scripts/00_identify.py \
