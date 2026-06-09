@@ -19,6 +19,9 @@ ocr:
   backend: "claude"          # "claude"（高精度）| "documentai"（安価・大量向き）
   dpi: 200                   # PDF→画像の解像度。細かい字の本は 300 などに上げる
   claude_model: "claude-opus-4-8"
+  # 識別（00_identify.py）で書誌情報を読むモデル。コスト重視なら
+  # "claude-sonnet-4-6" や "claude-haiku-4-5" に下げてもよい
+  identify_model: "claude-opus-4-8"
   documentai:                # backend: documentai のとき使用
     project_id: ""
     location: "us"           # "us" または "eu"

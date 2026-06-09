@@ -1,1 +1,1 @@
-slug,title,author,pdf_path,pages,ocr_status,index_status,note
+slug,title,author,publisher,year,genre,language,pages,priority,confidence,identify_status,ocr_status,index_status,pdf_path,note

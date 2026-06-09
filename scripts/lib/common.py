@@ -18,14 +18,21 @@ CONFIG_PATH = REPO_ROOT / "config" / "config.yaml"
 CATALOG_PATH = REPO_ROOT / "knowledge" / "catalog.csv"
 
 CATALOG_FIELDS = [
-    "slug",        # ファイル名から作る一意なID
-    "title",       # 書名（人が編集）
-    "author",      # 著者（人が編集）
-    "pdf_path",    # 元PDFのパス（books_dir からの相対）
-    "pages",       # ページ数
-    "ocr_status",  # "", "done"
-    "index_status",# "", "done"
-    "note",        # 自由メモ
+    "slug",            # ファイル名から作る一意なID
+    "title",           # 書名（識別スクリプトが推定 → 人が修正）
+    "author",          # 著者
+    "publisher",       # 出版社
+    "year",            # 刊行年
+    "genre",           # ジャンル（識別時の推定。フェーズ2で整理）
+    "language",        # 言語（ja / en など）
+    "pages",           # ページ数
+    "priority",        # OCR優先度（high / mid / low。人が決める）
+    "confidence",      # 識別の確信度（high / medium / low）
+    "identify_status", # "", "done"
+    "ocr_status",      # "", "done"
+    "index_status",    # "", "done"
+    "pdf_path",        # 元PDFのパス（books_dir からの相対）。原本は移動しない
+    "note",            # 自由メモ
 ]
 
 
