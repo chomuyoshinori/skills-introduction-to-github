@@ -20,6 +20,7 @@
 | `amazon-oem-playbook.md` | 中国OEM×Amazon リサーチ〜販売 | 成功3条件、5ステップリサーチ、利益計算、仕入れ、商標 |
 | `amazon-sns-playbook.md` | SNS（Instagram）外部集客 | アルゴリズム効果、リール構成、3ヶ月継続、ステマ規制 |
 | `amazon-ai-automation-playbook.md` | AIで全業務を効率化・自動化 | A10/COSMO/Rufus、ページ/広告/在庫/CSのAI化、30日プラン |
+| `amazon-cvr-playbook.md` | 画像・A+・LP・動画でCVR向上 | メイン規約/8枚ストーリー、A+、ブランドストア、動画構成 |
 
 ## 関連する共有の仕組み
 
