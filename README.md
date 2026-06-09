@@ -1,20 +1,28 @@
-# Congratulations! :tada:
+# 日本株 リサーチ・分析チーム 🇯🇵📈
 
-<img src="https://octodex.github.com/images/welcometocat.png" align="right" height="250px" />
+毎日の日本投資情報をまとめ、**中期・成長重視(中リスク)** の視点で分析レポートを作成する
+Claude Code エージェントチームです。**批判的検証(レッドチーム)** と **継続的な学習・改善ループ** を組み込み、
+強気論に流されず、自分たちの精度を測りながら改善し続けることを目指します。
 
-Yay **chomuyoshinori** you finished the exercise! Nice work :tada:
+> ⚠️ 本リポジトリのレポート・分析・コンサルは情報整理および教育目的であり、投資助言ではありません。
+> 最終的な投資判断はご自身の責任で行ってください。
 
-If you would like to retrace your steps, you can always revisit the exercise.
+## クイックスタート
+1. `INVESTMENT_PROFILE.md` を開き、ウォッチリスト銘柄・注目テーマを記入する。
+2. Claude Code で `/daily-report` を実行 → 当日の日次レポートが `reports/YYYY-MM-DD.md` に生成される。
+   - 銘柄指定も可: `/daily-report 6758 ソニーグループ`
+3. 定期的に `/retrospective` を実行 → 過去の見立てを実績と照合し、教訓を `LESSONS.md` に蓄積。
 
-[![](https://img.shields.io/badge/Return%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/chomuyoshinori/skills-introduction-to-github/issues/1)
+## チーム
+マクロ / ニュース / セクター・テーマ / 個別株 の4アナリスト + **レッドチーム(批判検証)** +
+**振り返り担当(学習)** + **編集長(統括)** の構成です。詳しくは [`CLAUDE.md`](./CLAUDE.md) を参照。
 
-> [!TIP]
-> Mona won't grade you this time! 😉
-
-
-### Craving more? :raising_hand:
-
-Did you enjoy this practical style of learning? There's no better way to learn than building things, right?!
-
-Let's keep the momentum going! Head over to [GitHub Skills](https://skills.github.com) catalog to find another hands-on exercise. :rocket:
-
+## ディレクトリ
+```
+.claude/agents/      … 7体のエージェント定義
+.claude/commands/    … /daily-report, /retrospective
+INVESTMENT_PROFILE.md… 投資家プロファイル(ここを編集)
+DECISION_LOG.md      … 見立ての記録
+LESSONS.md           … 蓄積された教訓
+reports/             … 日次レポート
+```
