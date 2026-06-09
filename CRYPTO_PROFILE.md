@@ -14,20 +14,20 @@
 
 | ティッカー | 名称 | カテゴリ | 数量 |
 |---|---|---|---|
-| BTC | Bitcoin | メジャー(価値保存) | 未記入 |
-| ETH | Ethereum | メジャー(L1/スマートコントラクト) | 未記入 |
-| BNB | BNB | 取引所系L1 | 未記入 |
-| SOL | Solana | 高速L1 | 未記入 |
-| XRP | XRP | 決済/送金 | 未記入 |
-| ADA | Cardano | L1 | 未記入 |
-| DOT | Polkadot | L0/相互運用 | 未記入 |
-| LINK | Chainlink | オラクル | 未記入 |
-| LTC | Litecoin | 決済 | 未記入 |
-| XLM | Stellar | 決済/送金 | 未記入 |
-| DOGE | Dogecoin | ミーム | 未記入 |
-| HYPE | Hyperliquid | DeFi/perp DEX(新興) | 未記入 |
-| APT | Aptos | 新興L1(Move系) | 未記入 |
-| SUI | Sui | 新興L1(Move系) | 未記入 |
+| BTC | Bitcoin | メジャー(価値保存) | 0.0943 |
+| ETH | Ethereum | メジャー(L1/スマートコントラクト) | 2.03 |
+| BNB | BNB | 取引所系L1 | 0.98 |
+| SOL | Solana | 高速L1 | 15.6 |
+| XRP | XRP | 決済/送金 | 2,696 |
+| ADA | Cardano | L1 | 878 |
+| DOT | Polkadot | L0/相互運用 | 253 |
+| LINK | Chainlink | オラクル | 58 |
+| LTC | Litecoin | 決済 | 3.3 |
+| XLM | Stellar | 決済/送金 | 790 |
+| DOGE | Dogecoin | ミーム | 5,974 |
+| HYPE | Hyperliquid | DeFi/perp DEX(新興) | 18.8 |
+| APT | Aptos | 新興L1(Move系) | 15.8 |
+| SUI | Sui | 新興L1(Move系) | 343 |
 
 ## カテゴリ別の着眼点(メモ)
 - **メジャー(BTC/ETH)**: ETFフロー、マクロ(米金利・ドル)、ETHはステーキング/L2動向。
