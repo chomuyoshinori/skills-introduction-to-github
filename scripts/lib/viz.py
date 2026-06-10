@@ -9,8 +9,12 @@ import math
 import os
 
 
-def render_scene(out: str, res: int = 600) -> str:
-    """3/4 アングルにカメラ/ライトを置いてレンダリングし、出力パスを返す。"""
+def render_scene(out: str, res: int = 600, azimuth_deg: float | None = None) -> str:
+    """カメラ/ライトを置いてレンダリングし、出力パスを返す。
+
+    azimuth_deg: 水平方位（0=正面, 90=右側面, 180=背面）。None なら従来の 3/4。
+    ターンアラウンド出力（仕上げ工程への引き継ぎ資料）にも使う。
+    """
     import bpy
     import mathutils
 
@@ -38,7 +42,13 @@ def render_scene(out: str, res: int = 600) -> str:
     cam_data = bpy.data.cameras.new("cam")
     cam = bpy.data.objects.new("cam", cam_data)
     dist = height * 2.2
-    cam.location = center + V((dist * 0.8, -dist, height * 0.4))
+    if azimuth_deg is None:
+        cam.location = center + V((dist * 0.8, -dist, height * 0.4))
+    else:
+        az = math.radians(azimuth_deg)
+        horiz = dist * 1.28  # 従来の 3/4 アングルと同じ水平距離
+        cam.location = center + V((horiz * math.sin(az), -horiz * math.cos(az),
+                                   height * 0.4))
     direction = center - cam.location
     cam.rotation_euler = direction.to_track_quat("-Z", "Y").to_euler()
     bpy.context.collection.objects.link(cam)

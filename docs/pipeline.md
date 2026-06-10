@@ -46,6 +46,21 @@
 - 検査をパスしたら `scripts/export/export_glb.py` で glb を出力。
 - トランスフォーム・モディファイア適用は `standards.yaml` の `export` 設定に従う。
 
+### 仕上げ工程への引き継ぎ
+critic ループで合格したブロッキングは、`scripts/handoff/build_handoff.py` で
+引き継ぎパッケージを生成して次の担当（人＋専門エージェント）へ渡す:
+
+- `highpoly/turnaround_{front,right,back,left}.png` … 4方向の参照ビュー
+- `export/<name>.glb` … 検証済みの最終ブロッキング
+- `HANDOFF.md` … 仕様・品質達成経緯・**スカルプト指示書**・出典を自動でまとめた文書
+
+```bash
+blender --background --python scripts/handoff/build_handoff.py -- --asset <asset>
+python scripts/handoff/build_handoff.py --asset <asset> --doc-only  # 文書のみ(bpy不要)
+```
+
+スカルプト（毛・指・表情）は創造的判断のため自動化せず、ここで人へバトンを渡す。
+
 ## 品質ゲート
 
 書き出し前に必ず通すべきチェック（CI でも自動実行）:
