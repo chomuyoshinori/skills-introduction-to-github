@@ -92,6 +92,8 @@ def predict_metrics(params: dict[str, float]) -> dict[str, Any]:
     # 後肢の踏み込み（hindpaw.y - hip.y）/ L。dir_down(a).y = -sin(a)
     hind_reach_ratio = -(thigh_len * math.sin(a_thigh) + shank_len * math.sin(a_shank)
                          + meta_len * math.sin(a_meta)) / L
+    # 前肢の踏み込み（frontpaw.y - shoulder.y）/ L。0=肩の真下に接地（垂直な支柱）
+    front_reach_ratio = -(upper_len * math.sin(a_upper) + fore_len * math.sin(a_fore)) / L
     back_slope_deg = math.degrees(math.atan2(hip_h - shoulder_h, L))
 
     # 首・頭の高さから全高を概算（接地=0）
@@ -117,6 +119,7 @@ def predict_metrics(params: dict[str, float]) -> dict[str, Any]:
         "back_slope_deg": round(back_slope_deg, 2),
         "shoulder_height_m": round(shoulder_h, 3),
         "hind_reach_ratio": round(hind_reach_ratio, 3),
+        "front_reach_ratio": round(front_reach_ratio, 3),
         "limb_radius": r,
         "tris": tris,
     }

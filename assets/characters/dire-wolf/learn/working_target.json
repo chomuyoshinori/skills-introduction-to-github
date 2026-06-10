@@ -17,5 +17,6 @@
   "tail_pitch_deg": -35,
   "back_slope_deg": 0,
   "shoulder_height_m": 0.78,
-  "hind_reach_ratio": 0.12
+  "hind_reach_ratio": 0.12,
+  "front_reach_ratio": 0.02
 }

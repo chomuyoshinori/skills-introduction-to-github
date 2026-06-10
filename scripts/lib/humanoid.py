@@ -210,10 +210,10 @@ def build_humanoid(params: dict[str, float], name: str = "goblin",
         sphere(joints[f"ankle.{side}"], r * 1.1)       # 足首
         sphere(joints[f"wrist.{side}"], r * 0.85)      # 手首
         # 足: 足首から前方(-Y)へ伸びる箱（シルエットの完成度を上げる）
-        foot_c = joints[f"ankle.{side}"] + V((0, -r * 1.6, -r * 0.6))
+        foot_c = joints[f"ankle.{side}"] + V((0, -r * 1.0, -r * 0.7))
         bpy.ops.mesh.primitive_cube_add(location=foot_c)
         foot = bpy.context.active_object
-        foot.scale = (r * 0.7, r * 1.7, r * 0.5)
+        foot.scale = (r * 0.75, r * 1.15, r * 0.45)
         parts.append(foot)
         # 手: 手首から下方へ伸びる小箱（カリカチュアらしく大きめ）
         hand_c = joints[f"wrist.{side}"] + V((0, 0, -r * 1.1))

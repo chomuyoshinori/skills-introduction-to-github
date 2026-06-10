@@ -13,7 +13,7 @@ rubric:
   anatomy_plausibility: 0.15
   game_fit: 0.20
 
-pass_threshold: 8.0   # 加重平均がこれ以上で合格
-max_rounds: 5         # 安全のための上限
-optimize_iters: 30    # 各ラウンドで actor が回す試行数
+pass_threshold: 9.5   # 加重平均がこれ以上で合格
+max_rounds: 15         # 安全のための上限
+optimize_iters: 400    # 各ラウンドで actor が回す試行数
 top_candidates: 3     # critic に見せる上位候補数

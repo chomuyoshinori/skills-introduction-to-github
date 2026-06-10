@@ -14,7 +14,7 @@ rubric:
   anatomy_plausibility: 0.20
   game_fit: 0.15
 
-pass_threshold: 9.0   # 高精度要求。簡単には合格させない
-max_rounds: 20
-optimize_iters: 110    # 各ラウンドで actor が回す試行数
+pass_threshold: 9.5   # 高精度要求。簡単には合格させない
+max_rounds: 30
+optimize_iters: 400    # 各ラウンドで actor が回す試行数
 top_candidates: 3
