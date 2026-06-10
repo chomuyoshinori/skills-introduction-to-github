@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "constraints": {
+    "seg_cap": 40,
+    "seg_max_pass": 39,
+    "seg_min_fail": 42,
+    "height_floor": 0.6414556727015106,
+    "height_ceil": 2.6871230665344283,
+    "param_ranges": {
+      "lean_deg": {
+        "lo": -30.1,
+        "hi": 45.0
+      },
+      "hip_pitch_deg": {
+        "lo": -20.0,
+        "hi": 120.1
+      },
+      "shoulder_pitch_deg": {
+        "lo": -60.3,
+        "hi": 180.2
+      },
+      "knee_bend_deg": {
+        "lo": -0.0,
+        "hi": 150.6
+      },
+      "elbow_bend_deg": {
+        "lo": -0.4,
+        "hi": 145.8
+      }
+    }
+  },
+  "sweet_spot": {},
+  "best": {
+    "params": {
+      "height_m": 1.3017714873136754,
+      "head_ratio": 0.2681369478844736,
+      "torso_ratio": 0.36287575209879225,
+      "leg_ratio": 0.46071264339920587,
+      "arm_ratio": 0.4087298692043792,
+      "shoulder_w": 0.23325558337039956,
+      "limb_radius": 0.10619979806770728,
+      "seg": 6,
+      "lean_deg": 41.0,
+      "hip_pitch_deg": 10.870286213589852,
+      "knee_bend_deg": 25.915113629848754,
+      "shoulder_pitch_deg": 10.096369233255126,
+      "elbow_bend_deg": 57.947480738568046
+    },
+    "score": 87.39,
+    "realized": {
+      "height_m": 1.3450882736452296,
+      "head_ratio": 0.2595019526156276,
+      "torso_ratio": 0.35118981911837344,
+      "leg_ratio": 0.44587600291591184,
+      "arm_ratio": 0.3955672651147089,
+      "shoulder_w": 0.23325558337039956,
+      "limb_radius": 0.10619979806770728,
+      "tris": 600,
+      "lean_deg": 41.0,
+      "hip_pitch_deg": 10.870286213589852,
+      "knee_bend_deg": 25.915113629848754,
+      "shoulder_pitch_deg": 10.096369233255126,
+      "elbow_bend_deg": 57.947480738568046
+    }
+  },
+  "stats": {
+    "total": 1943,
+    "valid": 1886,
+    "failed": 57,
+    "by_kind": {
+      "anatomy": 39,
+      "budget": 3,
+      "scale": 15
+    }
+  },
+  "top_k": [],
+  "visual_reviews": [
+    [
+      {
+        "score": 101.28,
+        "engine_score": 85.28,
+        "visual": 8,
+        "notes": "自然な立ち姿。腕の曲げと膝の緩みが調和し、大頭のゴブリンらしさがシルエットでよく読める"
+      },
+      {
+        "score": 99.7,
+        "engine_score": 82.7,
+        "visual": 8.5,
+        "notes": "深い屈伸の戦闘構えが明瞭。関節球が見えるマケット的な造形が魅力的でシルエットも読みやすい"
+      },
+      {
+        "score": 97.8,
+        "engine_score": 85.8,
+        "visual": 6,
+        "notes": "躍動感はあるが片腕が後方に突き出て不自然。重心も後ろ寄りでバランスが崩れて見える"
+      },
+      {
+        "score": 93.72,
+        "engine_score": 83.72,
+        "visual": 5,
+        "notes": "細長すぎて『ずんぐりしたゴブリン』のコンセプトから外れる。脚が長く頭身が上がって見える"
+      }
+    ]
+  ]
+}

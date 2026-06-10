@@ -1,0 +1,7 @@
+{
+  "round": 8,
+  "scores": {"silhouette": 9.5, "proportion": 9.5, "pose_naturalness": 9.5, "anatomy_plausibility": 9.5, "game_fit": 9.5},
+  "summary": "課題達成（9.5）。足の小型化で最後の難点が解消。最良案(0)は広い肩・大頭・前方に構えた大きな手・深い胸・短い脚・接地した足で、威圧的なゴブリン brute のシルエットが一級。athletic な戦闘待機、左右対称、リグ可動域付き、低ポリでクリーン。ブロッキングとして出荷可能な最高水準。仕上げ(顔・装備・指・スカルプト)は人＋専門エージェントへ。",
+  "verdict": "ACCEPT",
+  "directives": []
+}

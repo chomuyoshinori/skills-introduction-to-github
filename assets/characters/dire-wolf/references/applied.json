@@ -1,0 +1,89 @@
+{
+  "subject": "直立した灰色オオカミ/イヌ科の自然な立ち姿（後肢の角度づけ）",
+  "params": [
+    {
+      "param": "stifle_deg",
+      "value": 35.0,
+      "clamped": false,
+      "raw": 35.0,
+      "confidence": "high",
+      "note": "立位の脛骨大腿角(内角)の実測平均145°（範囲129.5–156.6°）→ 屈曲角=180-145=35°",
+      "sources": [
+        "s1"
+      ],
+      "source_titles": [
+        "Determination of the Stifle Angle at Standing Position in Dogs (Vet Sci, 2022)"
+      ]
+    },
+    {
+      "param": "hock_deg",
+      "value": 45.0,
+      "clamped": false,
+      "raw": 45.0,
+      "confidence": "medium",
+      "note": "立位の飛節角(内角)約135°±5°→ 屈曲角=180-135=45°",
+      "sources": [
+        "s1"
+      ],
+      "source_titles": [
+        "Determination of the Stifle Angle at Standing Position in Dogs (Vet Sci, 2022)"
+      ]
+    },
+    {
+      "param": "hip_pitch_deg",
+      "value": 26.0,
+      "clamped": false,
+      "raw": 26.0,
+      "confidence": "medium",
+      "note": "頚体角144.7°・大腿前捻+27〜31°から、立位で大腿を垂直からおよそ26°前傾と推定",
+      "sources": [
+        "s2"
+      ],
+      "source_titles": [
+        "Axes and angles in canine orthopedics (IMAIOS vet-anatomy)"
+      ]
+    },
+    {
+      "param": "shoulder_pitch_deg",
+      "value": -15.0,
+      "clamped": false,
+      "raw": -15.0,
+      "confidence": "medium",
+      "note": "前肢は肩から地面まで『まっすぐな支柱』→ 上腕をほぼ垂直、やや後方の-15°と推定",
+      "sources": [
+        "s3"
+      ],
+      "source_titles": [
+        "Structure and Movement Pt 1 (Breeding Better Dogs)"
+      ]
+    },
+    {
+      "param": "elbow_deg",
+      "value": 22.0,
+      "clamped": false,
+      "raw": 22.0,
+      "confidence": "medium",
+      "note": "前肢が直線的な支柱→肘はほぼ伸展。内角≈158°→屈曲22°と推定",
+      "sources": [
+        "s3"
+      ],
+      "source_titles": [
+        "Structure and Movement Pt 1 (Breeding Better Dogs)"
+      ]
+    },
+    {
+      "param": "neck_pitch_deg",
+      "value": 15.0,
+      "clamped": false,
+      "raw": 15.0,
+      "confidence": "low",
+      "note": "警戒した立位の頭部やや挙上。単一の一般記述からの目安値",
+      "sources": [
+        "s3"
+      ],
+      "source_titles": [
+        "Structure and Movement Pt 1 (Breeding Better Dogs)"
+      ]
+    }
+  ]
+}

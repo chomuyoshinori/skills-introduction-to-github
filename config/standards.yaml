@@ -1,0 +1,35 @@
+# アセット規格の単一情報源 (Single Source of Truth)
+# scripts/checks/ がこのファイルを読んで合否を判定します。
+# 一点物の作り込みでも、書き出し前の最低限の品質基準を機械的に担保します。
+
+units:
+  # Blender 内のスケール基準。1 Blender unit = 1 meter を標準とする。
+  scale: meters
+  # キャラの想定身長レンジ (m)。極端なスケールミスを検出する。
+  character_height_min: 0.3
+  character_height_max: 3.0
+
+# ポリゴン予算 (lowpoly / ゲーム用書き出しメッシュの上限)
+poly_budget:
+  hero_character: 60000   # プレイヤー等、寄りで見せるキャラ
+  npc_character: 25000
+  prop_large: 15000       # 樽・宝箱などの大きめ小物
+  prop_small: 4000        # 小さなアイテム
+
+mesh_rules:
+  require_manifold: true          # 非多様体エッジを禁止
+  forbid_ngons: true              # 5角以上の面を禁止（三角/四角のみ）
+  forbid_loose_geometry: true     # 浮いた頂点・辺を禁止
+  require_uv: true                # UV 必須
+  max_uv_overlap_ratio: 0.0       # UV の重なり許容（ライトマップ不要なら緩めて可）
+
+naming:
+  # オブジェクト名の規則。例: CHR_goblin_body_LOD0
+  object_regex: '^(CHR|PRP)_[a-z0-9]+(_[a-z0-9]+)*_LOD[0-3]$'
+  material_regex: '^MAT_[a-z0-9]+(_[a-z0-9]+)*$'
+
+export:
+  formats:
+    - glb
+  apply_transform: true   # 書き出し時にトランスフォームを適用
+  apply_modifiers: true
