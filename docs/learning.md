@@ -172,6 +172,54 @@ python scripts/learn/critic_loop.py --asset assets/characters/goblin-warrior --s
 python scripts/learn/critic_loop.py --asset assets/characters/goblin-warrior --finalize 2
 ```
 
+## web 参照から模範を取り込む（reference grounding）
+
+ポーズや形の目標を、手書きの当て推量ではなく **web 上の実在の参照**（解剖学文献・
+ポーズ画像・動画）に基づいて決める仕組み。AI のマルチモーダル能力を「参照 → 数値
+パラメータ」の橋渡しに使う。
+
+役割分担:
+- **AI（`agents/reference-scout.md`）**: web 検索・画像理解を行い、
+  `references/sources.json`（出典）と `references/reference_hints.json`
+  （参照から推定したパラメータ＋出典＋信頼度）を書く
+- **スクリプト（`scripts/learn/reference.py`）**: ヒントを生成器の定義域で検証・
+  クランプし、`learn/reference_target.json` として最適化の初期目標に反映
+
+目標の合成順序: `asset.yaml` < **reference_target（web参照）** < `working_target（critic）`。
+参照が出発点を決め、critic が仕上げる。
+
+### 著作権と誠実さ
+- 参照画像/動画**そのものはリポジトリに保存しない**。残すのは URL・出典・ライセンス
+  注記と、そこから導いた**数値（測定値＝事実）**のみ
+- 各値に `confidence` を付ける: `high`=文献の実測 / `medium`=複数画像から推定 /
+  `low`=単一画像の目分量。自動ポーズ推定器ではないことを明示する
+- 解剖学の関節角（内角, 180°=伸展）と生成器の屈曲角（0°=伸展）の換算式を `note` に記録
+
+### 実測（dire-wolf を立位の解剖学データで接地）
+
+web 検索で得た実測値を生成器パラメータへ換算して目標化した:
+
+| パラメータ | 値 | 根拠（出典） |
+|-----------|----|-----|
+| stifle_deg | 35° | 立位の脛骨大腿角 実測平均145° → 180-145（Vet Sci 2022, high）|
+| hock_deg | 45° | 立位の飛節角 約135° → 180-135（Vet Sci 2022, medium）|
+| hip_pitch_deg | 26° | 頚体角144.7°・大腿前捻+27〜31°から推定（IMAIOS, medium）|
+| shoulder/elbow | -15° / 22° | 前肢は「地面までまっすぐな支柱」→ ほぼ伸展（medium）|
+
+これを初期目標に最適化し、当て推量よりも自然な四足立位に接地した。
+
+## 使い方（web 参照）
+
+```bash
+# 1) AI が web を調べて references/sources.json と reference_hints.json を作成
+#    （agents/reference-scout.md の役割）
+# 2) 検証して目標に反映
+python scripts/learn/reference.py --asset assets/characters/dire-wolf --apply
+python scripts/learn/reference.py --asset assets/characters/dire-wolf --status
+# 3) 参照接地した目標で最適化
+python scripts/learn/optimizer.py -- --asset assets/characters/dire-wolf --iters 40
+```
+
 ## 限界と発展
 
 - これは**ブロッキング（プロポーション/ポーズ）**の自動探索。質感・ディテール・
@@ -179,3 +227,5 @@ python scripts/learn/critic_loop.py --asset assets/characters/goblin-warrior --f
 - 視覚レビューは現状 Claude Code セッション内の AI が担当（ファイル経由の
   半自動）。Claude API キーがあれば全自動化も可能。
 - 生成器を増やす（顔・手のディテール、鳥型・爬虫類型の骨格）ことで拡張できる。
+- web 参照は現状 AI が画像を見て数値化する半自動。専用のマルカーレス・ポーズ推定
+  （動画フレーム→関節角）を組み込めば、より高精度・全自動の取り込みが可能になる。

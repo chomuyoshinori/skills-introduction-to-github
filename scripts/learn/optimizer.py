@@ -104,12 +104,17 @@ def main():
     anatomy = load_anatomy()
     species = meta.get("species", "human")
     G = _load_generator(meta)
-    # critic ループが目標を更新していれば、それを上書き適用する
+    # 目標の合成順: asset.yaml < reference_target（web参照由来）< working_target（critic更新）
+    rt_path = os.path.join(asset_dir, "learn", "reference_target.json")
+    if os.path.exists(rt_path):
+        with open(rt_path, encoding="utf-8") as f:
+            target = {**target, **json.load(f)}
+        print("[optimizer] reference_target.json を適用（web参照由来の目標）")
     wt_path = os.path.join(asset_dir, "learn", "working_target.json")
     if os.path.exists(wt_path):
         with open(wt_path, encoding="utf-8") as f:
             target = {**target, **json.load(f)}
-        print(f"[optimizer] working_target.json を適用（critic 更新済み目標）")
+        print("[optimizer] working_target.json を適用（critic 更新済み目標）")
     # オブジェクト/マテリアル命名に使う識別子（CHR_<name>_... 規則に適合させる）
     model_name = re.sub(r"[^a-z0-9]+", "_", str(meta.get("name", "asset")).lower()).strip("_")
 
