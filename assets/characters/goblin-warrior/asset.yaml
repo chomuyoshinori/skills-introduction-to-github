@@ -1,0 +1,9 @@
+name: goblin-warrior
+display_name: "Goblin Warrior"
+type: npc_character
+prefix: CHR_goblin
+height_m: 1.3
+status: blocking
+notes: |
+  コミカルで小柄なゴブリンの戦士。前傾姿勢、大きめの頭と手。
+  寄りで見せないモブ想定なので npc_character 予算(25k tris)で作る。

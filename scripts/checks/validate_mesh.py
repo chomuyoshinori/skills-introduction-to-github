@@ -35,8 +35,9 @@ def _parse_args(argv: list[str]) -> dict:
 def main() -> None:
     import re
 
+    import bpy  # bpy を先に import（pip 版 bpy では bmesh/mathutils の前提）
     import bmesh
-    import bpy
+    import mathutils
 
     args = _parse_args(sys.argv)
     std = load_standards()
@@ -69,7 +70,7 @@ def main() -> None:
 
         # バウンディングからスケール集計
         for corner in obj.bound_box:
-            world = obj.matrix_world @ __import__("mathutils").Vector(corner)
+            world = obj.matrix_world @ mathutils.Vector(corner)
             scene_min_z = min(scene_min_z, world.z)
             scene_max_z = max(scene_max_z, world.z)
 
