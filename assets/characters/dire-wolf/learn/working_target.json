@@ -1,0 +1,20 @@
+{
+  "height_m": 1.1,
+  "body_length_m": 1.4000000000000001,
+  "head_ratio": 0.2,
+  "neck_ratio": 0.38,
+  "hind_leg_ratio": 0.73,
+  "front_leg_ratio": 0.59,
+  "tail_ratio": 0.5700000000000001,
+  "neck_pitch_deg": 10,
+  "hip_pitch_deg": 17.0,
+  "stifle_deg": 85,
+  "hock_deg": 70,
+  "shoulder_pitch_deg": -25,
+  "elbow_deg": 35,
+  "body_radius_ratio": 0.12500000000000003,
+  "limb_radius": 0.07550000000000001,
+  "tail_pitch_deg": -35,
+  "back_slope_deg": 0,
+  "shoulder_height_m": 0.78
+}

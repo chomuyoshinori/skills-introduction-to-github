@@ -35,6 +35,8 @@ PARAM_BOUNDS: dict[str, tuple[float, float]] = {
     "hock_deg": (0, 180),
     "shoulder_pitch_deg": (-70, 190),
     "elbow_deg": (-10, 180),
+    # 尾の角度（水平から、+で上向き/-で垂れ下がり）。critic R3 の指摘で追加
+    "tail_pitch_deg": (-60, 60),
 }
 
 POSE_KEYS = ("neck_pitch_deg", "hip_pitch_deg", "stifle_deg", "hock_deg",
@@ -155,7 +157,8 @@ def build(params: dict[str, float], name: str = "wolf",
     neck_end = chest + neck_len * neck_dir
     head_center = neck_end + neck_dir * head_d * 0.3
     snout_end = head_center + V((0, -head_d * 0.8, -head_d * 0.1))
-    tail_dir = V((0, math.cos(math.radians(40)), math.sin(math.radians(40))))
+    tail_pitch = math.radians(p.get("tail_pitch_deg", 40))
+    tail_dir = V((0, math.cos(tail_pitch), math.sin(tail_pitch)))
     tail_end = pelvis + tail_len * tail_dir
     joints["neck_end"] = neck_end
     joints["tail_end"] = tail_end
@@ -201,6 +204,9 @@ def build(params: dict[str, float], name: str = "wolf",
     if with_rig:
         _build_armature(joints, name)
 
+    # 背線の傾き（骨盤と肩の高低差から。0=水平、+で尻上がり）
+    back_slope_deg = math.degrees(math.atan2(hip_h - shoulder_h, L))
+
     min_z = min((body.matrix_world @ V(c)).z for c in body.bound_box)
     max_z = max((body.matrix_world @ V(c)).z for c in body.bound_box)
     realized_h = max_z - min_z
@@ -214,6 +220,10 @@ def build(params: dict[str, float], name: str = "wolf",
         "hind_leg_ratio": p["hind_leg_ratio"],
         "front_leg_ratio": p["front_leg_ratio"],
         "tail_ratio": p["tail_ratio"],
+        "body_radius_ratio": p["body_radius_ratio"],
+        "tail_pitch_deg": p.get("tail_pitch_deg", 40),
+        "back_slope_deg": round(back_slope_deg, 2),
+        "shoulder_height_m": round(shoulder_h, 3),
         "limb_radius": r,
         "tris": tris,
     }

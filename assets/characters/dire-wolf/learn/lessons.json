@@ -8,23 +8,23 @@
     "height_ceil": 1.8065467151802055,
     "param_ranges": {
       "neck_pitch_deg": {
-        "lo": -20.8,
+        "lo": -20.1,
         "hi": 30.2
       },
       "hip_pitch_deg": {
-        "lo": -30.9,
+        "lo": -30.2,
         "hi": 111.6
       },
       "shoulder_pitch_deg": {
-        "lo": -40.1,
+        "lo": -40.0,
         "hi": 162.3
       },
       "elbow_deg": {
         "lo": 19.8,
-        "hi": 150.8
+        "hi": 150.5
       },
       "stifle_deg": {
-        "lo": 18.9,
+        "lo": 19.6,
         "hi": 130.1
       },
       "hock_deg": {
@@ -33,172 +33,60 @@
       }
     }
   },
-  "sweet_spot": {
-    "body_length_m": 1.3658,
-    "head_ratio": 0.2644,
-    "neck_ratio": 0.2847,
-    "hind_leg_ratio": 0.3804,
-    "front_leg_ratio": 0.5793,
-    "body_radius_ratio": 0.1835,
-    "tail_ratio": 0.3207,
-    "limb_radius": 0.074,
-    "seg": 7.2,
-    "neck_pitch_deg": 2.3483,
-    "hip_pitch_deg": 17.3719,
-    "stifle_deg": 52.0033,
-    "hock_deg": 40.9117,
-    "shoulder_pitch_deg": 51.4076,
-    "elbow_deg": 24.3623
-  },
+  "sweet_spot": {},
   "best": {
     "params": {
-      "body_length_m": 1.2825058682110904,
-      "head_ratio": 0.2551187400583184,
-      "neck_ratio": 0.3002743108935832,
-      "hind_leg_ratio": 0.36231276800485757,
-      "front_leg_ratio": 0.5861929691479639,
-      "body_radius_ratio": 0.18241632056161963,
-      "tail_ratio": 0.29513660538964603,
-      "limb_radius": 0.07315430638844246,
-      "seg": 6,
-      "neck_pitch_deg": 5.234325426273128,
-      "hip_pitch_deg": 21.720681784129344,
-      "stifle_deg": 42.47990117246346,
-      "hock_deg": 33.6,
-      "shoulder_pitch_deg": 47.3239494151686,
-      "elbow_deg": 26.611387933492843
+      "body_length_m": 1.1269650731362404,
+      "head_ratio": 0.18335208437962394,
+      "neck_ratio": 0.30753788789403547,
+      "hind_leg_ratio": 0.5255256111674111,
+      "front_leg_ratio": 0.6519427512121866,
+      "body_radius_ratio": 0.14937922376269824,
+      "tail_ratio": 0.26132567757324243,
+      "limb_radius": 0.04393895670475915,
+      "seg": 19,
+      "neck_pitch_deg": -0.3740662851878893,
+      "hip_pitch_deg": 34.04010274794496,
+      "stifle_deg": 80.9267585836175,
+      "hock_deg": 70.82266860325727,
+      "shoulder_pitch_deg": -36.0,
+      "elbow_deg": 43.43765561882496,
+      "tail_pitch_deg": -43.45356058343067
     },
-    "score": 74.58,
+    "score": 70.9,
     "realized": {
-      "height_m": 1.1057825237512589,
-      "body_length_m": 1.2825058682110904,
-      "head_ratio": 0.2551187400583184,
-      "neck_ratio": 0.3002743108935832,
-      "hind_leg_ratio": 0.36231276800485757,
-      "front_leg_ratio": 0.5861929691479639,
-      "tail_ratio": 0.29513660538964603,
-      "limb_radius": 0.07315430638844246,
-      "tris": 744,
-      "neck_pitch_deg": 5.234325426273128,
-      "hip_pitch_deg": 21.720681784129344,
-      "stifle_deg": 42.47990117246346,
-      "hock_deg": 33.6,
-      "shoulder_pitch_deg": 47.3239494151686,
-      "elbow_deg": 26.611387933492843
+      "height_m": 1.202436402440071,
+      "body_length_m": 1.1269650731362404,
+      "head_ratio": 0.18335208437962394,
+      "neck_ratio": 0.30753788789403547,
+      "hind_leg_ratio": 0.5255256111674111,
+      "front_leg_ratio": 0.6519427512121866,
+      "tail_ratio": 0.26132567757324243,
+      "body_radius_ratio": 0.14937922376269824,
+      "tail_pitch_deg": -43.45356058343067,
+      "back_slope_deg": -9.81,
+      "shoulder_height_m": 0.712,
+      "limb_radius": 0.04393895670475915,
+      "tris": 6232,
+      "neck_pitch_deg": -0.3740662851878893,
+      "hip_pitch_deg": 34.04010274794496,
+      "stifle_deg": 80.9267585836175,
+      "hock_deg": 70.82266860325727,
+      "shoulder_pitch_deg": -36.0,
+      "elbow_deg": 43.43765561882496
     }
   },
   "stats": {
-    "total": 192,
-    "valid": 147,
-    "failed": 45,
+    "total": 652,
+    "valid": 599,
+    "failed": 53,
     "by_kind": {
-      "anatomy": 34,
+      "anatomy": 42,
       "budget": 7,
       "scale": 4
     }
   },
-  "top_k": [
-    {
-      "params": {
-        "body_length_m": 1.2825058682110904,
-        "head_ratio": 0.2551187400583184,
-        "neck_ratio": 0.3002743108935832,
-        "hind_leg_ratio": 0.36231276800485757,
-        "front_leg_ratio": 0.5861929691479639,
-        "body_radius_ratio": 0.18241632056161963,
-        "tail_ratio": 0.29513660538964603,
-        "limb_radius": 0.07315430638844246,
-        "seg": 6,
-        "neck_pitch_deg": 5.234325426273128,
-        "hip_pitch_deg": 21.720681784129344,
-        "stifle_deg": 42.47990117246346,
-        "hock_deg": 33.6,
-        "shoulder_pitch_deg": 47.3239494151686,
-        "elbow_deg": 26.611387933492843
-      },
-      "score": 74.58
-    },
-    {
-      "params": {
-        "body_length_m": 1.5504666245909755,
-        "head_ratio": 0.25729463056684726,
-        "neck_ratio": 0.2810786354462386,
-        "hind_leg_ratio": 0.35,
-        "front_leg_ratio": 0.5892895698105974,
-        "body_radius_ratio": 0.16994565911603077,
-        "tail_ratio": 0.39929843778795776,
-        "limb_radius": 0.07351798191520421,
-        "seg": 6,
-        "neck_pitch_deg": 8.291241814423792,
-        "hip_pitch_deg": 21.769423448830697,
-        "stifle_deg": 68.60531360031175,
-        "hock_deg": 33.6,
-        "shoulder_pitch_deg": 47.087422588043424,
-        "elbow_deg": 23.8
-      },
-      "score": 69.88
-    },
-    {
-      "params": {
-        "body_length_m": 1.4372113626447207,
-        "head_ratio": 0.26564628111826516,
-        "neck_ratio": 0.26843511060469083,
-        "hind_leg_ratio": 0.40576264370679316,
-        "front_leg_ratio": 0.6018219781908487,
-        "body_radius_ratio": 0.19024107974141083,
-        "tail_ratio": 0.2450147839757716,
-        "limb_radius": 0.06678897643973891,
-        "seg": 12,
-        "neck_pitch_deg": -4.854774970554138,
-        "hip_pitch_deg": -0.5296195167397286,
-        "stifle_deg": 27.328561047304976,
-        "hock_deg": 33.6,
-        "shoulder_pitch_deg": 47.56996648270927,
-        "elbow_deg": 23.8
-      },
-      "score": 66.79
-    },
-    {
-      "params": {
-        "body_length_m": 1.2561933524972195,
-        "head_ratio": 0.27734810283211464,
-        "neck_ratio": 0.28776051951664783,
-        "hind_leg_ratio": 0.4266923472136104,
-        "front_leg_ratio": 0.600399571699436,
-        "body_radius_ratio": 0.17889709833784445,
-        "tail_ratio": 0.34750223284768583,
-        "limb_radius": 0.07641249776018243,
-        "seg": 6,
-        "neck_pitch_deg": -1.0677497216525227,
-        "hip_pitch_deg": 20.73317810329315,
-        "stifle_deg": 49.93859770032743,
-        "hock_deg": 58.16629812808723,
-        "shoulder_pitch_deg": 55.76002758924977,
-        "elbow_deg": 23.8
-      },
-      "score": 66.71
-    },
-    {
-      "params": {
-        "body_length_m": 1.3026087790083172,
-        "head_ratio": 0.266609802405848,
-        "neck_ratio": 0.285750950128621,
-        "hind_leg_ratio": 0.3572008840304648,
-        "front_leg_ratio": 0.5189702233212344,
-        "body_radius_ratio": 0.19607862016089644,
-        "tail_ratio": 0.3167332492846747,
-        "limb_radius": 0.08,
-        "seg": 6,
-        "neck_pitch_deg": 4.138288781043743,
-        "hip_pitch_deg": 23.165820373075874,
-        "stifle_deg": 71.6641615976059,
-        "hock_deg": 45.592088073364536,
-        "shoulder_pitch_deg": 59.29665385240329,
-        "elbow_deg": 23.8
-      },
-      "score": 66.3
-    }
-  ],
+  "top_k": [],
   "visual_reviews": [
     [
       {

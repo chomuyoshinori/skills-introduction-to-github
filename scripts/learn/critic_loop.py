@@ -120,14 +120,27 @@ def apply(asset_dir: str) -> None:
         applied.append({"param": param, "delta": delta, "issue": d.get("issue", "")})
     target = {k: v for k, v in G.clamp_params(target).items() if k in target}
 
-    # 物理的知見(可動域・seg境界)は保持し、「良さの定義」依存の best/top_k/sweet_spot は
-    # リセット。次ラウンドは更新された目標で再最適化する。
+    # 物理的知見(可動域・seg境界)は保持。top_k/sweet_spot は旧目標の産物なので破棄するが、
+    # 旧ベストは新目標で再採点して探索のアンカーとして残す（R7: 毎回の全消しは収束を妨げた）。
     lessons_path = os.path.join(learn_dir, "lessons.json")
     if os.path.exists(lessons_path):
         lessons = L.load(lessons_path)
-        lessons["best"] = None
         lessons["top_k"] = []
         lessons["sweet_spot"] = {}
+        best = lessons.get("best")
+        if best and best.get("realized"):
+            from scripts.lib.scoring import score_attempt
+            from scripts.lib.standards import load_standards
+            std = load_standards()
+            budget = std["poly_budget"].get(meta.get("type", "npc_character"))
+            valid = {"ok": True, "fail_kinds": set(),
+                     "tris": best["realized"].get("tris", 0)}
+            sc = score_attempt(best["realized"], target, valid, budget)
+            lessons["best"] = {"params": best["params"], "score": sc["score"],
+                               "realized": best["realized"]}
+            print(f"[critic_loop] 旧ベストを新目標で再採点: {sc['score']}（アンカー保持）")
+        else:
+            lessons["best"] = None
         L.save(lessons, lessons_path)
 
     with open(os.path.join(learn_dir, "working_target.json"), "w", encoding="utf-8") as f:

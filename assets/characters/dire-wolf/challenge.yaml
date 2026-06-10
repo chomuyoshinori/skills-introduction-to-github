@@ -1,0 +1,20 @@
+# 課題定義。critic ループ(scripts/learn/critic_loop.py)がこれを基準に評価する。
+title: "解剖学的に正確な灰色オオカミの自然な立ち姿（高精度）"
+brief: |
+  獣医解剖学の実測値（references/）に接地した、警戒中のオオカミの立ち姿。
+  後肢の stifle/hock の角度づけが自然で、前肢は地面までまっすぐな支柱。
+  首をやや起こし尾は水平〜やや下げ。遠目に「犬ではなくオオカミ」と読める
+  体格（長い吻、深い胸、長めの脚）。npc_character 予算内、左右対称、接地安定。
+
+# 評価ルーブリック（次元: 重み）。合計1.0。
+rubric:
+  silhouette: 0.25
+  proportion: 0.20
+  pose_naturalness: 0.20
+  anatomy_plausibility: 0.20
+  game_fit: 0.15
+
+pass_threshold: 9.0   # 高精度要求。簡単には合格させない
+max_rounds: 10
+optimize_iters: 80    # 各ラウンドで actor が回す試行数
+top_candidates: 3

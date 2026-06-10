@@ -28,12 +28,16 @@ PROP_WEIGHTS = {
     # --- 四足動物用（target に含まれる項目だけが採点対象になる） ---
     "body_length_m": 0.15,
     "neck_ratio": 0.05,
+    "body_radius_ratio": 0.05,  # 胸の深さ/胴の太さ。critic が体格の指示に使う
     "hind_leg_ratio": 0.08,
     "front_leg_ratio": 0.08,
     "tail_ratio": 0.04,
     "neck_pitch_deg": 0.05,
-    "stifle_deg": 0.08,
-    "hock_deg": 0.07,
+    "stifle_deg": 0.10,
+    "tail_pitch_deg": 0.04,
+    "back_slope_deg": 0.15,  # 背線の水平さ。R8で勾配不足と判明し0.08→0.15に強化
+    "shoulder_height_m": 0.10,  # 肩高=キ甲高。脚短縮+樽胴のごまかし対策（R6）
+    "hock_deg": 0.10,
     "elbow_deg": 0.07,
 }
 

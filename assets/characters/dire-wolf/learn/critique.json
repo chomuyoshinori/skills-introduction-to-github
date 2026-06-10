@@ -1,0 +1,10 @@
+{
+  "round": 10,
+  "scores": {"silhouette": 7, "proportion": 6.5, "pose_naturalness": 7, "anatomy_plausibility": 7, "game_fit": 7},
+  "verdict": "REVISE",
+  "summary": "目標の矛盾解消（R9）が効き、初めて『水平な背・接地した四肢・後肢の正しい屈曲構造・垂れ尾』が同時に成立した。シリーズ最良。残課題: 首がやや短く頭が丸玉気味、四肢の量感が不足、後肢の踏み込み位置をもう半歩前へ。閾値9.0には未達だが、犬→オオカミの骨格的本質は捉えた。次フェーズは首・頭部の造形強化と量感。",
+  "directives": [
+    {"issue": "首を伸ばし頭部を持ち上げる", "param": "neck_ratio", "delta": 0.04},
+    {"issue": "四肢の量感を増す", "param": "limb_radius", "delta": 0.01}
+  ]
+}
