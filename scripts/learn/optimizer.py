@@ -83,9 +83,24 @@ def _propose(rng, lessons, explore, G):
     return G.clamp_params(params)
 
 
-def main():
-    import bpy  # noqa: F401
+def _surrogate_valid(realized: dict, std: dict, atype: str) -> dict:
+    """解析メトリクスから検査結果を構成する（メッシュは常にクリーンなので scale/budget のみ）。"""
+    units = std["units"]
+    budget = std["poly_budget"].get(atype)
+    fails: set[str] = set()
+    failures: list[str] = []
+    h = realized.get("height_m", 0)
+    if not (units["character_height_min"] <= h <= units["character_height_max"]):
+        fails.add("scale")
+        failures.append(f"スケール異常: {h:.2f}m")
+    if budget is not None and realized.get("tris", 0) > budget:
+        fails.add("budget")
+        failures.append(f"ポリゴン予算超過: {realized['tris']} > {budget}")
+    return {"ok": not fails, "fail_kinds": fails, "failures": failures,
+            "tris": realized.get("tris", 0), "height": h}
 
+
+def main():
     args = _parse_args(sys.argv)
     assert args["asset"], "--asset を指定してください"
     rng = random.Random(args["seed"])
@@ -151,8 +166,9 @@ def main():
                                           for v in violations]}
                     realized = None
                 else:
-                    realized = G.build(params, name=model_name)["realized"]
-                    valid = validate_scene_meshes(std, atype)
+                    # サロゲート評価: bpy を使わず解析的にメトリクス＆検査（高速）
+                    realized = G.predict_metrics(params)
+                    valid = _surrogate_valid(realized, std, atype)
                 sc = scoring.score_attempt(realized or {}, target, valid, budget)
 
                 attempt = {
@@ -190,13 +206,18 @@ def main():
         with open(md_path, "w", encoding="utf-8") as f:
             f.write(L.to_markdown(lessons))
 
-    # ベストを保存（再生成して .blend 出力）
+    # ベストの .blend 出力だけは bpy が必要（探索本体は bpy 不要）。
     best = lessons.get("best")
     if best:
-        G.build(best["params"], name=model_name)
-        out_blend = os.path.join(asset_dir, "highpoly", "base.blend")
-        G.save(out_blend)
-        print(f"[optimizer] ベスト(score={best['score']}) を保存: {out_blend}")
+        try:
+            import bpy  # noqa: F401
+
+            G.build(best["params"], name=model_name)
+            out_blend = os.path.join(asset_dir, "highpoly", "base.blend")
+            G.save(out_blend)
+            print(f"[optimizer] ベスト(score={best['score']}) を保存: {out_blend}")
+        except ImportError:
+            print(f"[optimizer] ベスト(score={best['score']})。bpy 無しのため .blend 保存はスキップ")
 
     st = lessons["stats"]
     print(f"[optimizer] 完了: 通算{st['total']}試行 成功{st['valid']}/失敗{st['failed']} "

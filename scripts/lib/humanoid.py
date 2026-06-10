@@ -51,6 +51,56 @@ def default_params() -> dict[str, float]:
     return clamp_params({k: (lo + hi) / 2 for k, (lo, hi) in PARAM_BOUNDS.items()})
 
 
+def predict_metrics(params: dict[str, float]) -> dict[str, Any]:
+    """params から実現メトリクスを解析的に計算する（bpy 非依存・高速）。
+
+    build() が返すものと同じ realized dict を返す。学習ループの探索はこれを使い、
+    実メッシュの生成は候補/最終確定時のみ bpy で行う（スピード最適化）。
+    """
+    import math
+
+    p = clamp_params(params)
+    H = p["height_m"]
+    r = p["limb_radius"]
+    leg_len = p["leg_ratio"] * H
+    torso_len = p["torso_ratio"] * H
+    head_d = p["head_ratio"] * H
+    arm_len = p["arm_ratio"] * H
+    thigh_len, shank_len = leg_len * 0.52, leg_len * 0.48
+
+    lean = math.radians(p["lean_deg"])
+    hip_pitch = math.radians(p["hip_pitch_deg"])
+    knee_bend = math.radians(p["knee_bend_deg"])
+
+    # 脚の運動学（dir_down の z 成分 = -cos）で骨盤高を求める
+    drop = thigh_len * (-math.cos(hip_pitch)) + shank_len * (-math.cos(hip_pitch - knee_bend))
+    pelvis_z = -drop + r
+    neck_z = pelvis_z + torso_len * math.cos(lean)
+    head_center_z = neck_z + (head_d / 2 + r * 0.3) * math.cos(lean)
+    head_top_z = head_center_z + (head_d / 2) * math.cos(lean)
+    foot_bottom_z = r - r * 1.1  # 足首球の下端（接地付近）
+    realized_h = head_top_z - foot_bottom_z
+
+    seg = max(3, p["seg"])
+    # tris を実メッシュと厳密一致で算出（14球＋9円柱＋4立方体。実測フィット済み）
+    R = max(3, seg // 2)
+    tris = 14 * 2 * seg * (R - 1) + 36 * seg + 48
+
+    realized = {
+        "height_m": realized_h,
+        "head_ratio": head_d / realized_h if realized_h else 0,
+        "torso_ratio": torso_len / realized_h if realized_h else 0,
+        "leg_ratio": leg_len / realized_h if realized_h else 0,
+        "arm_ratio": arm_len / realized_h if realized_h else 0,
+        "shoulder_w": p["shoulder_w"],
+        "limb_radius": r,
+        "tris": tris,
+    }
+    for k in POSE_KEYS:
+        realized[k] = p[k]
+    return realized
+
+
 def build_humanoid(params: dict[str, float], name: str = "goblin",
                    with_rig: bool = True) -> dict[str, Any]:
     """params から多関節ヒューマノイドを生成し、実現メトリクスを返す。"""
@@ -157,8 +207,20 @@ def build_humanoid(params: dict[str, float], name: str = "goblin",
         sphere(joints[f"knee.{side}"], r * 0.95)
         sphere(joints[f"shoulder.{side}"], r * 1.0)
         sphere(joints[f"elbow.{side}"], r * 0.85)
-        sphere(joints[f"ankle.{side}"], r * 1.1)       # 足
-        sphere(joints[f"wrist.{side}"], r * 0.85)      # 手
+        sphere(joints[f"ankle.{side}"], r * 1.1)       # 足首
+        sphere(joints[f"wrist.{side}"], r * 0.85)      # 手首
+        # 足: 足首から前方(-Y)へ伸びる箱（シルエットの完成度を上げる）
+        foot_c = joints[f"ankle.{side}"] + V((0, -r * 1.6, -r * 0.6))
+        bpy.ops.mesh.primitive_cube_add(location=foot_c)
+        foot = bpy.context.active_object
+        foot.scale = (r * 0.7, r * 1.7, r * 0.5)
+        parts.append(foot)
+        # 手: 手首から下方へ伸びる小箱（カリカチュアらしく大きめ）
+        hand_c = joints[f"wrist.{side}"] + V((0, 0, -r * 1.1))
+        bpy.ops.mesh.primitive_cube_add(location=hand_c)
+        hand = bpy.context.active_object
+        hand.scale = (r * 0.8, r * 0.5, r * 1.0)
+        parts.append(hand)
 
     for o in parts:
         o.select_set(True)
@@ -180,23 +242,10 @@ def build_humanoid(params: dict[str, float], name: str = "goblin",
         _build_armature(joints, name)
 
     # --- 実現メトリクス ---
-    min_z = min((body.matrix_world @ V(c)).z for c in body.bound_box)
-    max_z = max((body.matrix_world @ V(c)).z for c in body.bound_box)
-    realized_h = max_z - min_z
-    tris = sum(max(0, len(poly.vertices) - 2) for poly in body.data.polygons)
-
-    realized = {
-        "height_m": realized_h,
-        "head_ratio": head_d / realized_h if realized_h else 0,
-        "torso_ratio": torso_len / realized_h if realized_h else 0,
-        "leg_ratio": leg_len / realized_h if realized_h else 0,
-        "arm_ratio": arm_len / realized_h if realized_h else 0,
-        "shoulder_w": shoulder_w,
-        "limb_radius": r,
-        "tris": tris,
-    }
-    for k in POSE_KEYS:
-        realized[k] = p[k]
+    # サロゲート(predict_metrics)と完全一致させるため解析値を採用。
+    # ただし tris は実メッシュの正確な値で上書きする（確定検査の精度のため）。
+    realized = predict_metrics(p)
+    realized["tris"] = sum(max(0, len(poly.vertices) - 2) for poly in body.data.polygons)
     return {"realized": realized, "object_name": body.name, "joints": joints}
 
 

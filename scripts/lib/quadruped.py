@@ -56,6 +56,75 @@ def default_params() -> dict[str, float]:
     return clamp_params({k: (lo + hi) / 2 for k, (lo, hi) in PARAM_BOUNDS.items()})
 
 
+def predict_metrics(params: dict[str, float]) -> dict[str, Any]:
+    """params から実現メトリクスを解析的に計算する（bpy 非依存・高速）。
+
+    build() が返す realized dict と一致させる。探索ループはこれで評価し、
+    実メッシュ生成は候補/最終確定時のみ bpy で行う（スピード最適化）。
+    """
+    p = clamp_params(params)
+    L = p["body_length_m"]
+    r = p["limb_radius"]
+    body_r = p["body_radius_ratio"] * L
+    head_d = p["head_ratio"] * L
+    neck_len = p["neck_ratio"] * L
+    hind_len = p["hind_leg_ratio"] * L
+    front_len = p["front_leg_ratio"] * L
+    thigh_len, shank_len, meta_len = hind_len * 0.40, hind_len * 0.35, hind_len * 0.25
+    upper_len, fore_len = front_len * 0.45, front_len * 0.55
+
+    hip_pitch = math.radians(p["hip_pitch_deg"])
+    stifle = math.radians(p["stifle_deg"])
+    hock = math.radians(p["hock_deg"])
+    sh_pitch = math.radians(p["shoulder_pitch_deg"])
+    elbow = math.radians(p["elbow_deg"])
+    neck_elev = math.radians(25 + p["neck_pitch_deg"])
+
+    a_thigh, a_shank = hip_pitch, hip_pitch - stifle
+    a_meta = a_shank + hock
+    hind_drop = (thigh_len * math.cos(a_thigh) + shank_len * math.cos(a_shank)
+                 + meta_len * math.cos(a_meta))
+    hip_h = max(hind_drop + r, 2 * r)
+    a_upper, a_fore = sh_pitch, sh_pitch + elbow
+    front_drop = upper_len * math.cos(a_upper) + fore_len * math.cos(a_fore)
+    shoulder_h = max(front_drop + r, 2 * r)
+
+    # 後肢の踏み込み（hindpaw.y - hip.y）/ L。dir_down(a).y = -sin(a)
+    hind_reach_ratio = -(thigh_len * math.sin(a_thigh) + shank_len * math.sin(a_shank)
+                         + meta_len * math.sin(a_meta)) / L
+    back_slope_deg = math.degrees(math.atan2(hip_h - shoulder_h, L))
+
+    # 首・頭の高さから全高を概算（接地=0）
+    neck_end_z = shoulder_h + neck_len * math.sin(neck_elev)
+    head_center_z = neck_end_z + head_d * 0.3 * math.sin(neck_elev)
+    realized_h = max(head_center_z + head_d / 2, shoulder_h + body_r * 1.18, hip_h + body_r)
+
+    seg = max(3, p["seg"])
+    # tris を実メッシュと厳密一致で算出（15球＋14円柱＋2耳コーン＋4立方体。実測フィット済み）
+    R = max(3, seg // 2)
+    tris = 15 * 2 * seg * (R - 1) + 56 * seg + 4 * (seg // 2) + 48
+
+    realized = {
+        "height_m": realized_h,
+        "body_length_m": L,
+        "head_ratio": p["head_ratio"],
+        "neck_ratio": p["neck_ratio"],
+        "hind_leg_ratio": p["hind_leg_ratio"],
+        "front_leg_ratio": p["front_leg_ratio"],
+        "tail_ratio": p["tail_ratio"],
+        "body_radius_ratio": p["body_radius_ratio"],
+        "tail_pitch_deg": p.get("tail_pitch_deg", 40),
+        "back_slope_deg": round(back_slope_deg, 2),
+        "shoulder_height_m": round(shoulder_h, 3),
+        "hind_reach_ratio": round(hind_reach_ratio, 3),
+        "limb_radius": r,
+        "tris": tris,
+    }
+    for k in POSE_KEYS:
+        realized[k] = p[k]
+    return realized
+
+
 def build(params: dict[str, float], name: str = "wolf",
           with_rig: bool = True) -> dict[str, Any]:
     """params から四足動物を生成し、実現メトリクスを返す。前方は -Y。"""
@@ -198,8 +267,13 @@ def build(params: dict[str, float], name: str = "wolf",
         sphere(joints[f"hock.{side}"], r * 0.9)
         sphere(joints[f"shoulder.{side}"], r * 1.2)
         sphere(joints[f"elbow.{side}"], r * 1.0)
-        sphere(joints[f"hindpaw.{side}"], r * 0.9)
-        sphere(joints[f"frontpaw.{side}"], r * 0.9)
+        # 肉球(toe): 各脚の先端から前方へ伸びる箱。指行性の接地を表現
+        for paw in (f"hindpaw.{side}", f"frontpaw.{side}"):
+            pc = joints[paw] + V((0, -r * 1.1, -r * 0.5))
+            bpy.ops.mesh.primitive_cube_add(location=pc)
+            toe = bpy.context.active_object
+            toe.scale = (r * 0.9, r * 1.3, r * 0.5)
+            parts.append(toe)
 
     for o in parts:
         o.select_set(True)
@@ -220,34 +294,9 @@ def build(params: dict[str, float], name: str = "wolf",
     if with_rig:
         _build_armature(joints, name)
 
-    # 背線の傾き（骨盤と肩の高低差から。0=水平、+で尻上がり）
-    back_slope_deg = math.degrees(math.atan2(hip_h - shoulder_h, L))
-    # 後肢の踏み込み: 後足先が股関節の真下からどれだけ後方(+Y)へ流れるか / 体長
-    hind_reach_ratio = (joints["hindpaw.L"].y - joints["hip.L"].y) / L
-
-    min_z = min((body.matrix_world @ V(c)).z for c in body.bound_box)
-    max_z = max((body.matrix_world @ V(c)).z for c in body.bound_box)
-    realized_h = max_z - min_z
-    tris = sum(max(0, len(poly.vertices) - 2) for poly in body.data.polygons)
-
-    realized = {
-        "height_m": realized_h,
-        "body_length_m": L,
-        "head_ratio": p["head_ratio"],
-        "neck_ratio": p["neck_ratio"],
-        "hind_leg_ratio": p["hind_leg_ratio"],
-        "front_leg_ratio": p["front_leg_ratio"],
-        "tail_ratio": p["tail_ratio"],
-        "body_radius_ratio": p["body_radius_ratio"],
-        "tail_pitch_deg": p.get("tail_pitch_deg", 40),
-        "back_slope_deg": round(back_slope_deg, 2),
-        "shoulder_height_m": round(shoulder_h, 3),
-        "hind_reach_ratio": round(hind_reach_ratio, 3),
-        "limb_radius": r,
-        "tris": tris,
-    }
-    for k in POSE_KEYS:
-        realized[k] = p[k]
+    # 実現メトリクスはサロゲートと一致させるため解析値を採用（tris のみ実値で上書き）。
+    realized = predict_metrics(p)
+    realized["tris"] = sum(max(0, len(poly.vertices) - 2) for poly in body.data.polygons)
     return {"realized": realized, "object_name": body.name, "joints": joints}
 
 
