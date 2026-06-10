@@ -51,7 +51,8 @@ def _mini_yaml_parse(text: str) -> dict[str, Any]:
 
         if content.startswith("- "):
             value = _coerce(content[2:].strip())
-            if not isinstance(container, list):
+            # _PendingChild は最初の項目でリストとして親に再登録される
+            if not isinstance(container, (list, _PendingChild)):
                 raise ValueError(f"list item in non-list context: {raw!r}")
             container.append(value)
             continue

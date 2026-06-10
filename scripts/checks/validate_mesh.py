@@ -14,6 +14,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+from scripts.lib.blendio import open_blend  # noqa: E402
 from scripts.lib.meshcheck import validate_scene_meshes  # noqa: E402
 from scripts.lib.standards import load_standards  # noqa: E402
 
@@ -39,7 +40,7 @@ def main() -> None:
     args = _parse_args(sys.argv)
     std = load_standards()
     if args["blend"]:
-        bpy.ops.wm.open_mainfile(filepath=os.path.abspath(args["blend"]))
+        open_blend(args["blend"])
 
     result = validate_scene_meshes(std, args["type"])
     print(f"[validate] tris={result['tris']} type={args['type']} "

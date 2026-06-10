@@ -34,16 +34,26 @@ TOP_K = 5
 
 
 def load(path: str) -> dict[str, Any]:
+    """知識ベースを読み込む。破損していたら退避して空から再開する（学習を止めない）。"""
     if os.path.exists(path):
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, OSError) as e:
+            backup = path + ".corrupt"
+            os.replace(path, backup)
+            print(f"[lessons] 警告: {path} が破損していたため {backup} に退避 ({e})")
     return json.loads(json.dumps(EMPTY))  # deep copy
 
 
 def save(lessons: dict[str, Any], path: str) -> None:
-    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    """アトミックに保存する（書き込み途中のクラッシュで破損させない）。"""
+    path = os.path.abspath(path)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(lessons, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, path)
 
 
 def update(lessons: dict[str, Any], attempt: dict[str, Any], target: dict[str, Any]) -> None:

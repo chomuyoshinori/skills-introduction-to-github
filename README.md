@@ -84,3 +84,14 @@ python scripts/learn/optimizer.py -- --asset assets/characters/goblin-warrior --
 - [`docs/learning.md`](docs/learning.md) — 試行錯誤で学習する最適化ループ
 - [`docs/agents.md`](docs/agents.md) — AIエージェントの役割と組織化の判断
 - [`docs/conventions.md`](docs/conventions.md) — 命名・スケール・運用規則
+- [`docs/security.md`](docs/security.md) — 脅威モデル・安全設計・CI構成
+
+## テスト
+
+```bash
+pip install -r requirements-ci.txt
+python -m pytest tests/ -q        # 学習ロジック等のユニットテスト（bpy 不要）
+```
+
+外部由来の `.blend` はスクリプト自動実行を無効化して開きます（`scripts/lib/blendio.py`）。
+詳細は [`docs/security.md`](docs/security.md) を参照してください。

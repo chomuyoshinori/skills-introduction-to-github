@@ -120,53 +120,64 @@ def main():
     print(f"[optimizer] asset={meta.get('name')} type={atype} budget={budget} "
           f"目標={target.get('height_m')}m / 既存試行={start_total}")
 
-    with open(attempts_path, "a", encoding="utf-8") as log:
-        for i in range(args["iters"]):
-            explore = (rng.random() < 0.3) or (lessons.get("best") is None)
-            params = _propose(rng, lessons, explore, G)
-            # 学習済み制約で事前補正（= 既知の失敗を回避）
-            params, applied = L.apply_constraints(lessons, params)
-            if applied:
-                avoided += 1
+    # 途中クラッシュでもその時点までの知見を失わないよう、
+    # 定期保存＋finally 保存で永続化を保証する（save はアトミック）。
+    try:
+        with open(attempts_path, "a", encoding="utf-8") as log:
+            for i in range(args["iters"]):
+                explore = (rng.random() < 0.3) or (lessons.get("best") is None)
+                params = _propose(rng, lessons, explore, G)
+                # 学習済み制約で事前補正（= 既知の失敗を回避）
+                params, applied = L.apply_constraints(lessons, params)
+                if applied:
+                    avoided += 1
 
-            # 解剖学検査（関節可動域）。違反ならメッシュ生成せず失敗として学習。
-            violations = check_pose(params, species=species, anatomy=anatomy)
-            if violations:
-                valid = {"ok": False, "fail_kinds": {"anatomy"}, "tris": None,
-                         "failures": [f"{v['joint']}: {v['value']}° は可動域外"
-                                      for v in violations]}
-                realized = None
-            else:
-                realized = G.build(params, name=model_name)["realized"]
-                valid = validate_scene_meshes(std, atype)
-            sc = scoring.score_attempt(realized or {}, target, valid, budget)
+                # 解剖学検査（関節可動域）。違反ならメッシュ生成せず失敗として学習。
+                violations = check_pose(params, species=species, anatomy=anatomy)
+                if violations:
+                    valid = {"ok": False, "fail_kinds": {"anatomy"}, "tris": None,
+                             "failures": [f"{v['joint']}: {v['value']}° は可動域外"
+                                          for v in violations]}
+                    realized = None
+                else:
+                    realized = G.build(params, name=model_name)["realized"]
+                    valid = validate_scene_meshes(std, atype)
+                sc = scoring.score_attempt(realized or {}, target, valid, budget)
 
-            attempt = {
-                "t": round(time.time(), 1),
-                "params": params,
-                "realized": realized,
-                "score": sc["score"],
-                "valid": sc["valid"],
-                "fail_kinds": sc.get("fail_kinds", []),
-                "violations": violations,
-                "applied_lessons": applied,
-            }
-            log.write(json.dumps(attempt, ensure_ascii=False) + "\n")
-            log.flush()
-            L.update(lessons, attempt, target)
+                attempt = {
+                    "t": round(time.time(), 1),
+                    "params": params,
+                    "realized": realized,
+                    "score": sc["score"],
+                    "valid": sc["valid"],
+                    "fail_kinds": sc.get("fail_kinds", []),
+                    "violations": violations,
+                    "applied_lessons": applied,
+                }
+                log.write(json.dumps(attempt, ensure_ascii=False) + "\n")
+                log.flush()
+                L.update(lessons, attempt, target)
 
-            tag = "OK " if sc["valid"] else "FAIL"
-            if sc["valid"]:
-                extra = f"prop_err={sc['prop_error']}"
-            elif violations:
-                extra = "anatomy:" + ",".join(
-                    f"{v['joint']}={v['value']}°" for v in violations)
-            else:
-                extra = "/".join(sc["fail_kinds"])
-            note = f"  ←補正:{applied}" if applied else ""
-            size = params.get("height_m") or params.get("body_length_m") or 0
-            print(f"  [{start_total + i + 1:>3}] {tag} score={sc['score']:>7} "
-                  f"seg={params['seg']:>3} size={size:.2f} {extra}{note}")
+                tag = "OK " if sc["valid"] else "FAIL"
+                if sc["valid"]:
+                    extra = f"prop_err={sc['prop_error']}"
+                elif violations:
+                    extra = "anatomy:" + ",".join(
+                        f"{v['joint']}={v['value']}°" for v in violations)
+                else:
+                    extra = "/".join(sc["fail_kinds"])
+                note = f"  ←補正:{applied}" if applied else ""
+                size = params.get("height_m") or params.get("body_length_m") or 0
+                print(f"  [{start_total + i + 1:>3}] {tag} score={sc['score']:>7} "
+                      f"seg={params['seg']:>3} size={size:.2f} {extra}{note}")
+
+                if (i + 1) % 10 == 0:
+                    L.save(lessons, lessons_path)
+
+    finally:
+        L.save(lessons, lessons_path)
+        with open(md_path, "w", encoding="utf-8") as f:
+            f.write(L.to_markdown(lessons))
 
     # ベストを保存（再生成して .blend 出力）
     best = lessons.get("best")
@@ -175,10 +186,6 @@ def main():
         out_blend = os.path.join(asset_dir, "highpoly", "base.blend")
         G.save(out_blend)
         print(f"[optimizer] ベスト(score={best['score']}) を保存: {out_blend}")
-
-    L.save(lessons, lessons_path)
-    with open(md_path, "w", encoding="utf-8") as f:
-        f.write(L.to_markdown(lessons))
 
     st = lessons["stats"]
     print(f"[optimizer] 完了: 通算{st['total']}試行 成功{st['valid']}/失敗{st['failed']} "

@@ -13,6 +13,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+from scripts.lib.blendio import open_blend  # noqa: E402
 from scripts.lib.standards import load_standards  # noqa: E402
 
 
@@ -39,7 +40,7 @@ def main() -> None:
     exp = std.get("export", {})
 
     if args["blend"]:
-        bpy.ops.wm.open_mainfile(filepath=os.path.abspath(args["blend"]))
+        open_blend(args["blend"])
 
     out = os.path.abspath(args["out"])
     os.makedirs(os.path.dirname(out), exist_ok=True)

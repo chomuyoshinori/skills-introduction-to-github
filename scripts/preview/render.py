@@ -13,6 +13,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
+from scripts.lib.blendio import open_blend  # noqa: E402
 from scripts.lib.viz import render_scene  # noqa: E402
 
 
@@ -38,7 +39,7 @@ def main() -> None:
 
     args = _parse_args(sys.argv)
     if args["blend"]:
-        bpy.ops.wm.open_mainfile(filepath=os.path.abspath(args["blend"]))
+        open_blend(args["blend"])
     out = render_scene(args["out"], args["res"])
     print(f"[preview] saved: {out}")
 
