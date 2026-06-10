@@ -42,6 +42,13 @@ INVESTMENT_PROFILE.md + LESSONS.md を踏まえる
 - `/crypto-report` — 暗号資産(高リスク枠)のリサーチレポートを作成。`/crypto-report BTC ETH` のように銘柄指定も可。
 - `/retrospective` — 過去の見立てを実績と照合し、精度評価と教訓蓄積を行う。
 
+## 毎日の自動実行(GitHub Actions)
+`.github/workflows/auto-research-reports.yml` が cron で各レポートを自動生成・コミットする。
+- 日本株: 平日 15:00 JST(大引け後) / 米国株: 平日 翌07:00 JST(米引け後) / 暗号資産: 毎日 08:00 JST
+- **有効化の条件**: ①このワークフローを **main にマージ**(cronはデフォルトブランチでのみ発火) ②リポジトリ Secrets に **`ANTHROPIC_API_KEY`** を登録。
+- 手動テストは Actions タブの「Run workflow」(対象 jp/us/crypto を選択)。
+- ⚠️ サブエージェント多数+Web検索のため実行ごとに API 利用料が発生する。
+
 ## 資産クラスとリスク枠
 - **株式**: 中期・成長重視・**中リスク**(`INVESTMENT_PROFILE.md`)。
 - **暗号資産**: 株式とは**分離した「高リスク」枠**(`CRYPTO_PROFILE.md`)。同じ中リスク基準を流用しない。
