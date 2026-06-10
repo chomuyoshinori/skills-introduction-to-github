@@ -1,0 +1,76 @@
+name: Auto Research Reports
+
+# 毎日、リサーチ・分析チームを自動起動して reports/ にレポートを生成・コミットする。
+# ⚠️ 重要な前提:
+#  1) スケジュール(cron)は GitHub の仕様上「デフォルトブランチ(main)にこのファイルがある時のみ」発火します。
+#     → 自動化を有効にするには、このワークフローを main にマージしてください。
+#  2) リポジトリの Settings → Secrets and variables → Actions に `ANTHROPIC_API_KEY` を登録してください。
+#  3) サブエージェント多数 + Web検索のため、1回の実行で相応の API 利用料が発生します。
+#  4) cron は UTC 表記です(JST = UTC+9)。
+
+on:
+  schedule:
+    - cron: '0 6 * * 1-5'    # 平日 06:00 UTC = 15:00 JST(日本市場 大引け後)→ 日本株
+    - cron: '0 22 * * 1-5'   # 平日 22:00 UTC = 翌07:00 JST(米国市場 引け後)→ 米国株
+    - cron: '0 23 * * *'     # 毎日 23:00 UTC = 翌08:00 JST(24時間市場)→ 暗号資産
+  workflow_dispatch:          # 手動実行(テスト用)。下のドロップダウンで対象を選ぶ。
+    inputs:
+      report:
+        description: 'どのレポートを実行するか'
+        required: true
+        default: jp
+        type: choice
+        options: [jp, us, crypto]
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # reports/ をコミット・プッシュするため
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Select report command
+        id: sel
+        run: |
+          case "${{ github.event.schedule }}" in
+            "0 6 * * 1-5")  echo "cmd=/daily-report"  >> "$GITHUB_OUTPUT" ;;
+            "0 22 * * 1-5") echo "cmd=/us-report"     >> "$GITHUB_OUTPUT" ;;
+            "0 23 * * *")   echo "cmd=/crypto-report" >> "$GITHUB_OUTPUT" ;;
+            *)  # 手動実行(workflow_dispatch)
+              case "${{ github.event.inputs.report }}" in
+                us)     echo "cmd=/us-report"     >> "$GITHUB_OUTPUT" ;;
+                crypto) echo "cmd=/crypto-report" >> "$GITHUB_OUTPUT" ;;
+                *)      echo "cmd=/daily-report"  >> "$GITHUB_OUTPUT" ;;
+              esac ;;
+          esac
+
+      - name: Run research team (headless)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude -p "${{ steps.sel.outputs.cmd }}" \
+            --dangerously-skip-permissions \
+            --allowedTools "Task,WebSearch,WebFetch,Read,Write,Edit,Bash,Glob,Grep" \
+            --max-turns 80
+
+      - name: Commit & push report
+        run: |
+          git config user.name  "research-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/ DECISION_LOG.md LESSONS.md
+          if git diff --cached --quiet; then
+            echo "変更なし。コミットをスキップします。"
+          else
+            git commit -m "auto: ${{ steps.sel.outputs.cmd }} $(date -u +%Y-%m-%d)"
+            git push
+          fi
