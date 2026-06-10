@@ -28,9 +28,11 @@ AIは創造的判断を肩代わりするのではなく、定型作業（ブロ
 │   └── characters/
 │       └── _template/        # 新規アセットの雛形（コピーして使う）
 ├── scripts/                  # Blender(bpy) 自動化スクリプト
-│   ├── lib/                  # 共通モジュール
+│   ├── lib/                  # 共通モジュール（生成器・採点・検査コア・規格）
 │   ├── generate/             # ブロッキング等の生成
 │   ├── checks/               # 検査（マニフォールド・ポリゴン数・スケール）
+│   ├── learn/                # 試行錯誤で学習する最適化ループ（docs/learning.md）
+│   ├── preview/              # プレビュー画像レンダリング
 │   └── export/               # glb/fbx 書き出し
 ├── agents/                   # AIエージェントの役割定義（プロンプト）
 └── .github/workflows/        # アセット規格チェックの CI
@@ -64,4 +66,21 @@ AIは創造的判断を肩代わりするのではなく、定型作業（ブロ
 - [Blender](https://www.blender.org/) 4.x 以降（`blender` コマンドが PATH にあること）
 - Python 3.10+（CI 用の検査スクリプト）
 
-詳しくは [`docs/pipeline.md`](docs/pipeline.md) を参照してください。
+## 試行錯誤で学習するモデリング
+
+ブロッキングのプロポーションを、成功・失敗の記録から学習して自動で改善する
+最適化ループを備えています。失敗（ポリゴン予算超過・スケール検査落ち）からは
+回避制約を、成功からは良パラメータ域を学び、知識ベースに蓄積します。
+
+```bash
+python scripts/learn/optimizer.py -- --asset assets/characters/goblin-warrior --iters 60
+```
+
+仕組みの詳細は [`docs/learning.md`](docs/learning.md) を参照してください。
+
+## ドキュメント
+
+- [`docs/pipeline.md`](docs/pipeline.md) — 制作パイプライン全体像
+- [`docs/learning.md`](docs/learning.md) — 試行錯誤で学習する最適化ループ
+- [`docs/agents.md`](docs/agents.md) — AIエージェントの役割と組織化の判断
+- [`docs/conventions.md`](docs/conventions.md) — 命名・スケール・運用規則
