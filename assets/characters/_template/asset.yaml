@@ -1,9 +1,0 @@
-# このアセットのメタ情報。新規作成時にこのテンプレをコピーして編集する。
-name: template            # 小文字英数字（フォルダ名と一致させる）
-display_name: "Template Asset"
-type: npc_character       # hero_character | npc_character | prop_large | prop_small
-prefix: CHR_template      # オブジェクト命名の接頭辞（CHR_<name> / PRP_<name>）
-height_m: 1.7             # 想定身長/サイズ (m)
-status: concept          # concept | blocking | highpoly | lowpoly | texture | done
-notes: |
-  ここにアセット固有のメモを書く（参照リンク、決定事項など）。

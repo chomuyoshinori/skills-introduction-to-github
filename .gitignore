@@ -35,20 +35,3 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# Blender #
-###########
-*.blend1
-*.blend2
-# 巨大な中間ファイルは原則コミットしない（必要なら Git LFS を使う）。
-assets/**/highpoly/*.blend
-# 書き出し済み中間バイナリ（最終 export/ はコミット対象）
-*.fbx
-*.obj
-
-# Python #
-##########
-__pycache__/
-*.pyc
-.venv/
-**/learn/renders/
