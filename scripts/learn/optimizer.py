@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from scripts.learn import lessons as L  # noqa: E402
 from scripts.lib import humanoid as H  # noqa: E402
 from scripts.lib import scoring  # noqa: E402
+from scripts.lib.anatomy import check_pose, load_anatomy  # noqa: E402
 from scripts.lib.meshcheck import validate_scene_meshes  # noqa: E402
 from scripts.lib.standards import load_standards, _mini_yaml_parse  # noqa: E402
 
@@ -91,6 +92,8 @@ def main():
 
     std = load_standards()
     budget = std["poly_budget"].get(atype)
+    anatomy = load_anatomy()
+    species = meta.get("species", "human")
 
     learn_dir = os.path.join(asset_dir, "learn")
     os.makedirs(learn_dir, exist_ok=True)
@@ -114,9 +117,17 @@ def main():
             if applied:
                 avoided += 1
 
-            realized = H.build_humanoid(params, name="goblin")["realized"]
-            valid = validate_scene_meshes(std, atype)
-            sc = scoring.score_attempt(realized, target, valid, budget)
+            # 解剖学検査（関節可動域）。違反ならメッシュ生成せず失敗として学習。
+            violations = check_pose(params, species=species, anatomy=anatomy)
+            if violations:
+                valid = {"ok": False, "fail_kinds": {"anatomy"}, "tris": None,
+                         "failures": [f"{v['joint']}: {v['value']}° は可動域外"
+                                      for v in violations]}
+                realized = None
+            else:
+                realized = H.build_humanoid(params, name="goblin")["realized"]
+                valid = validate_scene_meshes(std, atype)
+            sc = scoring.score_attempt(realized or {}, target, valid, budget)
 
             attempt = {
                 "t": round(time.time(), 1),
@@ -125,6 +136,7 @@ def main():
                 "score": sc["score"],
                 "valid": sc["valid"],
                 "fail_kinds": sc.get("fail_kinds", []),
+                "violations": violations,
                 "applied_lessons": applied,
             }
             log.write(json.dumps(attempt, ensure_ascii=False) + "\n")
@@ -132,8 +144,13 @@ def main():
             L.update(lessons, attempt, target)
 
             tag = "OK " if sc["valid"] else "FAIL"
-            extra = (f"prop_err={sc['prop_error']}" if sc["valid"]
-                     else "/".join(sc["fail_kinds"]))
+            if sc["valid"]:
+                extra = f"prop_err={sc['prop_error']}"
+            elif violations:
+                extra = "anatomy:" + ",".join(
+                    f"{v['joint']}={v['value']}°" for v in violations)
+            else:
+                extra = "/".join(sc["fail_kinds"])
             note = f"  ←補正:{applied}" if applied else ""
             print(f"  [{start_total + i + 1:>3}] {tag} score={sc['score']:>7} "
                   f"seg={params['seg']:>3} h={params['height_m']:.2f} {extra}{note}")

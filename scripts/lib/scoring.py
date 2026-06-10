@@ -9,16 +9,25 @@ from __future__ import annotations
 
 from typing import Any
 
-# プロポーション項目と重み（合計1.0）
+# プロポーション/ポーズ項目と重み（合計1.0）
 PROP_WEIGHTS = {
-    "head_ratio": 0.24,   # ゴブリンらしさは頭比率が支配的
-    "height_m": 0.20,     # 目標の全高に合わせる
-    "leg_ratio": 0.16,
-    "torso_ratio": 0.12,
-    "arm_ratio": 0.12,
-    "shoulder_w": 0.08,
-    "lean_deg": 0.08,
+    "head_ratio": 0.20,   # ゴブリンらしさは頭比率が支配的
+    "height_m": 0.15,     # 目標の全高に合わせる
+    "leg_ratio": 0.10,
+    "torso_ratio": 0.08,
+    "arm_ratio": 0.08,
+    "shoulder_w": 0.05,
+    # ポーズ（関節角）。解剖学的に妥当な範囲は anatomy 検査が担保し、
+    # ここでは目標の自然なポーズへの近さを採点する。
+    "lean_deg": 0.06,
+    "hip_pitch_deg": 0.06,
+    "knee_bend_deg": 0.08,
+    "shoulder_pitch_deg": 0.06,
+    "elbow_bend_deg": 0.08,
 }
+
+# 角度項目は目標値で割ると目標0°付近で誤差が発散するため、固定スケールで正規化
+ANGLE_DENOM_DEG = 45.0
 
 
 def proportion_error(realized: dict[str, Any], target: dict[str, Any]) -> float:
@@ -29,7 +38,10 @@ def proportion_error(realized: dict[str, Any], target: dict[str, Any]) -> float:
             continue
         tgt = float(target[key])
         cur = float(realized.get(key, 0.0))
-        denom = abs(tgt) if abs(tgt) > 1e-6 else 1.0
+        if key.endswith("_deg"):
+            denom = ANGLE_DENOM_DEG
+        else:
+            denom = abs(tgt) if abs(tgt) > 1e-6 else 1.0
         err += w * abs(cur - tgt) / denom
     return err
 

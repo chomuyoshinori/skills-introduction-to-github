@@ -20,6 +20,9 @@ EMPTY: dict[str, Any] = {
         # スケール検査を通した安全な height レンジ（失敗から狭める）
         "height_floor": None,
         "height_ceil": None,
+        # 解剖学検査の違反から学んだ、パラメータごとの実行可能レンジ。
+        # 提案側は可動域(ROM)を知らないが、違反を踏むたびにここが狭まる。
+        "param_ranges": {},
     },
     "sweet_spot": {},      # 上位成功例のパラメータ平均
     "best": None,          # これまでの最良 attempt
@@ -79,6 +82,16 @@ def update(lessons: dict[str, Any], attempt: dict[str, Any], target: dict[str, A
                 if seg is not None:
                     cons["seg_min_fail"] = seg if cons["seg_min_fail"] is None else min(cons["seg_min_fail"], seg)
                     _recompute_seg_cap(cons)
+            elif kind == "anatomy":
+                # 関節可動域の違反 → そのパラメータの実行可能レンジを狭める
+                for vio in attempt.get("violations", []):
+                    pr = cons.setdefault("param_ranges", {}).setdefault(
+                        vio["param"], {"lo": None, "hi": None})
+                    v = vio["value"]
+                    if vio["bound"] == "max":  # 上限超え → 学習上限を引き下げ
+                        pr["hi"] = v if pr["hi"] is None else min(pr["hi"], v)
+                    else:                       # 下限割れ → 学習下限を引き上げ
+                        pr["lo"] = v if pr["lo"] is None else max(pr["lo"], v)
             elif kind == "scale":
                 h = params.get("height_m")
                 tgt = float(target.get("height_m", 1.3))
@@ -114,6 +127,19 @@ def apply_constraints(lessons: dict[str, Any], params: dict[str, float]) -> tupl
     if cons.get("height_ceil") is not None and out.get("height_m", 0) >= cons["height_ceil"]:
         out["height_m"] = cons["height_ceil"] - 0.05
         applied.append(f"height→{out['height_m']:.2f} (高すぎ回避)")
+    # 解剖学違反から学んだ実行可能レンジに収める（margin: 学習境界は真の限界より
+    # 外側にあり得るため、少し内側に寄せて再違反の確率を下げる）
+    for param, pr in cons.get("param_ranges", {}).items():
+        v = out.get(param)
+        if v is None:
+            continue
+        margin = 4.0 if param.endswith("_deg") else 0.02
+        if pr.get("hi") is not None and v >= pr["hi"]:
+            out[param] = pr["hi"] - margin
+            applied.append(f"{param}→{out[param]:.1f} (可動域学習)")
+        elif pr.get("lo") is not None and v <= pr["lo"]:
+            out[param] = pr["lo"] + margin
+            applied.append(f"{param}→{out[param]:.1f} (可動域学習)")
     return out, applied
 
 
@@ -134,7 +160,12 @@ def to_markdown(lessons: dict[str, Any]) -> str:
         lines.append(f"- **height ≥ {cons['height_floor']:.2f}m**: これ未満はスケール検査に落ちた")
     if cons.get("height_ceil") is not None:
         lines.append(f"- **height ≤ {cons['height_ceil']:.2f}m**: これ超はスケール検査に落ちた")
-    if all(cons.get(k) is None for k in ("seg_cap", "height_floor", "height_ceil")):
+    for param, pr in sorted(cons.get("param_ranges", {}).items()):
+        lo = f"{pr['lo']:.1f} <" if pr.get("lo") is not None else ""
+        hi = f"< {pr['hi']:.1f}" if pr.get("hi") is not None else ""
+        lines.append(f"- **{lo} {param} {hi}**: 可動域違反から学習した実行可能レンジ")
+    if (all(cons.get(k) is None for k in ("seg_cap", "height_floor", "height_ceil"))
+            and not cons.get("param_ranges")):
         lines.append("- （まだ制約を学習していません）")
     lines += ["", "## 成功から学んだ良パラメータ域 (sweet spot)"]
     if lessons["sweet_spot"]:
