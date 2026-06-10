@@ -127,6 +127,51 @@ python scripts/learn/visual_review.py -- --asset assets/characters/goblin-warrio
 運用上の注意: ブレンド済みベストはエンジンスコア単独では超えにくいため、
 **最適化セッションと視覚レビューを交互に回す**のが想定サイクル。
 
+## 批判的専門家による反復改善（actor-critic ループ）
+
+数値最適化と1回の視覚採点だけでは「課題に対してどこが弱いか」を反復的に詰められない。
+`scripts/learn/critic_loop.py` は **辛口の批評家(critic)** を改善ループに組み込む:
+
+```
+1ラウンド =
+  [actor]  optimizer が現在の目標へ向けて試行錯誤
+  [render] 上位候補をレンダリング（その回の試行のみ）
+  [critic] AI(agents/critic.md)が課題ルーブリックで各次元を採点＋修正指示
+  [apply]  指示を「目標の修正」に変換し working_target.json を更新
+→ 加重平均が challenge.yaml の pass_threshold 以上になるまで繰り返す
+```
+
+ポイント:
+- **課題** `challenge.yaml` に評価ルーブリック（次元と重み）と合格閾値を定義
+- critic の指示は `{param, delta}` の形で**機械適用**され、生成器の定義域にクランプされる
+- **物理的知見（関節可動域・ポリ境界）はラウンドを跨いで保持**し、「良さの定義」だけを更新
+- ACCEPT 時は `--finalize <候補>` で **critic が承認した候補**を最終モデルに確定
+  （エンジン最良ではなく批評家の選択を採用）
+
+### 実測（goblin-warrior「戦闘待機の立ち姿」課題, 4ラウンド）
+
+| ラウンド | 加重平均 | 批評の要点 |
+|---------|---------|-----------|
+| 1 | 6.3 | 脚が長く人間的。寸胴・大頭のゴブリンらしさ不足 → 脚を詰め頭を拡大、前傾を深く |
+| 2 | **5.25**（悪化） | 沈め過ぎて胴が潰れ「痩せた虫」化。必要なのは屈伸でなく**量感** → 四肢を太く胴を広げ、過修正を戻す |
+| 3 | 7.8 | 大幅改善。寸胴・大頭・量感が出た。あと一歩、肩幅と構えを微調整 |
+| 4 | **8.2 合格** | 寸胴・大頭・太い四肢・広い肩で安定した低い構え。出荷可能水準 |
+
+2ラウンド目の**悪化を批評家が検知して進路を修正**した点が重要で、
+単調に甘く評価するのではなく批判的に分析することで改善が前進した。
+
+## 使い方（critic ループ）
+
+```bash
+# 各ラウンド: お膳立て → AIが critique.json を作成 → 適用
+python scripts/learn/critic_loop.py --asset assets/characters/goblin-warrior --setup
+#   （agents/critic.md の役割で learn/critique.json を作成）
+python scripts/learn/critic_loop.py --asset assets/characters/goblin-warrior --apply
+python scripts/learn/critic_loop.py --asset assets/characters/goblin-warrior --status   # 推移確認
+# 合格したら critic 承認候補を確定
+python scripts/learn/critic_loop.py --asset assets/characters/goblin-warrior --finalize 2
+```
+
 ## 限界と発展
 
 - これは**ブロッキング（プロポーション/ポーズ）**の自動探索。質感・ディテール・

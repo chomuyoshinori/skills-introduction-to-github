@@ -36,7 +36,7 @@ def _parse_args(argv):
         argv = argv[argv.index("--") + 1:]
     else:
         argv = []
-    args = {"asset": None, "top": 4, "apply": False, "res": 512}
+    args = {"asset": None, "top": 4, "apply": False, "res": 512, "recent": 0}
     it = iter(argv)
     for tok in it:
         if tok == "--asset":
@@ -47,6 +47,8 @@ def _parse_args(argv):
             args["apply"] = True
         elif tok == "--res":
             args["res"] = int(next(it))
+        elif tok == "--recent":
+            args["recent"] = int(next(it))
     return args
 
 
@@ -56,8 +58,11 @@ def _model_name(meta) -> str:
     return re.sub(r"[^a-z0-9]+", "_", str(meta.get("name", "asset")).lower()).strip("_")
 
 
-def phase_request(asset_dir: str, top: int, res: int) -> None:
-    """上位候補を再生成・レンダリングし、レビュー依頼を書き出す。"""
+def phase_request(asset_dir: str, top: int, res: int, recent: int = 0) -> None:
+    """上位候補を再生成・レンダリングし、レビュー依頼を書き出す。
+
+    recent>0 のときは直近 recent 試行（= 現ラウンド分）だけを対象にする。
+    """
     meta = _load_asset_meta(asset_dir)
     G = _load_generator(meta)
     name = _model_name(meta)
@@ -67,7 +72,10 @@ def phase_request(asset_dir: str, top: int, res: int) -> None:
     candidates = []
     seen = set()
     with open(os.path.join(learn_dir, "attempts.jsonl"), encoding="utf-8") as f:
-        for line in f:
+        lines = f.readlines()
+    if recent > 0:
+        lines = lines[-recent:]
+    for line in lines:
             a = json.loads(line)
             if a.get("valid"):
                 key = json.dumps(a["params"], sort_keys=True)
@@ -166,7 +174,7 @@ def main():
     if args["apply"]:
         phase_apply(asset_dir)
     else:
-        phase_request(asset_dir, args["top"], args["res"])
+        phase_request(asset_dir, args["top"], args["res"], args["recent"])
 
 
 if __name__ == "__main__":

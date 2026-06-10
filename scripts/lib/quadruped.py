@@ -214,6 +214,7 @@ def build(params: dict[str, float], name: str = "wolf",
         "hind_leg_ratio": p["hind_leg_ratio"],
         "front_leg_ratio": p["front_leg_ratio"],
         "tail_ratio": p["tail_ratio"],
+        "limb_radius": r,
         "tris": tris,
     }
     for k in POSE_KEYS:

@@ -17,6 +17,7 @@ PROP_WEIGHTS = {
     "torso_ratio": 0.08,
     "arm_ratio": 0.08,
     "shoulder_w": 0.05,
+    "limb_radius": 0.06,  # 四肢の太さ（量感）。critic が嵩の指示に使う
     # ポーズ（関節角）。解剖学的に妥当な範囲は anatomy 検査が担保し、
     # ここでは目標の自然なポーズへの近さを採点する。
     "lean_deg": 0.06,

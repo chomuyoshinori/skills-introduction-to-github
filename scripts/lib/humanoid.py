@@ -192,6 +192,7 @@ def build_humanoid(params: dict[str, float], name: str = "goblin",
         "leg_ratio": leg_len / realized_h if realized_h else 0,
         "arm_ratio": arm_len / realized_h if realized_h else 0,
         "shoulder_w": shoulder_w,
+        "limb_radius": r,
         "tris": tris,
     }
     for k in POSE_KEYS:

@@ -1,0 +1,13 @@
+{
+  "round": 4,
+  "scores": {
+    "silhouette": 8,
+    "proportion": 9,
+    "pose_naturalness": 8,
+    "anatomy_plausibility": 8,
+    "game_fit": 8
+  },
+  "verdict": "ACCEPT",
+  "summary": "課題到達。寸胴・大頭・太い四肢・広い肩で、前傾の安定した低い構え。遠目にも『小柄で俊敏なゴブリン戦士』と明確に読め、左右対称で接地も安定、ポリゴンも予算内。出荷可能な水準のブロッキング。仕上げ（顔・装備・スカルプト）は人＋専門エージェントへ引き継ぐ。",
+  "directives": []
+}

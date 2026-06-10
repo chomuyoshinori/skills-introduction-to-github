@@ -1,0 +1,19 @@
+# 課題定義。critic ループ(scripts/learn/critic_loop.py)がこれを基準に評価する。
+title: "ゲーム用ゴブリン戦士・戦闘待機の立ち姿"
+brief: |
+  プレイヤーに襲いかかる直前のゴブリン戦士。寸胴で大きな頭、長めの腕。
+  膝を曲げ前傾した低い構えで、遠目にも「小柄で俊敏な敵」と読めること。
+  npc_character 予算(25k tris)に収め、左右対称で接地が安定していること。
+
+# 評価ルーブリック（次元: 重み）。合計1.0。
+rubric:
+  silhouette: 0.25
+  proportion: 0.20
+  pose_naturalness: 0.20
+  anatomy_plausibility: 0.15
+  game_fit: 0.20
+
+pass_threshold: 8.0   # 加重平均がこれ以上で合格
+max_rounds: 5         # 安全のための上限
+optimize_iters: 30    # 各ラウンドで actor が回す試行数
+top_candidates: 3     # critic に見せる上位候補数
