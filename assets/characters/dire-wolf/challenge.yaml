@@ -15,6 +15,6 @@ rubric:
   game_fit: 0.15
 
 pass_threshold: 9.0   # 高精度要求。簡単には合格させない
-max_rounds: 10
-optimize_iters: 80    # 各ラウンドで actor が回す試行数
+max_rounds: 20
+optimize_iters: 110    # 各ラウンドで actor が回す試行数
 top_candidates: 3

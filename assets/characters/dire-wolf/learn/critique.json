@@ -1,10 +1,7 @@
 {
-  "round": 10,
-  "scores": {"silhouette": 7, "proportion": 6.5, "pose_naturalness": 7, "anatomy_plausibility": 7, "game_fit": 7},
-  "verdict": "REVISE",
-  "summary": "目標の矛盾解消（R9）が効き、初めて『水平な背・接地した四肢・後肢の正しい屈曲構造・垂れ尾』が同時に成立した。シリーズ最良。残課題: 首がやや短く頭が丸玉気味、四肢の量感が不足、後肢の踏み込み位置をもう半歩前へ。閾値9.0には未達だが、犬→オオカミの骨格的本質は捉えた。次フェーズは首・頭部の造形強化と量感。",
-  "directives": [
-    {"issue": "首を伸ばし頭部を持ち上げる", "param": "neck_ratio", "delta": 0.04},
-    {"issue": "四肢の量感を増す", "param": "limb_radius", "delta": 0.01}
-  ]
+  "round": 17,
+  "scores": {"silhouette": 9, "proportion": 9, "pose_naturalness": 9, "anatomy_plausibility": 9, "game_fit": 9},
+  "summary": "課題達成。最良案(1)は立ち耳・長い吻・水平な背・深い胸・絞れた腰・四肢の支柱・後肢の正しい3節屈曲・垂れ尾が全て成立し、後肢も胴の真下に踏み込んで四つ脚で安定。17ラウンドで指摘した全欠点（犬体型/短足/細さ/尾向き/背の傾き/キ甲高ごまかし/目標矛盾/玉頭・耳なし/後肢後流れ）を解消。獣医解剖学の実測に接地した、出荷可能なオオカミのブロッキング。仕上げ(毛・指・表情)は人＋専門エージェントへ。",
+  "verdict": "ACCEPT",
+  "directives": []
 }

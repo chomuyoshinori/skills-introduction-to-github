@@ -37,6 +37,7 @@ PROP_WEIGHTS = {
     "tail_pitch_deg": 0.04,
     "back_slope_deg": 0.15,  # 背線の水平さ。R8で勾配不足と判明し0.08→0.15に強化
     "shoulder_height_m": 0.10,  # 肩高=キ甲高。脚短縮+樽胴のごまかし対策（R6）
+    "hind_reach_ratio": 0.12,  # 後足の踏み込み位置。後肢の後流れ対策（R15で発見）
     "hock_deg": 0.10,
     "elbow_deg": 0.07,
 }

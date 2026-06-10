@@ -164,18 +164,34 @@ def build(params: dict[str, float], name: str = "wolf",
     joints["tail_end"] = tail_end
 
     # --- メッシュ生成 ---
-    cylinder_between(pelvis, chest, body_r)            # 体幹
-    sphere(pelvis, body_r * 1.05)
-    sphere(chest, body_r * 1.05)
+    cylinder_between(pelvis, chest, body_r * 0.92)     # 体幹
+    sphere(pelvis, body_r * 0.92)                       # 腰は絞る
+    sphere(chest, body_r * 1.18)                        # 胸郭は深く
     cylinder_between(chest, neck_end, body_r * 0.55)   # 首
     sphere(head_center, head_d / 2)                    # 頭
-    cylinder_between(head_center, snout_end, head_d * 0.22)  # 鼻先
-    cylinder_between(pelvis, tail_end, r * 0.6)        # 尾
+    # 吻(マズル): 長めに伸ばし先端に鼻の球。オオカミの長い顔を作る
+    cylinder_between(head_center, snout_end, head_d * 0.20)
+    sphere(snout_end, head_d * 0.16)
+    # 耳: 頭頂に2本のコーン（イヌ科の最重要シルエット要素）
+    def ear(sx):
+        bpy.ops.mesh.primitive_cone_add(
+            vertices=max(3, seg // 2), radius1=head_d * 0.17, depth=head_d * 0.50,
+            end_fill_type="TRIFAN",
+            location=head_center + V((sx * head_d * 0.24, head_d * 0.10, head_d * 0.46)),
+        )
+        obj = bpy.context.active_object
+        obj.rotation_euler = (math.radians(-12), 0, 0)  # わずかに前傾
+        parts.append(obj)
+    ear(1)
+    ear(-1)
+    # 尾: 先細り＋先端の房
+    cylinder_between(pelvis, tail_end, r * 0.55)
+    sphere(tail_end, r * 0.7)
     for side in ("L", "R"):
-        cylinder_between(joints[f"hip.{side}"], joints[f"stifle.{side}"], r)
+        cylinder_between(joints[f"hip.{side}"], joints[f"stifle.{side}"], r * 1.25)
         cylinder_between(joints[f"stifle.{side}"], joints[f"hock.{side}"], r * 0.85)
         cylinder_between(joints[f"hock.{side}"], joints[f"hindpaw.{side}"], r * 0.7)
-        cylinder_between(joints[f"shoulder.{side}"], joints[f"elbow.{side}"], r * 0.9)
+        cylinder_between(joints[f"shoulder.{side}"], joints[f"elbow.{side}"], r * 1.1)
         cylinder_between(joints[f"elbow.{side}"], joints[f"frontpaw.{side}"], r * 0.7)
         sphere(joints[f"hip.{side}"], r * 1.2)
         sphere(joints[f"stifle.{side}"], r * 1.0)
@@ -206,6 +222,8 @@ def build(params: dict[str, float], name: str = "wolf",
 
     # 背線の傾き（骨盤と肩の高低差から。0=水平、+で尻上がり）
     back_slope_deg = math.degrees(math.atan2(hip_h - shoulder_h, L))
+    # 後肢の踏み込み: 後足先が股関節の真下からどれだけ後方(+Y)へ流れるか / 体長
+    hind_reach_ratio = (joints["hindpaw.L"].y - joints["hip.L"].y) / L
 
     min_z = min((body.matrix_world @ V(c)).z for c in body.bound_box)
     max_z = max((body.matrix_world @ V(c)).z for c in body.bound_box)
@@ -224,6 +242,7 @@ def build(params: dict[str, float], name: str = "wolf",
         "tail_pitch_deg": p.get("tail_pitch_deg", 40),
         "back_slope_deg": round(back_slope_deg, 2),
         "shoulder_height_m": round(shoulder_h, 3),
+        "hind_reach_ratio": round(hind_reach_ratio, 3),
         "limb_radius": r,
         "tris": tris,
     }
