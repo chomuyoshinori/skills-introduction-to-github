@@ -51,3 +51,4 @@ assets/**/highpoly/*.blend
 __pycache__/
 *.pyc
 .venv/
+**/learn/renders/

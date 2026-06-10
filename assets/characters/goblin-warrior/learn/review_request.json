@@ -1,0 +1,82 @@
+[
+  {
+    "id": "0",
+    "image": "assets/characters/goblin-warrior/learn/renders/cand_0.png",
+    "engine_score": 85.8,
+    "params": {
+      "height_m": 1.3295662613286043,
+      "head_ratio": 0.2222467867812631,
+      "torso_ratio": 0.34223912006695784,
+      "leg_ratio": 0.3480397554000421,
+      "arm_ratio": 0.44528493921160506,
+      "shoulder_w": 0.2863688909322014,
+      "limb_radius": 0.05992316034432514,
+      "seg": 6,
+      "lean_deg": 5.338473135887878,
+      "hip_pitch_deg": -3.2761160032098324,
+      "knee_bend_deg": 27.77263068458385,
+      "shoulder_pitch_deg": 32.941607065212324,
+      "elbow_bend_deg": 45.75156697900606
+    }
+  },
+  {
+    "id": "1",
+    "image": "assets/characters/goblin-warrior/learn/renders/cand_1.png",
+    "engine_score": 85.28,
+    "params": {
+      "height_m": 1.064277330207052,
+      "head_ratio": 0.2441229302926215,
+      "torso_ratio": 0.33699818036255125,
+      "leg_ratio": 0.34,
+      "arm_ratio": 0.46,
+      "shoulder_w": 0.24318228714071322,
+      "limb_radius": 0.05515722157721957,
+      "seg": 6,
+      "lean_deg": -2.622709231091764,
+      "hip_pitch_deg": 6.990661832818372,
+      "knee_bend_deg": 27.736298587033478,
+      "shoulder_pitch_deg": 15.61515684320472,
+      "elbow_bend_deg": 35.44150456198135
+    }
+  },
+  {
+    "id": "2",
+    "image": "assets/characters/goblin-warrior/learn/renders/cand_2.png",
+    "engine_score": 83.72,
+    "params": {
+      "height_m": 1.4086900867171426,
+      "head_ratio": 0.24631875991690758,
+      "torso_ratio": 0.34655023050351147,
+      "leg_ratio": 0.3482100473376285,
+      "arm_ratio": 0.4358557585476087,
+      "shoulder_w": 0.26691019362983065,
+      "limb_radius": 0.06016837853081529,
+      "seg": 6,
+      "lean_deg": 2.317760621666512,
+      "hip_pitch_deg": 32.71263811430242,
+      "knee_bend_deg": 43.485238090498484,
+      "shoulder_pitch_deg": 2.5175425699499563,
+      "elbow_bend_deg": 47.785832536612446
+    }
+  },
+  {
+    "id": "3",
+    "image": "assets/characters/goblin-warrior/learn/renders/cand_3.png",
+    "engine_score": 82.7,
+    "params": {
+      "height_m": 0.9311485463114978,
+      "head_ratio": 0.2125468106877806,
+      "torso_ratio": 0.3322553387155461,
+      "leg_ratio": 0.3525184760824134,
+      "arm_ratio": 0.46,
+      "shoulder_w": 0.3,
+      "limb_radius": 0.04446609677382597,
+      "seg": 12,
+      "lean_deg": 0.7529248238428288,
+      "hip_pitch_deg": 2.4998532918906164,
+      "knee_bend_deg": 21.751176585719513,
+      "shoulder_pitch_deg": 23.969065198089986,
+      "elbow_bend_deg": 65.85210313253305
+    }
+  }
+]

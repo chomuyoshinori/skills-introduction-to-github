@@ -24,6 +24,16 @@ PROP_WEIGHTS = {
     "knee_bend_deg": 0.08,
     "shoulder_pitch_deg": 0.06,
     "elbow_bend_deg": 0.08,
+    # --- 四足動物用（target に含まれる項目だけが採点対象になる） ---
+    "body_length_m": 0.15,
+    "neck_ratio": 0.05,
+    "hind_leg_ratio": 0.08,
+    "front_leg_ratio": 0.08,
+    "tail_ratio": 0.04,
+    "neck_pitch_deg": 0.05,
+    "stifle_deg": 0.08,
+    "hock_deg": 0.07,
+    "elbow_deg": 0.07,
 }
 
 # 角度項目は目標値で割ると目標0°付近で誤差が発散するため、固定スケールで正規化

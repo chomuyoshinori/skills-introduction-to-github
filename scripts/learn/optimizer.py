@@ -13,12 +13,12 @@ from __future__ import annotations
 import json
 import os
 import random
+import re
 import sys
 import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 from scripts.learn import lessons as L  # noqa: E402
-from scripts.lib import humanoid as H  # noqa: E402
 from scripts.lib import scoring  # noqa: E402
 from scripts.lib.anatomy import check_pose, load_anatomy  # noqa: E402
 from scripts.lib.meshcheck import validate_scene_meshes  # noqa: E402
@@ -48,9 +48,18 @@ def _load_asset_meta(asset_dir):
         return _mini_yaml_parse(f.read())
 
 
-def _propose(rng, lessons, explore):
+def _load_generator(meta):
+    """asset.yaml の generator キーで生成器モジュールを選ぶ。"""
+    if meta.get("generator") == "quadruped":
+        from scripts.lib import quadruped as G
+    else:
+        from scripts.lib import humanoid as G
+    return G
+
+
+def _propose(rng, lessons, explore, G):
     """過去の知見から次のパラメータを提案する。"""
-    bounds = H.PARAM_BOUNDS
+    bounds = G.PARAM_BOUNDS
     best = lessons.get("best")
     sweet = lessons.get("sweet_spot") or {}
 
@@ -71,7 +80,7 @@ def _propose(rng, lessons, explore):
         # 一様ランダム（広域探索）。失敗領域も踏みに行き、そこから制約を学ぶ。
         params = {k: rng.uniform(lo, hi) for k, (lo, hi) in bounds.items()}
 
-    return H.clamp_params(params)
+    return G.clamp_params(params)
 
 
 def main():
@@ -94,6 +103,9 @@ def main():
     budget = std["poly_budget"].get(atype)
     anatomy = load_anatomy()
     species = meta.get("species", "human")
+    G = _load_generator(meta)
+    # オブジェクト/マテリアル命名に使う識別子（CHR_<name>_... 規則に適合させる）
+    model_name = re.sub(r"[^a-z0-9]+", "_", str(meta.get("name", "asset")).lower()).strip("_")
 
     learn_dir = os.path.join(asset_dir, "learn")
     os.makedirs(learn_dir, exist_ok=True)
@@ -111,7 +123,7 @@ def main():
     with open(attempts_path, "a", encoding="utf-8") as log:
         for i in range(args["iters"]):
             explore = (rng.random() < 0.3) or (lessons.get("best") is None)
-            params = _propose(rng, lessons, explore)
+            params = _propose(rng, lessons, explore, G)
             # 学習済み制約で事前補正（= 既知の失敗を回避）
             params, applied = L.apply_constraints(lessons, params)
             if applied:
@@ -125,7 +137,7 @@ def main():
                                       for v in violations]}
                 realized = None
             else:
-                realized = H.build_humanoid(params, name="goblin")["realized"]
+                realized = G.build(params, name=model_name)["realized"]
                 valid = validate_scene_meshes(std, atype)
             sc = scoring.score_attempt(realized or {}, target, valid, budget)
 
@@ -152,15 +164,16 @@ def main():
             else:
                 extra = "/".join(sc["fail_kinds"])
             note = f"  ←補正:{applied}" if applied else ""
+            size = params.get("height_m") or params.get("body_length_m") or 0
             print(f"  [{start_total + i + 1:>3}] {tag} score={sc['score']:>7} "
-                  f"seg={params['seg']:>3} h={params['height_m']:.2f} {extra}{note}")
+                  f"seg={params['seg']:>3} size={size:.2f} {extra}{note}")
 
     # ベストを保存（再生成して .blend 出力）
     best = lessons.get("best")
     if best:
-        H.build_humanoid(best["params"], name="goblin")
+        G.build(best["params"], name=model_name)
         out_blend = os.path.join(asset_dir, "highpoly", "base.blend")
-        H.save(out_blend)
+        G.save(out_blend)
         print(f"[optimizer] ベスト(score={best['score']}) を保存: {out_blend}")
 
     L.save(lessons, lessons_path)

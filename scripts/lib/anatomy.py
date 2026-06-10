@@ -14,13 +14,23 @@ _DEFAULT_PATH = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "..", "config", "anatomy.yaml")
 )
 
-# 生成パラメータ名 → 関節名 の対応
+# 生成パラメータ名 → 関節名 の対応（種別ごと）
 PARAM_TO_JOINT = {
-    "lean_deg": "spine_pitch",
-    "hip_pitch_deg": "hip_pitch",
-    "knee_bend_deg": "knee",
-    "shoulder_pitch_deg": "shoulder_pitch",
-    "elbow_bend_deg": "elbow",
+    "human": {
+        "lean_deg": "spine_pitch",
+        "hip_pitch_deg": "hip_pitch",
+        "knee_bend_deg": "knee",
+        "shoulder_pitch_deg": "shoulder_pitch",
+        "elbow_bend_deg": "elbow",
+    },
+    "quadruped_canine": {
+        "neck_pitch_deg": "spine_pitch",
+        "hip_pitch_deg": "hip_pitch",
+        "stifle_deg": "stifle",
+        "hock_deg": "hock",
+        "shoulder_pitch_deg": "shoulder_pitch",
+        "elbow_deg": "elbow",
+    },
 }
 
 
@@ -47,8 +57,9 @@ def check_pose(
     """
     anatomy = anatomy or load_anatomy()
     joints = anatomy.get(species, {}).get("joints", {})
+    mapping = PARAM_TO_JOINT.get(species, PARAM_TO_JOINT["human"])
     violations: list[dict[str, Any]] = []
-    for param, joint_name in PARAM_TO_JOINT.items():
+    for param, joint_name in mapping.items():
         if param not in pose_params or joint_name not in joints:
             continue
         v = float(pose_params[param])

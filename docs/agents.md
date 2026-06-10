@@ -34,9 +34,11 @@
 ## 段階的な発展ロードマップ
 
 ```
-Phase 0 (現在): 人がオーケストレーター + AIアシスタント役 + 自動検査
+Phase 0 (達成): 人がオーケストレーター + AIアシスタント役 + 自動検査
    ↓ 量が増え、基準が固まったら
-Phase 1: QCレビューを半自動化（qc-reviewer が検査結果を読んで修正指示を生成）
+Phase 1 (達成): AIレビューを学習ループの報酬に組み込む
+   - scripts/learn/visual_review.py: AI(modeler役)が上位候補のレンダリングを採点し、
+     スコアが知識ベース(top_k/best/sweet spot)に反映される。docs/learning.md 参照
    ↓ さらに定型化できたら
 Phase 2: 工程間の自動受け渡し（concept→blocking のパラメータ自動生成など）
    ↓ 規模が production 級になったら

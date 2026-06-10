@@ -93,8 +93,10 @@ def update(lessons: dict[str, Any], attempt: dict[str, Any], target: dict[str, A
                     else:                       # 下限割れ → 学習下限を引き上げ
                         pr["lo"] = v if pr["lo"] is None else max(pr["lo"], v)
             elif kind == "scale":
-                h = params.get("height_m")
-                tgt = float(target.get("height_m", 1.3))
+                # 生成器のサイズ駆動パラメータ（humanoid: height_m / quadruped: body_length_m）
+                size_key = "height_m" if "height_m" in params else "body_length_m"
+                h = params.get(size_key)
+                tgt = float(target.get(size_key, 1.3))
                 if h is not None:
                     if h < tgt:  # 低すぎて失敗 → 下限を引き上げ
                         cons["height_floor"] = h if cons["height_floor"] is None else max(cons["height_floor"], h)
@@ -121,12 +123,13 @@ def apply_constraints(lessons: dict[str, Any], params: dict[str, float]) -> tupl
     if cons.get("seg_cap") is not None and out.get("seg", 0) >= cons["seg_cap"]:
         out["seg"] = max(6, cons["seg_cap"] - 1)
         applied.append(f"seg→{out['seg']} (予算超過回避)")
-    if cons.get("height_floor") is not None and out.get("height_m", 0) <= cons["height_floor"]:
-        out["height_m"] = cons["height_floor"] + 0.05
-        applied.append(f"height→{out['height_m']:.2f} (低すぎ回避)")
-    if cons.get("height_ceil") is not None and out.get("height_m", 0) >= cons["height_ceil"]:
-        out["height_m"] = cons["height_ceil"] - 0.05
-        applied.append(f"height→{out['height_m']:.2f} (高すぎ回避)")
+    size_key = "height_m" if "height_m" in out else "body_length_m"
+    if cons.get("height_floor") is not None and out.get(size_key, 0) <= cons["height_floor"]:
+        out[size_key] = cons["height_floor"] + 0.05
+        applied.append(f"{size_key}→{out[size_key]:.2f} (低すぎ回避)")
+    if cons.get("height_ceil") is not None and out.get(size_key, 0) >= cons["height_ceil"]:
+        out[size_key] = cons["height_ceil"] - 0.05
+        applied.append(f"{size_key}→{out[size_key]:.2f} (高すぎ回避)")
     # 解剖学違反から学んだ実行可能レンジに収める（margin: 学習境界は真の限界より
     # 外側にあり得るため、少し内側に寄せて再違反の確率を下げる）
     for param, pr in cons.get("param_ranges", {}).items():

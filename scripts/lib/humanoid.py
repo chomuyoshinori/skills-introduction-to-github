@@ -251,3 +251,7 @@ def save(path: str) -> None:
 
     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
     bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(path))
+
+
+# 学習ループ向けの共通インターフェース（quadruped.build と同型）
+build = build_humanoid

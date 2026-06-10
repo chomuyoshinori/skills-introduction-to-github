@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "constraints": {
+    "seg_cap": 37,
+    "seg_max_pass": 37,
+    "seg_min_fail": 38,
+    "height_floor": 0.5479838814375042,
+    "height_ceil": 2.1411124656570157,
+    "param_ranges": {
+      "neck_pitch_deg": {
+        "lo": -20.8,
+        "hi": 31.6
+      },
+      "hip_pitch_deg": {
+        "lo": -31.8,
+        "hi": 111.6
+      },
+      "shoulder_pitch_deg": {
+        "lo": -40.1,
+        "hi": 162.3
+      },
+      "elbow_deg": {
+        "lo": 19.8,
+        "hi": 150.8
+      },
+      "stifle_deg": {
+        "lo": 18.9,
+        "hi": 130.1
+      },
+      "hock_deg": {
+        "lo": 29.6,
+        "hi": 140.1
+      }
+    }
+  },
+  "sweet_spot": {
+    "body_length_m": 1.3035,
+    "head_ratio": 0.1763,
+    "neck_ratio": 0.2712,
+    "hind_leg_ratio": 0.6864,
+    "front_leg_ratio": 0.4746,
+    "body_radius_ratio": 0.1197,
+    "tail_ratio": 0.407,
+    "limb_radius": 0.08,
+    "seg": 6.0,
+    "neck_pitch_deg": -10.4147,
+    "hip_pitch_deg": 9.9089,
+    "stifle_deg": 87.2306,
+    "hock_deg": 57.6579,
+    "shoulder_pitch_deg": -25.6724,
+    "elbow_deg": 31.0055
+  },
+  "best": {
+    "params": {
+      "body_length_m": 1.0479008140451096,
+      "head_ratio": 0.16561700885296485,
+      "neck_ratio": 0.26465344865896934,
+      "hind_leg_ratio": 0.7252070092214681,
+      "front_leg_ratio": 0.47820844366956633,
+      "body_radius_ratio": 0.13303068873229684,
+      "tail_ratio": 0.3857754851882254,
+      "limb_radius": 0.08,
+      "seg": 6,
+      "neck_pitch_deg": -8.797888917109486,
+      "hip_pitch_deg": 23.901734971886395,
+      "stifle_deg": 92.40012253806763,
+      "hock_deg": 64.86621382779546,
+      "shoulder_pitch_deg": -15.11878186240479,
+      "elbow_deg": 29.966808975099518
+    },
+    "score": 97.46,
+    "realized": null
+  },
+  "stats": {
+    "total": 150,
+    "valid": 109,
+    "failed": 41,
+    "by_kind": {
+      "anatomy": 31,
+      "budget": 7,
+      "scale": 3
+    }
+  },
+  "top_k": [
+    {
+      "params": {
+        "body_length_m": 1.0479008140451096,
+        "head_ratio": 0.16561700885296485,
+        "neck_ratio": 0.26465344865896934,
+        "hind_leg_ratio": 0.7252070092214681,
+        "front_leg_ratio": 0.47820844366956633,
+        "body_radius_ratio": 0.13303068873229684,
+        "tail_ratio": 0.3857754851882254,
+        "limb_radius": 0.08,
+        "seg": 6,
+        "neck_pitch_deg": -8.797888917109486,
+        "hip_pitch_deg": 23.901734971886395,
+        "stifle_deg": 92.40012253806763,
+        "hock_deg": 64.86621382779546,
+        "shoulder_pitch_deg": -15.11878186240479,
+        "elbow_deg": 29.966808975099518
+      },
+      "score": 97.46
+    },
+    {
+      "params": {
+        "body_length_m": 1.0444436893415658,
+        "head_ratio": 0.18758440311922642,
+        "neck_ratio": 0.24801269199923248,
+        "hind_leg_ratio": 0.6876702061191476,
+        "front_leg_ratio": 0.46549744336560595,
+        "body_radius_ratio": 0.13404590128610933,
+        "tail_ratio": 0.3940705060943644,
+        "limb_radius": 0.08,
+        "seg": 6,
+        "neck_pitch_deg": -16.8,
+        "hip_pitch_deg": 18.8597681651716,
+        "stifle_deg": 83.46326874717559,
+        "hock_deg": 45.305729341275125,
+        "shoulder_pitch_deg": -18.28021184643019,
+        "elbow_deg": 33.649026134132434
+      },
+      "score": 95.12
+    },
+    {
+      "params": {
+        "body_length_m": 1.5108888529441005,
+        "head_ratio": 0.1788021632937452,
+        "neck_ratio": 0.2845034510812041,
+        "hind_leg_ratio": 0.6742767337170358,
+        "front_leg_ratio": 0.46992692669160346,
+        "body_radius_ratio": 0.10984393618086463,
+        "tail_ratio": 0.4612351637005722,
+        "limb_radius": 0.08,
+        "seg": 6,
+        "neck_pitch_deg": -16.575149744006808,
+        "hip_pitch_deg": 1.17032514742324,
+        "stifle_deg": 80.1431310847193,
+        "hock_deg": 63.33472641696527,
+        "shoulder_pitch_deg": -33.19066670780976,
+        "elbow_deg": 35.67557687615002
+      },
+      "score": 92.37
+    },
+    {
+      "params": {
+        "body_length_m": 1.610913102261772,
+        "head_ratio": 0.17331464372509306,
+        "neck_ratio": 0.28759217311189506,
+        "hind_leg_ratio": 0.6585906124266396,
+        "front_leg_ratio": 0.4845784463546081,
+        "body_radius_ratio": 0.10202236736159231,
+        "tail_ratio": 0.38695948789377077,
+        "limb_radius": 0.08,
+        "seg": 6,
+        "neck_pitch_deg": 0.514385841179863,
+        "hip_pitch_deg": -4.296100415285952,
+        "stifle_deg": 92.91587528547561,
+        "hock_deg": 57.12507922338504,
+        "shoulder_pitch_deg": -36.1,
+        "elbow_deg": 24.730587484865552
+      },
+      "score": 83.49
+    }
+  ],
+  "visual_reviews": [
+    [
+      {
+        "score": 97.46,
+        "engine_score": 82.46,
+        "visual": 7.5,
+        "notes": "4本の脚が接地し、後肢の屈曲構造と上がった尾でイヌ科らしさが最もよく読める。胴の水平も自然"
+      },
+      {
+        "score": 95.12,
+        "engine_score": 82.12,
+        "visual": 6.5,
+        "notes": "概ね良いが後肢が短く見え、腰がやや沈む。後脚の接地が曖昧"
+      },
+      {
+        "score": 92.37,
+        "engine_score": 80.37,
+        "visual": 6,
+        "notes": "胴は水平だが後躯が低く、後肢の折りたたみが窮屈。前肢は良い"
+      },
+      {
+        "score": 83.49,
+        "engine_score": 75.49,
+        "visual": 4,
+        "notes": "後躯が崩れて座り込んだように見える。立位の目標から外れ、破綻に近い"
+      }
+    ]
+  ]
+}

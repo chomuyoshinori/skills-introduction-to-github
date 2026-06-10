@@ -1,0 +1,90 @@
+[
+  {
+    "id": "0",
+    "image": "assets/characters/dire-wolf/learn/renders/cand_0.png",
+    "engine_score": 82.46,
+    "params": {
+      "body_length_m": 1.0479008140451096,
+      "head_ratio": 0.16561700885296485,
+      "neck_ratio": 0.26465344865896934,
+      "hind_leg_ratio": 0.7252070092214681,
+      "front_leg_ratio": 0.47820844366956633,
+      "body_radius_ratio": 0.13303068873229684,
+      "tail_ratio": 0.3857754851882254,
+      "limb_radius": 0.08,
+      "seg": 6,
+      "neck_pitch_deg": -8.797888917109486,
+      "hip_pitch_deg": 23.901734971886395,
+      "stifle_deg": 92.40012253806763,
+      "hock_deg": 64.86621382779546,
+      "shoulder_pitch_deg": -15.11878186240479,
+      "elbow_deg": 29.966808975099518
+    }
+  },
+  {
+    "id": "1",
+    "image": "assets/characters/dire-wolf/learn/renders/cand_1.png",
+    "engine_score": 82.12,
+    "params": {
+      "body_length_m": 1.0444436893415658,
+      "head_ratio": 0.18758440311922642,
+      "neck_ratio": 0.24801269199923248,
+      "hind_leg_ratio": 0.6876702061191476,
+      "front_leg_ratio": 0.46549744336560595,
+      "body_radius_ratio": 0.13404590128610933,
+      "tail_ratio": 0.3940705060943644,
+      "limb_radius": 0.08,
+      "seg": 6,
+      "neck_pitch_deg": -16.8,
+      "hip_pitch_deg": 18.8597681651716,
+      "stifle_deg": 83.46326874717559,
+      "hock_deg": 45.305729341275125,
+      "shoulder_pitch_deg": -18.28021184643019,
+      "elbow_deg": 33.649026134132434
+    }
+  },
+  {
+    "id": "2",
+    "image": "assets/characters/dire-wolf/learn/renders/cand_2.png",
+    "engine_score": 80.37,
+    "params": {
+      "body_length_m": 1.5108888529441005,
+      "head_ratio": 0.1788021632937452,
+      "neck_ratio": 0.2845034510812041,
+      "hind_leg_ratio": 0.6742767337170358,
+      "front_leg_ratio": 0.46992692669160346,
+      "body_radius_ratio": 0.10984393618086463,
+      "tail_ratio": 0.4612351637005722,
+      "limb_radius": 0.08,
+      "seg": 6,
+      "neck_pitch_deg": -16.575149744006808,
+      "hip_pitch_deg": 1.17032514742324,
+      "stifle_deg": 80.1431310847193,
+      "hock_deg": 63.33472641696527,
+      "shoulder_pitch_deg": -33.19066670780976,
+      "elbow_deg": 35.67557687615002
+    }
+  },
+  {
+    "id": "3",
+    "image": "assets/characters/dire-wolf/learn/renders/cand_3.png",
+    "engine_score": 75.49,
+    "params": {
+      "body_length_m": 1.610913102261772,
+      "head_ratio": 0.17331464372509306,
+      "neck_ratio": 0.28759217311189506,
+      "hind_leg_ratio": 0.6585906124266396,
+      "front_leg_ratio": 0.4845784463546081,
+      "body_radius_ratio": 0.10202236736159231,
+      "tail_ratio": 0.38695948789377077,
+      "limb_radius": 0.08,
+      "seg": 6,
+      "neck_pitch_deg": 0.514385841179863,
+      "hip_pitch_deg": -4.296100415285952,
+      "stifle_deg": 92.91587528547561,
+      "hock_deg": 57.12507922338504,
+      "shoulder_pitch_deg": -36.1,
+      "elbow_deg": 24.730587484865552
+    }
+  }
+]

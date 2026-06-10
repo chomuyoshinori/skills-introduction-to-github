@@ -94,11 +94,43 @@ python scripts/preview/render.py   -- --blend assets/characters/goblin-warrior/h
   （提案側はROMを知らされず、違反を踏んで学んだ）
 - **事前回避**: 149回。学習済み制約が生成前に提案を補正し、無駄な失敗を防いだ
 
+## 四足動物への拡張
+
+`scripts/lib/quadruped.py` はイヌ科の骨格構造を持つ生成器。
+後肢は **大腿 → stifle(膝) → 下腿 → hock(飛節) → 中足** の3節で、
+stifle は伸びきらず hock は逆向きに曲がって見える、というイヌ科の特徴を運動学で再現する。
+`asset.yaml` に `generator: quadruped` / `species: quadruped_canine` と書くだけで
+同じ学習ループ・同じ知識ベース機構がそのまま使える。
+
+実測（dire-wolf, 150試行）: 関節6つのROMが狭いため初期失敗率 22/30 → 学習後 2/30。
+肘 19.8–150.8°（真値 20–150）、hock 29.6–140.1°（真値 30–140）などに収束した。
+
+## AI視覚レビューを報酬に組み込む（Phase 1）
+
+数値評価（目標一致＋ポリ効率）は「見た目の良さ」を測れない。
+`scripts/learn/visual_review.py` がこれを補う:
+
+```bash
+# 1) 上位候補をレンダリングしてレビュー依頼を生成
+python scripts/learn/visual_review.py -- --asset assets/characters/goblin-warrior --top 4
+# 2) AI(agents/modeler.md の役割)が learn/review_scores.json に 0-10 で採点
+# 3) ブレンドして知識ベースを再ランク
+python scripts/learn/visual_review.py -- --asset assets/characters/goblin-warrior --apply
+```
+
+`blended = engine_score + 2.0 × visual(0-10)`。再ランクは top_k / best / sweet spot に
+反映されるため、**次回の optimizer 実行は美的評価の方向へ探索する**。
+
+実測: ゴブリンではエンジン1位(85.8)の候補が腕の不自然さで visual 6 に留まり、
+エンジン2位(85.28)・visual 8 の自然な立ち姿が blended 101.28 で逆転した。
+
+運用上の注意: ブレンド済みベストはエンジンスコア単独では超えにくいため、
+**最適化セッションと視覚レビューを交互に回す**のが想定サイクル。
+
 ## 限界と発展
 
-- これは**ブロッキング（プロポーション）**の自動探索。質感・ディテール・
+- これは**ブロッキング（プロポーション/ポーズ）**の自動探索。質感・ディテール・
   トポロジーの良し悪しは別途人＋AI(`agents/`)が担う。
-- スコア関数は「目標との一致＋ポリ効率」。シルエットの美的評価を入れたい場合は、
-  レンダリング画像を AI(modeler) に採点させて報酬に組み込む拡張が考えられる
-  （`docs/agents.md` の Phase 1 と接続）。
-- 生成器を増やす（顔・手のディテール用パーツ、ボーン）ことで探索空間を拡張できる。
+- 視覚レビューは現状 Claude Code セッション内の AI が担当（ファイル経由の
+  半自動）。Claude API キーがあれば全自動化も可能。
+- 生成器を増やす（顔・手のディテール、鳥型・爬虫類型の骨格）ことで拡張できる。
