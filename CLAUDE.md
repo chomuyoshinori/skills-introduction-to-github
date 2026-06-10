@@ -64,3 +64,11 @@ INVESTMENT_PROFILE.md + LESSONS.md を踏まえる
 1. **分業**: マクロ・個別・セクター・ニュースを専門化し、深さと網羅を両立。
 2. **批判を制度化**: レッドチームを必須ゲートにし、強気論への流されを防ぐ。確信度と反証条件を必ず付す。
 3. **学習し続ける**: 見立てを記録し実績と照合、キャリブレーションを是正して精度を上げ続ける。
+
+---
+
+## 併設プロジェクト: Character & Prop Studio（Blender 3Dモデリング）
+このリポジトリには、投資チームとは別に **Blender + AI の3Dモデリングスタジオ**が同居しています。
+3Dスタジオ側で作業する場合は、まず **[`docs/studio-memory.md`](docs/studio-memory.md)** を
+記憶の入口として読むこと（核心的教訓・アーキテクチャ・再開コマンドを集約）。
+関連: `docs/pipeline.md` / `docs/learning.md` / `assets/characters/` / `scripts/`。
