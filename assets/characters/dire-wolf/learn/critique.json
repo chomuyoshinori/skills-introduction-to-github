@@ -1,7 +1,0 @@
-{
-  "round": 19,
-  "scores": {"silhouette": 9.5, "proportion": 9.5, "pose_naturalness": 9.5, "anatomy_plausibility": 9.5, "game_fit": 9.5},
-  "summary": "課題達成（9.5）。front_reach 採点の追加で前肢が肩の真下に垂直な支柱として接地し、最後の難点が解消。最良案(0)は立ち耳・長い吻・水平な背・深い胸・四肢の paw 接地・指行性の後肢屈曲が全て成立し、獣医解剖学の実測に接地した出荷可能水準のオオカミ。仕上げ(毛・肉球の指・表情)は人＋専門エージェントへ。",
-  "verdict": "ACCEPT",
-  "directives": []
-}
