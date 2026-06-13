@@ -81,6 +81,7 @@ INVESTMENT_PROFILE.md + LESSONS.md を踏まえる
 | `knowledge-engineer` | 企画/エンジニア。知識の構造設計・整形・用語集/チェックリスト等の部品化 |
 | `knowledge-art-director` | アートディレクター。Mermaid/表で概念図・関係図・フローを作図 |
 | `knowledge-ethicist` | 倫理。著作権・引用の妥当性・偏り・誤情報・断定の行き過ぎを点検(必須ゲート) |
+| `knowledge-retrospective` | **学習・改善ループ**。鮮度チェック(陳腐化対策)+想起テスト(間隔反復で忘却対策)+メタ学習蓄積で知識を退化させない |
 
 ## ワークフロー
 ```
@@ -94,7 +95,12 @@ KNOWLEDGE_PROFILE.md + LESSONS.md を踏まえる
 
 ## 使い方
 - `/knowledge` — 対象書籍を知識化。`/knowledge books/part1.pdf` のようにパス指定可。
+- `/knowledge-review` — 蓄積ノートの定期レビュー(鮮度チェック+間隔反復の想起テスト)。`knowledge/reviews/` に学習日報を出力。
 - 書籍が複数パートに分割で届く場合は、**全パートが揃ってから**統合する。
+
+## 学習ループ(知識を退化させない仕組み)
+- 完成ノートは `knowledge/INDEX.md`(台帳)に登録され、間隔反復(1日→1週→1月→3月→6月)の対象になる。
+- `/knowledge-review` で①情報の陳腐化(Web再確認)②記憶の減衰(想起テスト)③学び方の喪失(`KNOWLEDGE_LESSONS.md`)に対処する。
 
 ## 著作権・運用ルール
 - 書籍本文の丸写し・大量転記をしない(要約・再構成のみ。引用は短く・出典明記)。
@@ -103,5 +109,8 @@ KNOWLEDGE_PROFILE.md + LESSONS.md を踏まえる
 
 ## 主要ファイル(知識化)
 - `KNOWLEDGE_PROFILE.md` — 読者像・用途・深さ・形式の設定。**ここを更新するとノートの質感が変わる。**
+- `KNOWLEDGE_LESSONS.md` — 学び方・知識化のメタ知識。全エージェントが作業前に参照。
 - `knowledge/` — 完成した知識ノートの保存先。
+- `knowledge/INDEX.md` — 全ノートの台帳(レビュー予定・想起スコア管理)。
+- `knowledge/reviews/` — 学習レビュー日報の保存先。
 - `books/` — 元のPDF/原稿置き場(Git管理外)。

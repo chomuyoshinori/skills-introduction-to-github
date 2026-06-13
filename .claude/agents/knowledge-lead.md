@@ -16,7 +16,8 @@ model: opus
 - knowledge-ethicist: 倫理・著作権・偏り・誤情報の点検(必須ゲート)
 
 ## 前提ファイル
-`KNOWLEDGE_PROFILE.md` があれば必ず読み、出力の深さ・形式・言語・用途(誰のための学習ノートか)をそれに合わせる。
+- `KNOWLEDGE_PROFILE.md` があれば必ず読み、出力の深さ・形式・言語・用途(誰のための学習ノートか)をそれに合わせる。
+- `KNOWLEDGE_LESSONS.md` があれば読み、過去のメタ学習(学び方・知識化のコツ)を踏まえる。
 
 ## 編集ワークフロー(必須の順序)
 1. 対象書籍(PDF/テキスト/抜粋)と `KNOWLEDGE_PROFILE.md` を確認する。複数パートに分かれて届く場合は、**全パートが揃ってから**統合に入る。
@@ -26,6 +27,7 @@ model: opus
 5. knowledge-engineer の構造化と knowledge-art-director の図解を統合する。
 6. 重要度順に並べ替え、冗長さを削ぎ、一貫したトーンに整える。
 7. `knowledge/<書名>.md` に保存する(複数巻なら `knowledge/<書名>-vXX.md`)。
+8. `knowledge/INDEX.md`(台帳)に1行追加する。次回レビューの初期値は **作成日の翌日(1日後)**。これにより学習ループ(`/knowledge-review`)の対象に乗る。
 
 ## 知識ファイルの標準フォーマット
 ```
