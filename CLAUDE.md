@@ -82,6 +82,7 @@ INVESTMENT_PROFILE.md + LESSONS.md を踏まえる
 | `knowledge-art-director` | アートディレクター。Mermaid/表で概念図・関係図・フローを作図 |
 | `knowledge-ethicist` | 倫理。著作権・引用の妥当性・偏り・誤情報・断定の行き過ぎを点検(必須ゲート) |
 | `knowledge-retrospective` | **学習・改善ループ**。鮮度チェック(陳腐化対策)+想起テスト(間隔反復で忘却対策)+メタ学習蓄積で知識を退化させない |
+| `knowledge-librarian` | **横断検索の司書**。`knowledge/` と日報を串刺し検索し、質問に**出典付き**で回答。関連ノートも提示 |
 
 ## ワークフロー
 ```
@@ -96,7 +97,9 @@ KNOWLEDGE_PROFILE.md + LESSONS.md を踏まえる
 ## 使い方
 - `/knowledge` — 対象書籍を知識化。`/knowledge books/part1.pdf` のようにパス指定可。
 - `/knowledge-review` — 蓄積ノートの定期レビュー(鮮度チェック+間隔反復の想起テスト)。`knowledge/reviews/` に学習日報を出力。
+- `/recall <質問>` — 蓄積した知識ノートと日報を横断検索し、**出典付き**で回答する(自分の知識ベースへの問い合わせ)。
 - 書籍が複数パートに分割で届く場合は、**全パートが揃ってから**統合する。
+- 各ノートは frontmatter(`title`/`分野`/`tags`/`作成日`/`出典書籍`)を持ち、`/recall` の検索精度を高める。
 
 ## 学習ループ(知識を退化させない仕組み)
 - 完成ノートは `knowledge/INDEX.md`(台帳)に登録され、間隔反復(1日→1週→1月→3月→6月)の対象になる。
