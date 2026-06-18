@@ -7,6 +7,18 @@
 > 投資助言(金融商品取引法上の投資助言・代理業)ではありません。将来のリターンを保証するものでも
 > ありません。最終的な投資判断はご自身の責任で行ってください。
 
+---
+
+> 📌 **このリポジトリには2つのエージェントチームがあります。**
+> 1. **日本株 リサーチ・分析チーム**(以下) — `INVESTMENT_PROFILE.md` / `reports/`
+> 2. **🎵 音楽制作チーム(Suno × YouTube/SNS バイラル)** — 詳細は **[`music/README.md`](music/README.md)**。
+>    世界・日本のトレンドとコメントを分析し、**日本語5割・英語5割**のSunoスタイルプロンプトと歌詞を作る。
+>    スラッシュコマンド: `/music-trend-analysis`(傾向分析)・`/make-song`(楽曲制作)・`/music-retrospective`(公開後の学習)。
+>    主要ファイル: `music/MUSIC_PROFILE.md`(方針) / `music/VIRAL_PLAYBOOK.md`(勝ち筋) / `music/songs/`(制作物) / `music/analysis/`(分析)。
+>    エージェント: `music-trend-analyst` `comment-insight-analyst` `viral-strategist` `lyricist` `suno-prompt-engineer` `music-red-team-critic` `music-producer` `release-retrospective-reviewer`。
+
+---
+
 ## チーム構成(`.claude/agents/`)
 | エージェント | 役割 |
 |---|---|
