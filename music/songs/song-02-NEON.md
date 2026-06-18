@@ -26,54 +26,54 @@ city pop chorus hook, 112 BPM, warm female vocal, glossy Rhodes and slap bass, l
 
 ## 4. 歌詞(構造タグ入り・コピペ用)
 ```
-[Intro] (instrumental, 4s — Rhodes + slap bass)
+[Intro]
 
-[Verse 1] (Japanese)
+[Verse 1]
 終電のホーム 君の背中
 言えなかった言葉 ネオンに溶けた
 タクシーの窓 滲む東京
 もう一度だけ 名前を呼んで
 
-[Pre-Chorus] (Japanese)
+[Pre-Chorus]
 夜が浅いうちは まだ夢の続き
 振り向いて お願い
 
-[Chorus] (English hook + Japanese)
+[Chorus]
 Stay with me under the neon lights
 夜が明けるまで そばにいて
 Dancing slow, just you and I
-このまま 時間(とき)を止めて
+このまま ときを止めて
 
-[Verse 2] (Japanese)
+[Verse 2]
 コンビニの灯り 二人分のコーヒー
 強がることだけ 上手くなってく
 ほんとは怖いの 朝が来るのが
 君のいない 世界に戻るのが
 
-[Pre-Chorus] (Japanese)
+[Pre-Chorus]
 指先が触れた 夜のひとかけら
 離さないで ねえ
 
-[Chorus] (English hook + Japanese)
+[Chorus]
 Stay with me under the neon lights
 夜が明けるまで そばにいて
 Dancing slow, just you and I
-このまま 時間(とき)を止めて
+このまま ときを止めて
 
-[Bridge] (English)
+[Bridge]
 City lights are fading, but I'm still here,
 holding on to a love that disappears.
 One more song, let the rhythm stay —
 don't let the morning steal you away.
 
-[Final Chorus] (English hook + Japanese)
+[Chorus]
 Stay with me under the neon lights
 朝が来ても 離さないで
 Dancing slow, just you and I
 ずっと この夜の中で
 
-[Outro] (Japanese, soft)
-ネオンに溶けて、もう一度
+[Outro]
+ネオンに溶けて もう一度
 ```
 
 ## 5. バイラル設計

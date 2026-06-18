@@ -26,54 +26,54 @@ emotional pop anthem, soaring belted female chorus with gospel harmonies, quiet-
 
 ## 4. 歌詞(構造タグ入り・コピペ用)
 ```
-[Intro] (soft piano, short)
+[Intro]
 
-[Verse 1] (Japanese, quiet)
+[Verse 1]
 枯れたと思った 心の隅で
 小さな芽が ふるえて待ってた
 誰にも言えない 夜の涙が
 明日の根っこに なるなんてね
 
-[Pre-Chorus] (Japanese, build)
+[Pre-Chorus]
 顔を上げて ほら
 風が 君を呼んでる
 
-[Chorus] (English soaring + Japanese)
+[Chorus]
 You're gonna bloom, bloom, bloom
 どんな冬も 超えて
 You're gonna shine through the rain
 君は咲く その色で
 
-[Verse 2] (Japanese)
+[Verse 2]
 比べなくていい 誰かの花と
 咲く季節は みんな違うから
 遅くてもいい 不器用でもいい
 君のままで 空を見上げて
 
-[Pre-Chorus] (Japanese, build)
+[Pre-Chorus]
 震える手のひら
 ひとりじゃないよ さあ
 
-[Chorus] (English soaring + Japanese)
+[Chorus]
 You're gonna bloom, bloom, bloom
 どんな冬も 超えて
 You're gonna shine through the rain
 君は咲く その色で
 
-[Bridge] (English)
+[Bridge]
 Even if you fall, even if you break,
 every scar is part of the bloom you'll make.
 Hold my hand, we'll find the light —
 you were never meant to hide.
 
-[Final Chorus] (English soaring + Japanese, biggest)
+[Chorus]
 You're gonna bloom, bloom, bloom
 涙の数 抱いて
 You're gonna shine through the rain
 君は咲く 誇らしく
 
-[Outro] (Japanese, soft)
-咲け、君のままで
+[Outro]
+咲け 君のままで
 ```
 
 ## 5. バイラル設計

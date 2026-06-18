@@ -26,54 +26,54 @@ J-pop jersey club anthem, 150 BPM half-time, explosive female chant hook, punchy
 
 ## 4. 歌詞(構造タグ入り・コピペ用)
 ```
-[Intro - Chant] (English)
+[Intro]
 Mess, mess — I'm a mess, but I'm the best!
 
-[Verse 1] (Japanese)
+[Verse 1]
 鏡の前で 完璧を演じて
 笑顔のメッキ もう剥がれかけてる
 「ちゃんとしなさい」の 声に溺れて
 息ができないまま 朝が来る
 
-[Pre-Chorus] (Japanese)
+[Pre-Chorus]
 もういいや 全部さらけ出して
 傷も連れて 飛ぶよ
 
-[Chorus] (English hook + Japanese punch)
+[Chorus]
 I'm a mess, but I'm the best
 転んだ数が わたしの勲章
 Louder, louder, say it loud
 ちゃんとしてなくて 何が悪い
 
-[Verse 2] (Japanese)
+[Verse 2]
 タイムラインの海で 比べて沈んで
 「いいね」の数に 値踏みされて
 でも わたしの価値 誰が決めんの
 鳴らすの 不協和音のままで
 
-[Pre-Chorus] (Japanese)
+[Pre-Chorus]
 怖くたって いい さあ
 心の音 上げて
 
-[Chorus] (English hook + Japanese punch)
+[Chorus]
 I'm a mess, but I'm the best
 転んだ数が わたしの勲章
 Louder, louder, say it loud
 ちゃんとしてなくて 何が悪い
 
-[Bridge] (English)
+[Bridge]
 When the lights go down and the world feels loud,
 I'll be my own, I'll be loud and proud.
 No more hiding, no more lies —
 this is me, and I'm alive.
 
-[Final Chorus] (English hook + Japanese punch)
+[Chorus]
 I'm a mess, but I'm the best
 転んだ数が わたしの勲章
 Louder, louder, say it loud
 これでいいんだ 何が悪い
 
-[Outro - Chant] (English)
+[Outro]
 Mess, mess — I'm a mess, but I'm the best!
 ```
 
