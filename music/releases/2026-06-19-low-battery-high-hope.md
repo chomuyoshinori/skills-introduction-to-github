@@ -70,6 +70,31 @@ Low, low, low / But I’m still in motion / High, high, hope / でも悪くな�
 - 48hで伸びない本は深追いせず、伸びた本のフォーマットへピボット。コメントには積極返信(エンゲージ加速)。
 - 結果を `music/SONG_LOG.md` に追記 → `/music-retrospective` で次に活かす。
 
+## 10.5 映像(Kling)と説明欄
+
+### アルバムアート(YoshiMusic / 横長16:9)
+- フード姿のクマが横断歩道を歩く+東京タワー+ローバッテリー意匠。**「歩く=無限ループ」**でこの曲のループ性と完全一致。
+- 横長は**YouTubeアルバム動画はOK**。**TikTok/Shorts/Reelsは9:16**へ組み直す(生の16:9は黒帯で不利)。縦の余白は「0秒フックテキスト+カラオケ歌詞」を置く好機=不利ではなくアップグレード。
+
+### 縦化レシピ(CapCut等)
+- 中央=Klingの16:9クリップ(歩くクマ)/ 上=0秒フックテキスト→サビでタイトル / 下=歌詞2行字幕+**バッテリーが減る/満ちる演出をビート同期**。
+- 別案: クマ+東京タワーを9:16トリミングしてKlingで縦生成。
+
+### Kling プロンプト(ループ前提・動き控えめ)
+```
+The hooded bear keeps walking forward across the crosswalk in a steady, gentle stride, looping seamlessly; backpack sways slightly; drawstrings bounce; slow drifting clouds; faint window lights flicker in the city skyline; Tokyo Tower softly twinkles; subtle parallax camera follow; warm vintage risograph texture; calm, cinematic, minimal motion, no morphing limbs, seamless loop
+```
+- 5秒で生成→ループ/延長。3〜5回生成して崩れない版を採用。
+
+### 説明欄テンプレ
+- **YouTubeアルバム動画**: タイトル+一言コンセプト → **Tracklist(0:00始まりでチャプター化)** → 配信リンク → SNSリンク → ハッシュタグ → AI明記。
+- **YouTube Shorts**: `Low battery, high hope 🔋 まだ行けそう` + `Full album → https://youtu.be/h-IaV3lSPv0` + `#Shorts #lofi #citypop #作業用bgm #まだ行けそう`。
+- **TikTok**: 問いかけ+「フル曲はプロフィールから」+ `#LowBatteryHighHope #まだ行けそう #citypop #lofi #fyp`。
+- 既存アルバム動画: https://youtu.be/h-IaV3lSPv0
+
+### AI表示
+- YouTube「改変・合成コンテンツ」開示+説明欄に `Created with Suno/Kling AI` の一言。TikTokは**AIGCラベル**に従う(2025年「AI slop」批判対策)。
+
 ## 10. 最初の1週間アクションプラン
 - Day0: 公式サウンド配信手配 + 1本目投稿(夕日 or コンビニ帰り)+ 固定コメントでCTA。
 - Day1–3: 使用シーン違いを毎日1〜2本。チャレンジの種(自分で2例)を投下。
