@@ -15,22 +15,42 @@
 2. 曲の「…」メニュー →「Download」→「**MP3 Audio**」を選ぶ。
 3. スマホ/PCに曲ファイルが保存される。✅これで素材①完了。
 
-## STEP 2:動く背景を1本つくる(Kling または Luma)
-> 文字が主役なので、背景は「雰囲気」だけ。短い5秒の動きを作って、あとで繰り返す。
+## STEP 2:動く背景を1本つくる(画像先行=おすすめ)
+> テキストから直接動画は精度が低い。**まずChatGPTで「動かない1枚絵」を作り**、それをAIで動かすと、思い通りで崩れにくい。
 
-**いちばん簡単なやり方=テキストから直接動画(Text to Video)**
-1. Kling(またはLuma)にログイン。
-2. 「**Text to Video**(テキストから動画)」を選ぶ。
-3. 下の文章をコピペ:
+### STEP 2A:ChatGPTで背景画像を作る
+1. ChatGPTを開く(画像生成=GPT-4o)。
+2. 下の指示をそのまま送る:
    ```
-   slow first-person POV walk down a neon Tokyo backstreet at night, gentle camera bob like footsteps, neon signs flicker, vending machine glow, wet asphalt reflections, calm cinematic, minimal subtle motion, seamless loop
+   縦長(ポートレート)の画像を1枚作って。
+   内容:夜の東京の裏路地を一人称視点で歩いている構図。ネオンサイン、自販機の光、
+   濡れたアスファルトの反射、奥に横断歩道。手前の下に自分のスニーカーが少しだけ見える。
+   アニメ調のシティポップなイラスト、暖色アンバー＋寒色シアンのネオン、
+   ノスタルジックでエモい雰囲気、フィルムの粒状感。
+   看板やロゴの文字は読めないようにぼかして(文字は入れないで)。
    ```
-4. 縦動画にしたいので、設定で**アスペクト比 9:16(縦)**を選ぶ。長さは**5秒**。
-5. 「Generate(生成)」を押す。1〜数分待つ。
-6. 気に入らなければもう一度生成(3〜5回試して一番きれいなのを選ぶ)。
-7. 良いものができたら**ダウンロード**。✅これで素材②完了。
+3. 出てきた絵を見て、足りなければ言葉で直す:「もっと夜にして」「もっと縦長に」「文字を消して」など。
+4. 気に入ったら**画像を保存(ダウンロード)**。
+   - ポイント:**文字は入れない/ぼかす**(AIの文字は崩れる＆動かすと余計に崩れる)。
+   - 別シーンが欲しい時:「同じ画風で、今度は"雨の日""始発の駅""コンビニ前"」と頼むと統一感が出る。
 
-（応用:先にAIで画像を1枚作って、それを「Image to Video」で動かすと、より思い通りの絵になる。慣れてからでOK）
+### STEP 2B:その画像を動かす(Kling または Luma=Image to Video)
+1. Kling(klingai.com)か Luma にログイン。
+2. 「**Image to Video**(画像から動画)」を選ぶ。
+3. STEP 2Aの**画像をアップロード**。
+4. 動きの指示をコピペ:
+   ```
+   Animate this image: slow first-person forward walk, gentle camera bob like footsteps, neon signs flicker softly, vending machine glow pulses, light reflections shimmer on the wet street, faint drifting steam, keep the original art style, calm cinematic, minimal subtle motion, seamless loop
+   ```
+5. ネガティブ欄があれば:
+   ```
+   morphing, distorted, warping text, jitter, fast motion, scene cut, extra people, melting
+   ```
+6. 長さ**5秒**、できれば**「始点=終点フレームを同じ画像」**に設定(Lumaは**Loop ON**が最速)。
+7. 「Generate」→ 数分待つ。**3〜5回**作って一番崩れない版を選ぶ。
+8. **ダウンロード**。✅これで素材②完了。
+
+（さらに簡単に済ませたい時だけ:Text to Videoで一発生成も可。ただし精度は落ちる）
 
 ## STEP 3:CapCutで合体させる(ここが本番)
 1. CapCutアプリを開く →「**新しいプロジェクト**」。
