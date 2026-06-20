@@ -62,3 +62,51 @@ Low, low, low / But I'm still in motion / High, high, hope / でも悪くない�
 The hooded bear keeps walking forward across the crosswalk in a steady, gentle stride, looping seamlessly; backpack sways slightly; drawstrings bounce; slow drifting clouds; faint window lights flicker in the city skyline; Tokyo Tower softly twinkles; subtle parallax camera follow; warm vintage risograph texture; calm, cinematic, minimal motion, no morphing limbs, seamless loop
 ```
 5秒生成→ループ。手足が崩れない版を3〜5回から選ぶ。
+
+## 7. 動画生成AIでの作り方(実践手順)
+
+### 大前提:2つの方針(Aを強く推奨)
+- **A. アンビエント・ループ(推奨/安定)**: クマは**ほぼその場**(微かな呼吸・体の揺れ・フードの紐・まばたき)＋背景だけ動かす(雲/窓明かり/東京タワーの瞬き)＋ごく緩いカメラ寄り。**始点フレーム=終点フレーム**にして**完全ループ**。AI崩れが最小。曲の穏やかな雰囲気にも最適。
+- **B. 実際に歩かせる(動きは出るが難あり)**: 横移動はループ不可＆崩れやすい。5〜10秒生成→延長で繋ぐ。最後はクロスフェードで誤魔化す。動きが欲しい時だけ。
+
+### Phase 1 — 画像の下ごしらえ(最重要)
+- **タイトル文字をAIに渡さない**。AI動画は文字を激しく歪ませる。→ 元アートから**イラスト部分(クマ＋スカイライン＋東京タワー＋横断歩道)だけをトリミング**して使う。
+- タイトル/バッテリー/歌詞は**後でCapCut等で重ねる**(その方が綺麗＆ループも安定)。
+- 縦案ならこの段階で**クマ＋東京タワーを9:16にトリミング**しておく。
+
+### Phase 2 — Kling での生成
+1. Kling(klingai.com)→ AI Video → **Image to Video**。
+2. 下ごしらえした画像をアップ。
+3. モデル: 最新版の **Professional/高品質**(安定重視ならStandardで速く試す)。
+4. **Duration 5秒**(まず短く)。
+5. **プロンプト(positive)**:
+   ```
+   The hooded bear stands and sways gently in place, breathing softly, drawstrings and backpack swaying a little; slow drifting clouds; faint window lights flicker in the city skyline; Tokyo Tower softly twinkles; very slow subtle camera push-in; warm vintage risograph texture; calm, cinematic, minimal ambient motion, seamless loop
+   ```
+6. **ネガティブプロンプト**:
+   ```
+   walking away, changing position, extra limbs, morphing hands, distorted face, deformed bear, warping lines, flickering, jitter, melting, text, watermark, fast motion, scene cut
+   ```
+7. **始点=終点フレーム**を同じ画像に設定(ループ機能/Start・Endフレーム)。カメラは「静止」か「ごく緩い寄り」。
+8. **Relevance(忠実度)高め**でアートから離れないように。3〜4回生成→崩れない版を採用。
+9. 尺が足りなければ **Extend** で延長、または良い5秒を**CapCutでループ反復**。
+
+### Phase 3 — 9:16に組む(CapCut等)
+- 1080×1920キャンバス。中央にKlingクリップ、上=タイトル/フック、下=歌詞字幕。
+- **バッテリーは映像でなくCapCutで作る**: 赤いバー図形をキーフレームで「脈打つ/満ちる」(§2のタイミング)。文字崩れもループ破綻もしない。
+- 音に字幕を合わせ、最後を頭に繋いでループ書き出し(1080×1920/30fps/字幕焼き込み)。
+
+### 代替AI(用途別・2026時点/各公式で要確認)
+| ツール | 強み | この用途での所感 |
+|---|---|---|
+| **Kling** | 画像→動画の制御・始点終点フレーム | 本命。バランス良。 |
+| **Luma Dream Machine** | **ネイティブのLoop機能** | 完全ループ作りが最速・最強。アンビエント案に好相性。 |
+| **Hailuo / MiniMax** | 低コスト・キャラ/イラストに強い | 数を回して当てる運用に。安い。 |
+| **Runway (Gen-4)** | モーションブラシで部分制御 | 「紐だけ揺らす」等の精密制御向き。やや高め。 |
+| **Pika** | エフェクト・SNS向け | 軽快に試作。 |
+| **Veo / Sora** | 最高品質・音声生成(Veo) | 過剰に動きがち＆高コスト。文字は結局歪む。今回は不要。 |
+
+### 崩れ対策の鉄則
+- **動きは少なく**(cinemagraph発想:雲・光・紐だけ動かしクマは静か)。
+- 文字は絶対にAIに描かせない(後乗せ)。
+- 1発で決めない。**3〜5回生成**して一番崩れない版。必要なら**フレーム補間/アップスケール**(Topaz等)で滑らかに。
