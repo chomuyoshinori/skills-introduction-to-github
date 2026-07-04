@@ -26,6 +26,11 @@
 *.sql
 *.sqlite
 
+# Research team intermediate artifacts #
+#########################################
+# 各アナリストの中間成果物(最終レポートは reports/*.md にコミットされる)
+reports/work/
+
 # OS generated files #
 ######################
 .DS_Store

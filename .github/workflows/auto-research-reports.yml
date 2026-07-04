@@ -5,7 +5,9 @@ name: Auto Research Reports
 #  1) スケジュール(cron)は GitHub の仕様上「デフォルトブランチ(main)にこのファイルがある時のみ」発火します。
 #     → 自動化を有効にするには、このワークフローを main にマージしてください。
 #  2) リポジトリの Settings → Secrets and variables → Actions に `ANTHROPIC_API_KEY` を登録してください。
-#  3) サブエージェント多数 + Web検索のため、1回の実行で相応の API 利用料が発生します。
+#  3) サブエージェント多数 + Web検索のため、1回の実行で相応の API 利用料が発生します
+#     (レッドチームは opus 使用のため従来より品質重視・高コスト。抑えたい場合は
+#      .claude/agents/red-team-critic.md の model を sonnet に戻してください)。
 #  4) cron は UTC 表記です(JST = UTC+9)。
 
 on:
@@ -22,9 +24,16 @@ on:
         type: choice
         options: [jp, us, crypto]
 
+# 連続する cron(22:00 の米国株と 23:00 の暗号資産など)が重なって
+# 同時にコミット・プッシュして衝突しないよう、直列実行にする。
+concurrency:
+  group: auto-research-reports
+  cancel-in-progress: false
+
 jobs:
   report:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     permissions:
       contents: write        # reports/ をコミット・プッシュするため
     steps:
@@ -61,7 +70,7 @@ jobs:
           claude -p "${{ steps.sel.outputs.cmd }}" \
             --dangerously-skip-permissions \
             --allowedTools "Task,WebSearch,WebFetch,Read,Write,Edit,Bash,Glob,Grep" \
-            --max-turns 80
+            --max-turns 150
 
       - name: Commit & push report
         run: |
@@ -70,7 +79,14 @@ jobs:
           git add reports/ DECISION_LOG.md LESSONS.md
           if git diff --cached --quiet; then
             echo "変更なし。コミットをスキップします。"
-          else
-            git commit -m "auto: ${{ steps.sel.outputs.cmd }} $(date -u +%Y-%m-%d)"
-            git push
+            exit 0
           fi
+          git commit -m "auto: ${{ steps.sel.outputs.cmd }} $(date -u +%Y-%m-%d)"
+          # 実行中に他のコミットが入っていても失敗しないよう、リベースしてからプッシュ(最大3回)
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            echo "push 失敗 (${i}回目)。5秒後に再試行します。"
+            sleep 5
+          done
+          echo "::error::プッシュに3回失敗しました"
+          exit 1

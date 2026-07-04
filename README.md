@@ -8,21 +8,35 @@ Claude Code エージェントチームです。**批判的検証(レッドチ�
 > 最終的な投資判断はご自身の責任で行ってください。
 
 ## クイックスタート
-1. `INVESTMENT_PROFILE.md` を開き、ウォッチリスト銘柄・注目テーマを記入する。
+1. `INVESTMENT_PROFILE.md` を開き、保有銘柄・ウォッチリスト・注目テーマを記入する。
 2. Claude Code で `/daily-report` を実行 → 当日の日次レポートが `reports/YYYY-MM-DD.md` に生成される。
    - 銘柄指定も可: `/daily-report 6758 ソニーグループ`
-3. 定期的に `/retrospective` を実行 → 過去の見立てを実績と照合し、教訓を `LESSONS.md` に蓄積。
+   - 米国株は `/us-report`、暗号資産(高リスク枠)は `/crypto-report`
+3. 定期的に `/retrospective` を実行 → 過去の見立てを実績と照合し、確信度のキャリブレーションを測って教訓を `LESSONS.md` に蓄積。
 
 ## チーム
-マクロ / ニュース / セクター・テーマ / 個別株 の4アナリスト + **レッドチーム(批判検証)** +
-**振り返り担当(学習)** + **編集長(統括)** の構成です。詳しくは [`CLAUDE.md`](./CLAUDE.md) を参照。
+マクロ / ニュース / セクター・テーマ / 日本個別株 / 米国個別株 / 暗号資産 の6アナリスト +
+**レッドチーム(データ監査・批判検証の必須ゲート)** + **振り返り担当(学習)** + **編集長(統括)** の構成です。
+詳しくは [`CLAUDE.md`](./CLAUDE.md) を参照。
+
+### 品質のための仕組み
+- **データ監査**: 数値・日付・計算(PER等)をレッドチームが毎回検証し、誤りは差し戻し。
+- **確信度+反証条件**: すべての見立てに4段階の確信度と「どうなったら間違いか」を付す。
+- **宿題の持ち越し管理**: 「検証予定」の期日が来た項目を毎回追跡し、放置しない。
+- **学習ループ**: 確信度段階ごとの的中率を集計し、繰り返す失敗は手順書の修正まで提案。
 
 ## ディレクトリ
 ```
-.claude/agents/      … 7体のエージェント定義
-.claude/commands/    … /daily-report, /retrospective
-INVESTMENT_PROFILE.md… 投資家プロファイル(ここを編集)
-DECISION_LOG.md      … 見立ての記録
-LESSONS.md           … 蓄積された教訓
-reports/             … 日次レポート
+.claude/agents/       … 9体のエージェント定義
+.claude/commands/     … /daily-report, /us-report, /crypto-report, /retrospective
+INVESTMENT_PROFILE.md … 日本株の投資家プロファイル(ここを編集)
+US_EQUITY_PROFILE.md  … 米国株プロファイル(株式枠・中リスク統合)
+CRYPTO_PROFILE.md     … 暗号資産プロファイル(高リスク枠)
+DECISION_LOG.md       … 見立ての記録(確信度・反証条件・検証予定)
+LESSONS.md            … 蓄積された教訓
+reports/              … 日次レポート(reports/work/ は中間成果物・コミット対象外)
 ```
+
+## 自動実行
+`.github/workflows/auto-research-reports.yml` を main にマージし、Secrets に `ANTHROPIC_API_KEY` を
+登録すると、平日大引け後(日本株)・米国引け後(米国株)・毎朝(暗号資産)に自動でレポートが生成されます。

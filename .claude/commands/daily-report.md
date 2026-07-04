@@ -5,17 +5,21 @@ description: 日本株の日次リサーチレポートをチーム総出で作�
 日本株の日次リサーチレポートを、リサーチ・分析チームを使って作成してください。
 
 ## 手順
-1. まず `INVESTMENT_PROFILE.md` と `LESSONS.md` を読み、投資家の前提と過去の教訓を踏まえる。
-2. 以下のアナリストを **並行して** 起動し、本日(または直近営業日)の情報を収集・分析させる:
-   - `macro-market-analyst` → マーケット概況
-   - `news-curator` → 本日のニュース
-   - `sector-theme-analyst` → セクター・テーマ動向
-   - `equity-analyst` → ウォッチリスト銘柄の分析($ARGUMENTS で銘柄指定があればそれを対象に。なければ INVESTMENT_PROFILE.md のウォッチリスト)
-3. 4名の出力が揃ったら、`red-team-critic` に**全出力をまとめて渡して批判的検証**を行わせる(これは必須ゲート。飛ばさない)。
-4. `report-editor` を起動し、全アナリストの出力＋レッドチームの指摘を統合させ、`reports/YYYY-MM-DD.md` に保存、主要な見立てを `DECISION_LOG.md` に追記させる。
-5. 最後に、完成レポートの「今日の要点(3行)」と「最も注意すべき点」をチャットに要約する。
+1. **日付の確定**: 今日の日付(JST)を確認し、`DATE=YYYY-MM-DD` とする。土日祝なら「データ基準日は直近営業日」であることを以降の全エージェントに伝える。作業ディレクトリ `reports/work/DATE/` を使う。
+2. **前提の読み込み**: `INVESTMENT_PROFILE.md`(保有銘柄・株数)と `LESSONS.md` を読む。さらに `DECISION_LOG.md` から「検証予定」の期日が到来している未検証項目を抽出し、宿題リストとして控える。
+3. **4アナリストを1つのメッセージで並行起動**する。各エージェントへのプロンプトには必ず「今日の日付とデータ基準日」「出力先ファイルパス」「関連する宿題」を含める:
+   - `macro-market-analyst` → `reports/work/DATE/macro.md`
+   - `news-curator` → `reports/work/DATE/news.md`
+   - `sector-theme-analyst` → `reports/work/DATE/sector.md`
+   - `equity-analyst` → `reports/work/DATE/equity.md`($ARGUMENTS で銘柄指定があればそれを対象に。なければ INVESTMENT_PROFILE.md の保有銘柄+ウォッチリストをウェイト順に)
+4. **レッドチーム検証(必須ゲート。飛ばさない)**: 4名の出力が揃ったら `red-team-critic` を起動し、作業ディレクトリの4ファイルを読ませて検証させる(出力先: `reports/work/DATE/redteam.md`)。データ監査(日付整合・重要数値の一次ソース照合・導出値の検算)と宿題チェックを必ず含めるよう指示する。
+5. **差し戻しループ(最大1回)**: レッドチームが「要差し戻し」と判定した場合のみ、対象アナリストに具体的な指摘を渡して該当部分を修正させ、修正版を `redteam.md` に追記反映させる。1回で収束しなければ未解決論点としてそのまま編集長に渡す(無限ループにしない)。
+6. **統合**: `report-editor` を起動し、`reports/work/DATE/` の全ファイルを読ませて統合させる。`reports/DATE.md` に保存、主要な見立てを `DECISION_LOG.md` に追記、「未解決の宿題」セクションを必ず設けさせる。
+7. **完了確認**: `reports/DATE.md` が存在し、DECISION_LOG.md が追記されていることを確認する。欠けていれば report-editor に完了させる。
+8. **チャット報告**: 完成レポートの「今日の要点(3行)」「最も注意すべき点」「レッドチームが修正したデータ誤り(あれば)」を要約する。
 
 ## 注意
 - 引数 `$ARGUMENTS` に銘柄(社名/証券コード)が渡されたら、個別株分析の対象にする。
 - 本レポートは情報整理であり投資助言ではない旨を、レポート冒頭に必ず明記する。
 - 数値は出典・時点を残し、未確認のものは断定しない。
+- `reports/work/` は中間成果物置き場(コミット対象外)。最終成果物は `reports/DATE.md` と DECISION_LOG.md の追記。
