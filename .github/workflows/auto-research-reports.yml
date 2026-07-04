@@ -6,15 +6,17 @@ name: Auto Research Reports
 #     → 自動化を有効にするには、このワークフローを main にマージしてください。
 #  2) リポジトリの Settings → Secrets and variables → Actions に `ANTHROPIC_API_KEY` を登録してください。
 #  3) サブエージェント多数 + Web検索のため、1回の実行で相応の API 利用料が発生します
-#     (レッドチームは opus 使用のため従来より品質重視・高コスト。抑えたい場合は
-#      .claude/agents/red-team-critic.md の model を sonnet に戻してください)。
+#     (レッドチームは品質重視で opus を使用。コストを抑えたい場合は
+#      .claude/agents/red-team-critic.md の model を sonnet に変更してください)。
 #  4) cron は UTC 表記です(JST = UTC+9)。
+#  5) 東証の大引けは 15:30 JST(2024年11月以降)。日本株レポートは終値確定後の 16:00 JST に実行します。
 
 on:
   schedule:
-    - cron: '0 6 * * 1-5'    # 平日 06:00 UTC = 15:00 JST(日本市場 大引け後)→ 日本株
-    - cron: '0 22 * * 1-5'   # 平日 22:00 UTC = 翌07:00 JST(米国市場 引け後)→ 米国株
-    - cron: '0 23 * * *'     # 毎日 23:00 UTC = 翌08:00 JST(24時間市場)→ 暗号資産
+    - cron: '0 7 * * 1-5'    # 平日 07:00 UTC = 16:00 JST(大引け15:30の終値確定後)→ 日本株
+    - cron: '0 22 * * 1-5'   # 平日 22:00 UTC = 翌朝07:00 JST(米国市場引け後。JSTでは火〜土曜の朝)→ 米国株
+    - cron: '0 23 * * *'     # 毎日 23:00 UTC = 翌朝08:00 JST(24時間市場)→ 暗号資産
+    - cron: '0 0 * * 6'      # 毎週土曜 00:00 UTC = 09:00 JST → 振り返り(学習ループ)
   workflow_dispatch:          # 手動実行(テスト用)。下のドロップダウンで対象を選ぶ。
     inputs:
       report:
@@ -22,7 +24,7 @@ on:
         required: true
         default: jp
         type: choice
-        options: [jp, us, crypto]
+        options: [jp, us, crypto, retro]
 
 # 連続する cron(22:00 の米国株と 23:00 の暗号資産など)が重なって
 # 同時にコミット・プッシュして衝突しないよう、直列実行にする。
@@ -33,7 +35,7 @@ concurrency:
 jobs:
   report:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     permissions:
       contents: write        # reports/ をコミット・プッシュするため
     steps:
@@ -52,31 +54,36 @@ jobs:
         id: sel
         run: |
           case "${{ github.event.schedule }}" in
-            "0 6 * * 1-5")  echo "cmd=/daily-report"  >> "$GITHUB_OUTPUT" ;;
+            "0 7 * * 1-5")  echo "cmd=/daily-report"  >> "$GITHUB_OUTPUT" ;;
             "0 22 * * 1-5") echo "cmd=/us-report"     >> "$GITHUB_OUTPUT" ;;
             "0 23 * * *")   echo "cmd=/crypto-report" >> "$GITHUB_OUTPUT" ;;
+            "0 0 * * 6")    echo "cmd=/retrospective" >> "$GITHUB_OUTPUT" ;;
             *)  # 手動実行(workflow_dispatch)
               case "${{ github.event.inputs.report }}" in
                 us)     echo "cmd=/us-report"     >> "$GITHUB_OUTPUT" ;;
                 crypto) echo "cmd=/crypto-report" >> "$GITHUB_OUTPUT" ;;
+                retro)  echo "cmd=/retrospective" >> "$GITHUB_OUTPUT" ;;
                 *)      echo "cmd=/daily-report"  >> "$GITHUB_OUTPUT" ;;
               esac ;;
           esac
 
+      # --allowedTools に列挙したツールのみ自動許可される(それ以外は拒否)。
+      # Bash はエージェントの用途(python3 での検算・日付確認)に限定する。
       - name: Run research team (headless)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           claude -p "${{ steps.sel.outputs.cmd }}" \
-            --dangerously-skip-permissions \
-            --allowedTools "Task,WebSearch,WebFetch,Read,Write,Edit,Bash,Glob,Grep" \
+            --allowedTools "Task,WebSearch,WebFetch,Read,Write,Edit,Glob,Grep,Bash(python3:*),Bash(date:*),Bash(mkdir:*)" \
             --max-turns 150
 
+      # 実行が途中で打ち切られても、生成済みのレポートは回収してコミットする。
       - name: Commit & push report
+        if: always()
         run: |
           git config user.name  "research-bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add reports/ DECISION_LOG.md LESSONS.md
+          git add reports/ DECISION_LOG*.md LESSONS.md
           if git diff --cached --quiet; then
             echo "変更なし。コミットをスキップします。"
             exit 0
