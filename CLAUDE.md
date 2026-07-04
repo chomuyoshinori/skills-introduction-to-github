@@ -98,6 +98,7 @@ KNOWLEDGE_PROFILE.md + LESSONS.md を踏まえる
 - `/knowledge` — 対象書籍を知識化。`/knowledge books/part1.pdf` のようにパス指定可。
 - `/knowledge-review` — 蓄積ノートの定期レビュー(鮮度チェック+間隔反復の想起テスト)。`knowledge/reviews/` に学習日報を出力。
 - `/recall <質問>` — 蓄積した知識ノートと日報を横断検索し、**出典付き**で回答する(自分の知識ベースへの問い合わせ)。
+- `/apply <テーマ>` — 蓄積ノートを**仕事で使える道具**(チェックリスト/テンプレ/判断基準/手順書)に変換し `knowledge/applied/` に保存する(知識→行動変換)。
 - 書籍が複数パートに分割で届く場合は、**全パートが揃ってから**統合する。
 - 各ノートは frontmatter(`title`/`分野`/`tags`/`作成日`/`出典書籍`)を持ち、`/recall` の検索精度を高める。
 
@@ -115,5 +116,7 @@ KNOWLEDGE_PROFILE.md + LESSONS.md を踏まえる
 - `KNOWLEDGE_LESSONS.md` — 学び方・知識化のメタ知識。全エージェントが作業前に参照。
 - `knowledge/` — 完成した知識ノートの保存先。
 - `knowledge/INDEX.md` — 全ノートの台帳(レビュー予定・想起スコア管理)。
+- `knowledge/BACKLOG.md` — 蔵書トリアージ台帳。「仕事に効く本」から知識化するための優先度・状態管理(未→ノート化済→適用済)。
+- `knowledge/applied/` — 知識から変換した実務の道具の保存先(`/apply` の成果物)。
 - `knowledge/reviews/` — 学習レビュー日報の保存先。
 - `books/` — 元のPDF/原稿置き場(Git管理外)。

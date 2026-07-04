@@ -9,7 +9,7 @@ description: 蓄積した知識ノート(knowledge/)と日報を横断検索し�
 
 ## 手順
 1. `knowledge-librarian` を起動する。
-2. 司書は `knowledge/INDEX.md`(台帳)→ `knowledge/*.md` → `日報/`(または `reports/`, `knowledge/reviews/`)の順で横断検索する。
+2. 司書は `knowledge/INDEX.md`(台帳)→ `knowledge/*.md`(`knowledge/applied/*.md` の道具も含む)→ `日報/`(または `reports/`, `knowledge/reviews/`)の順で横断検索する。
 3. キーワードは言い換え・関連語に展開して取りこぼしを減らす。frontmatter の `tags:`/`分野:` でも絞る。
 4. **出典(どのノートのどこ)付き**で回答し、関連ノートも提示する。
 5. ノートで埋まらない部分は「ノートにない」と明示し、必要時のみWebで補う(出典・時点つき)。
