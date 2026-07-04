@@ -17,6 +17,7 @@ on:
     - cron: '0 22 * * 1-5'   # 平日 22:00 UTC = 翌朝07:00 JST(米国市場引け後。JSTでは火〜土曜の朝)→ 米国株
     - cron: '0 23 * * *'     # 毎日 23:00 UTC = 翌朝08:00 JST(24時間市場)→ 暗号資産
     - cron: '0 0 * * 6'      # 毎週土曜 00:00 UTC = 09:00 JST → 振り返り(学習ループ)
+    - cron: '0 1 1 * *'      # 毎月1日 01:00 UTC = 10:00 JST → ポートフォリオリスク定量点検
   workflow_dispatch:          # 手動実行(テスト用)。下のドロップダウンで対象を選ぶ。
     inputs:
       report:
@@ -24,7 +25,7 @@ on:
         required: true
         default: jp
         type: choice
-        options: [jp, us, crypto, retro]
+        options: [jp, us, crypto, retro, risk]
 
 # 連続する cron(22:00 の米国株と 23:00 の暗号資産など)が重なって
 # 同時にコミット・プッシュして衝突しないよう、直列実行にする。
@@ -58,11 +59,13 @@ jobs:
             "0 22 * * 1-5") echo "cmd=/us-report"     >> "$GITHUB_OUTPUT" ;;
             "0 23 * * *")   echo "cmd=/crypto-report" >> "$GITHUB_OUTPUT" ;;
             "0 0 * * 6")    echo "cmd=/retrospective" >> "$GITHUB_OUTPUT" ;;
+            "0 1 1 * *")    echo "cmd=/portfolio-risk" >> "$GITHUB_OUTPUT" ;;
             *)  # 手動実行(workflow_dispatch)
               case "${{ github.event.inputs.report }}" in
                 us)     echo "cmd=/us-report"     >> "$GITHUB_OUTPUT" ;;
                 crypto) echo "cmd=/crypto-report" >> "$GITHUB_OUTPUT" ;;
                 retro)  echo "cmd=/retrospective" >> "$GITHUB_OUTPUT" ;;
+                risk)   echo "cmd=/portfolio-risk" >> "$GITHUB_OUTPUT" ;;
                 *)      echo "cmd=/daily-report"  >> "$GITHUB_OUTPUT" ;;
               esac ;;
           esac
@@ -83,7 +86,7 @@ jobs:
         run: |
           git config user.name  "research-bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add reports/ DECISION_LOG*.md LESSONS.md
+          git add reports/ theses/ DECISION_LOG*.md LESSONS.md
           if git diff --cached --quiet; then
             echo "変更なし。コミットをスキップします。"
             exit 0

@@ -52,13 +52,21 @@ TEAM_STANDARDS.md(共通規律)+ プロファイル + LESSONS.md + DECISION_LOG.
 - `/daily-report` — 日本株の日次レポート。`/daily-report 6758 ソニーG` のように銘柄指定も可。
 - `/us-report` — 米国株(株式枠・中リスク統合)。`/us-report NVDA` のように銘柄指定も可。
 - `/crypto-report` — 暗号資産(高リスク枠)。`/crypto-report BTC ETH` のように銘柄指定も可。
+- `/earnings` — 保有銘柄の決算プレビュー/レビュー。テーゼと照合し結果を記録する。`/earnings 6594` のように銘柄指定も可。
+- `/portfolio-risk` — 相関実測・ウェイト・テーマ集中の定量点検(python3計算)。「分散の錯覚」を数字で判定する。
 - `/retrospective` — 過去の見立てを実績と照合し、キャリブレーション集計と教訓蓄積を行う。
+- `/improve-team` — 蓄積された手順書の改善提案を人間レビュー付きのPRに変換する(自己改善ループ)。
+
+## 銘柄テーゼ集(`theses/`)— チームの蓄積資産
+保有銘柄ごとの「なぜ持つのか(テーゼ)・反証条件・見立ての変遷」の原本。運用ルールは `theses/README.md`。
+- 各アナリストは分析前に対象銘柄のテーゼを読み、**差分分析の基準**にする(毎回ゼロから調べ直さない)。
+- テーゼの更新は**レッドチーム検証を通過した後**に report-editor だけが行う。「見立ての変遷」は追記式で過去を書き換えない。
 
 ## 自動実行(GitHub Actions)
 `.github/workflows/auto-research-reports.yml` が cron で自動生成・コミットする。
-- 日本株: 平日 16:00 JST(大引け15:30の終値確定後) / 米国株: 米国営業日の翌朝07:00 JST(JSTでは火〜土曜) / 暗号資産: 毎日 08:00 JST / 振り返り: 毎週土曜 09:00 JST
+- 日本株: 平日 16:00 JST(大引け15:30の終値確定後) / 米国株: 米国営業日の翌朝07:00 JST(JSTでは火〜土曜) / 暗号資産: 毎日 08:00 JST / 振り返り: 毎週土曜 09:00 JST / リスク定量点検: 毎月1日 10:00 JST
 - **有効化の条件**: ①このワークフローを **main にマージ**(cronはデフォルトブランチでのみ発火) ②リポジトリ Secrets に **`ANTHROPIC_API_KEY`** を登録。
-- 手動テストは Actions タブの「Run workflow」(対象 jp/us/crypto/retro を選択)。
+- 手動テストは Actions タブの「Run workflow」(対象 jp/us/crypto/retro/risk を選択)。
 - ⚠️ サブエージェント多数+Web検索のため実行ごとに API 利用料が発生する。レッドチームは `opus` 使用(コストを抑える場合は `.claude/agents/red-team-critic.md` の `model:` を `sonnet` に変更)。
 
 ## 資産クラスとリスク枠
@@ -67,6 +75,7 @@ TEAM_STANDARDS.md(共通規律)+ プロファイル + LESSONS.md + DECISION_LOG.
 
 ## 主要ファイル
 - `TEAM_STANDARDS.md` — チーム共通規律の原本(データ規律・確信度・報告方法)。
+- `theses/` — 銘柄テーゼ集(なぜ持つのか・反証条件・見立ての変遷)。**時間とともに価値が増す蓄積資産。**
 - `INVESTMENT_PROFILE.md` — 日本株プロファイル(スタイル・保有銘柄・注目テーマ)。**ここを更新すると分析の方向が変わる。**
 - `US_EQUITY_PROFILE.md` / `CRYPTO_PROFILE.md` — 米国株・暗号資産のプロファイル。
 - `DECISION_LOG.md` — 未検証の見立ての記録(確信度・反証条件・検証予定)。検証済みは `DECISION_LOG_ARCHIVE.md` へ。

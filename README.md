@@ -21,25 +21,31 @@ Claude Code エージェントチームです。**批判的検証(レッドチ�
 
 ### 品質のための仕組み
 - **共通規律の一元化**: データ規律・確信度のルールは `TEAM_STANDARDS.md` の1箇所が原本(ルールのばらつきを防ぐ)。
+- **銘柄テーゼ集(`theses/`)**: 保有銘柄ごとの「なぜ持つのか・反証条件・見立ての変遷」の原本。日々の分析はテーゼとの差分で行い、時間とともに蓄積される。
 - **データ監査**: 数値・日付・計算(PER等)をレッドチームが毎回検証し、誤りは差し戻し。
 - **確信度+反証条件**: すべての見立てに4段階の確信度と「どうなったら間違いか」を付す。
 - **宿題の持ち越し管理**: 「検証予定」の期日が来た項目を毎回追跡し、放置しない。
-- **学習ループ**: 確信度段階ごとの的中率を集計し、繰り返す失敗は手順書の修正まで提案。
+- **リスクの定量化**: `/portfolio-risk` が相関・ウェイト・テーマ集中を実測し、「分散の錯覚」を数字で判定(月次自動)。
+- **決算イベント駆動**: `/earnings` が決算前後にテーゼと結果を照合し、的中/外れを記録。
+- **学習ループ**: 確信度段階ごとの的中率を集計し、繰り返す失敗は手順書の修正案として蓄積 → `/improve-team` が人間レビュー付きPRに変換(自己改善)。
 
 ## ディレクトリ
 ```
 .claude/agents/       … 9体のエージェント定義
-.claude/commands/     … /daily-report, /us-report, /crypto-report, /retrospective
+.claude/commands/     … /daily-report, /us-report, /crypto-report, /earnings,
+                        /portfolio-risk, /retrospective, /improve-team
 TEAM_STANDARDS.md     … チーム共通規律の原本(データ規律・確信度・報告方法)
+theses/               … 銘柄テーゼ集(なぜ持つのか・反証条件・見立ての変遷)★蓄積資産
 INVESTMENT_PROFILE.md … 日本株の投資家プロファイル(ここを編集)
 US_EQUITY_PROFILE.md  … 米国株プロファイル(株式枠・中リスク統合)
 CRYPTO_PROFILE.md     … 暗号資産プロファイル(高リスク枠)
 DECISION_LOG.md       … 未検証の見立ての記録(検証済みは DECISION_LOG_ARCHIVE.md へ)
-LESSONS.md            … 蓄積された教訓
+LESSONS.md            … 蓄積された教訓+手順書の改善提案
 reports/              … レポート(reports/work/ は中間成果物・コミット対象外)
 ```
 
 ## 自動実行
 `.github/workflows/auto-research-reports.yml` を main にマージし、Secrets に `ANTHROPIC_API_KEY` を登録すると:
-- 日本株: 平日 16:00 JST(大引け後) / 米国株: 米国営業日の翌朝 07:00 JST / 暗号資産: 毎日 08:00 JST / 振り返り: 毎週土曜 09:00 JST
+- 日本株: 平日 16:00 JST(大引け後) / 米国株: 米国営業日の翌朝 07:00 JST / 暗号資産: 毎日 08:00 JST
+- 振り返り: 毎週土曜 09:00 JST / リスク定量点検: 毎月1日 10:00 JST
 に自動でレポートが生成・コミットされます。
