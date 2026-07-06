@@ -24,6 +24,7 @@
 - `amazon-sp-ads-playbook.md` … SP広告の基礎運用（設定/オート→マニュアル/除外/入札予算/30日計画）
 - `amazon-dekajuu-playbook.md` … 「デカ重」戦略（FBA制限＝参入障壁を武器にする当事業の中核戦略・事例15件）
 - `product-proposal-template.md` … 商品提案書の7章テンプレート（商品候補はこの型でアウトプットする）
+- `amazon-research-lessons.md` … リサーチの教訓集（型は真似てOK/商品はNG・中ヒット＋不満・レビュー操作NG・残る利益・商標の順番）
 
 中国OEM×Amazon の特に重要な判断軸：
 
