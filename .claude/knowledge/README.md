@@ -21,6 +21,7 @@
 | `amazon-sns-playbook.md` | SNS（Instagram）外部集客 | アルゴリズム効果、リール構成、3ヶ月継続、ステマ規制 |
 | `amazon-ai-automation-playbook.md` | AIで全業務を効率化・自動化 | A10/COSMO/Rufus、ページ/広告/在庫/CSのAI化、30日プラン |
 | `amazon-cvr-playbook.md` | 画像・A+・LP・動画でCVR向上 | メイン規約/8枚ストーリー、A+、ブランドストア、動画構成 |
+| `amazon-oem-ai-playbook.md` | OEM全工程のAI武器化 | 中国語工場交渉/仕様書AI生成、出品コスト1/10、AI禁止3判断、3ヶ月計画 |
 
 ## 関連する共有の仕組み
 

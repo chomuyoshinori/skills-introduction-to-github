@@ -20,6 +20,7 @@
 - `amazon-sns-playbook.md` … SNS（Instagram）外部集客で広告依存を脱却する手法
 - `amazon-ai-automation-playbook.md` … ChatGPT/Claude API/Helium10等でAmazon全業務をAI効率化・自動化する手法
 - `amazon-cvr-playbook.md` … 商品画像・A+・ブランドストア・動画でCVR（転換率）を上げる手法
+- `amazon-oem-ai-playbook.md` … 中国OEMの全工程（リサーチ/工場交渉/出品/広告）をAIで武器化する手法
 
 中国OEM×Amazon の特に重要な判断軸：
 
