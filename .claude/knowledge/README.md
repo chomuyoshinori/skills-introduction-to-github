@@ -22,6 +22,9 @@
 | `amazon-ai-automation-playbook.md` | AIで全業務を効率化・自動化 | A10/COSMO/Rufus、ページ/広告/在庫/CSのAI化、30日プラン |
 | `amazon-cvr-playbook.md` | 画像・A+・LP・動画でCVR向上 | メイン規約/8枚ストーリー、A+、ブランドストア、動画構成 |
 | `amazon-oem-ai-playbook.md` | OEM全工程のAI武器化 | 中国語工場交渉/仕様書AI生成、出品コスト1/10、AI禁止3判断、3ヶ月計画 |
+| `amazon-sp-ads-playbook.md` | SP広告の基礎運用 | オート→マニュアル王道、除外設定、ACoS≦利益率、30日プラン |
+| `amazon-dekajuu-playbook.md` | デカ重戦略（中核戦略） | FBA制限＝参入障壁、5カテゴリー15事例、選定5チェック、物流インフラ |
+| `product-proposal-template.md` | 商品提案書の型 | 7章構成（概要/利益/競合比較/レビュー改善/工場打診/展開） |
 
 ## 関連する共有の仕組み
 

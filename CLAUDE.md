@@ -21,6 +21,9 @@
 - `amazon-ai-automation-playbook.md` … ChatGPT/Claude API/Helium10等でAmazon全業務をAI効率化・自動化する手法
 - `amazon-cvr-playbook.md` … 商品画像・A+・ブランドストア・動画でCVR（転換率）を上げる手法
 - `amazon-oem-ai-playbook.md` … 中国OEMの全工程（リサーチ/工場交渉/出品/広告）をAIで武器化する手法
+- `amazon-sp-ads-playbook.md` … SP広告の基礎運用（設定/オート→マニュアル/除外/入札予算/30日計画）
+- `amazon-dekajuu-playbook.md` … 「デカ重」戦略（FBA制限＝参入障壁を武器にする当事業の中核戦略・事例15件）
+- `product-proposal-template.md` … 商品提案書の7章テンプレート（商品候補はこの型でアウトプットする）
 
 中国OEM×Amazon の特に重要な判断軸：
 
