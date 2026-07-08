@@ -49,6 +49,7 @@ DIYで判明した既製ケースの不満点を製品仕様で解消するこ�
 | `SPEC-05_accessories.md` | 温湿度計・フック・トレイ等 |
 | `VERIFICATION.md` | 試作評価・FAI・安全性試験(自社製品版) |
 | `COMPLIANCE.md` | PSE・家具安全・ガラス・PL(自社製品版) |
+| `MARKETING.md` | 競合分析・SWOT・ターゲット・訴求コピー・チャネル戦略 |
 
 ## 5. 設計方針(共通)
 
