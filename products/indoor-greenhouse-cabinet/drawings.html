@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"></head><body><title>グロウキャビネット 設計図 v0.3.1</title>
+<!doctype html><html><head><meta charset="utf-8"></head><body><title>グロウキャビネット 設計図 v0.4</title>
 <style>
   :root { --pg: #E9EDE7; --ink: #1D2B21; --mut: #5A6A5E; }
   @media (prefers-color-scheme: dark) { :root { --pg: #10160F; --ink: #E7EFE7; --mut: #97A99B; } }
@@ -51,23 +51,23 @@
 
 <div class="wrap">
   <h1>グロウキャビネット 一次設計図</h1>
-  <p class="sub">図面セット <b>GRC-DWG v0.3.1</b> / 2026-07-08(P1穴を背面両角へ移動・EBOX中央配置・LEDリード1.0m化) / 単位: mm / 外形は<b>RUDSTAワイド同寸(800×370×総高1200)に確定</b>。
+  <p class="sub">図面セット <b>GRC-DWG v0.4</b> / 2026-07-08(機器ベイ廃止→背面ユーティリティポケット化・天板無孔・庫内高1020。RUDSTA取説を参照した構造改訂) / 単位: mm / 外形は<b>RUDSTAワイド同寸(800×370×総高1200)に確定</b>。
   本図はRFQ・試作用の一次設計図であり、製造図面(DXF/STEP)はサプライヤー作成・当社承認とする。座標系・根拠は SPEC-06 と同一。</p>
 
   <!-- SHEET 0 -->
   <div class="sheet">
     <div class="sheet-head"><h2>S0 — 諸元表・一般注記</h2>
-      <div class="tb"><span>GRC-DWG-000</span><span>版 v0.3.1</span></div></div>
+      <div class="tb"><span>GRC-DWG-000</span><span>版 v0.4</span></div></div>
     <table class="spec">
       <tr><th>本体外形 W×D×H</th><td>800 × 370 × 1080(+脚120 = 総高 1200)</td></tr>
-      <tr><th>庫内有効 W×D×H</th><td>760 × 330 × 950(棚なし一室空間)</td></tr>
-      <tr><th>機器ベイ</th><td>内寸 760 × 330 × 70(本体最上部・トップカバー下)</td></tr>
+      <tr><th>庫内有効 W×D×H</th><td>760 × 330 × <b>1020</b>(棚なし一室空間・v0.4でベイ分を還元)</td></tr>
+      <tr><th>背面ポケット</th><td>背面外側上部: EBOX 320×160×45+カバー380×200×55(突出55・壁から60mm離す)。<b>天板は無孔・耐荷重10kg</b></td></tr>
       <tr><th>防水パン</th><td>内寸 740 × 320・立上り30(ハーフトレイ 360×315×25 ×2)</td></tr>
-      <tr><th>扉</th><td>観音開き2枚(各 約396×985)・強化ガラス5mm・EPDMガスケット・マグネットキャッチ</td></tr>
-      <tr><th>材料</th><td>フレーム: 角管25×25×t1.2 / 背面・天井: スチールt0.8(磁性面) / 粉体塗装 艶消し黒</td></tr>
-      <tr><th>配線ポート</th><td>φ30 × 6口(天井2・ベイ背面2・背面下部2)+盲栓3</td></tr>
-      <tr><th>電源</th><td>DC24V 最大60W(PSE菱形認証済みACアダプター1個・機器ベイ内EBOX収納)</td></tr>
-      <tr><th>質量 / 耐荷重</th><td>本体 ≤40kg / パン60kg(等分布)・マグネット小棚3.0kg/枚</td></tr>
+      <tr><th>扉</th><td>観音開き2枚(各 約396×1050)・強化ガラス5mm・EPDMガスケット・上下ピボットピンヒンジ(RUDSTA方式)・スライドラッチ</td></tr>
+      <tr><th>材料</th><td>フレーム: 角管25×25×t1.2 / 背面(上下2分割)・天板: スチールt0.8(磁性面) / 粉体塗装 艶消し黒</td></tr>
+      <tr><th>配線ポート</th><td>φ30 × <b>4口</b>(背面上段2=ポケット裏・背面下部2)+盲栓2。<b>天板・扉は無孔</b></td></tr>
+      <tr><th>電源</th><td>DC24V 最大60W(PSE菱形認証済みACアダプター1個・背面ポケットのEBOX収納)</td></tr>
+      <tr><th>質量 / 耐荷重</th><td>本体 ≤40kg / パン60kg・天板10kg(等分布)・マグネット小棚3.0kg/枚</td></tr>
     </table>
     <div class="notes">
       <b>一般注記</b>: ①一般公差 板金±0.5・樹脂成形±0.3・ガラス±1.0 ②穴位置公差 ±2.0(グロメット吸収)
@@ -79,45 +79,43 @@
   <!-- SHEET 1 -->
   <div class="sheet">
     <div class="sheet-head"><h2>S1 — 全体図(正面・側面)</h2>
-      <div class="tb"><span>GRC-DWG-001</span><span>版 v0.3.1</span></div></div>
+      <div class="tb"><span>GRC-DWG-001</span><span>版 v0.4</span></div></div>
     <div class="cv"><svg id="s1" width="920" height="600" viewBox="0 0 920 600"></svg></div>
-    <div class="notes"><b>注記</b>: 扉ヒンジは左右外側・開き角110°以上。脚はM10アジャスター±10。
-      転倒防止ベルト取付座は背面上部左右(ベイ側壁外面)。ベントは背面上部(S3参照)のため正面・側面に開口なし。</div>
+    <div class="notes"><b>注記</b>: 扉は上下ピボットピンヒンジ(RUDSTA方式)・開き角110°以上。脚はM10アジャスター±10。<b>天板は無孔(上面積載10kg)</b>。転倒防止はRUDSTA式壁直結金具+スペーサー60mm(石膏ボードはベルト代替)。ベント・配線口はすべて背面(S3/S4参照)。</div>
   </div>
 
   <!-- SHEET 2 -->
   <div class="sheet">
     <div class="sheet-head"><h2>S2 — 天井伏図(下から見上げ・庫内側)</h2>
-      <div class="tb"><span>GRC-DWG-002</span><span>版 v0.3.1</span></div></div>
+      <div class="tb"><span>GRC-DWG-002</span><span>版 v0.4</span></div></div>
     <div class="cv"><svg id="s2" width="860" height="380" viewBox="0 0 860 380"></svg></div>
-    <div class="notes"><b>注記</b>: ◎P1a/P1b=φ30貫通(ベイ床と共通プレス)・シリコン割グロメット装着。位置は<b>背面上部の左右角(80/680, 40)</b>——全機器の配線を背面両角に集約し、LEDリード1.0mで直結(SPEC-06 §7.5)。
+    <div class="notes"><b>注記</b>: <b>v0.4: 天板(下面=本図)は無孔</b>。給電はすべて背面上段パネルのP1穴(S3/S4)経由。
       +印=フック磁石(GRC-HOOK32)推奨位置のシルク印刷十字(8×8mm)。パネル(破線)は吊り下げ時の投影位置。
-      吊り金具ピッチ200(パネル端から各40内側)。</div>
+      吊り金具ピッチ200(パネル端から各40内側)。LEDリード1.0m・背面側端部出し(SPEC-06 §7.5)。</div>
   </div>
 
   <!-- SHEET 3 -->
   <div class="sheet">
     <div class="sheet-head"><h2>S3 — 背面パネル立面図(庫内側)</h2>
-      <div class="tb"><span>GRC-DWG-003</span><span>版 v0.3.1</span></div></div>
-    <div class="cv"><svg id="s3" width="860" height="660" viewBox="0 0 860 660"></svg></div>
-    <div class="notes"><b>注記</b>: ドットグリッド=φ2シルク印刷・100ピッチ(X80〜680 / Z100〜900)。
-      P3a/P3b はφ30・標準は盲栓。スライドベントは有効開口100×40・防虫メッシュ・庫内側から操作。
-      レースウェイ(GRC-RACE L800)はマグネット式のため位置自由、図は推奨位置。ファン・温湿度計・小棚は取説推奨位置(マグネット式)。</div>
+      <div class="tb"><span>GRC-DWG-003</span><span>版 v0.4</span></div></div>
+    <div class="cv"><svg id="s3" width="860" height="690" viewBox="0 0 860 690"></svg></div>
+    <div class="notes"><b>注記</b>: 背面は上下2分割(RUDSTA方式)・分割目地は工場貼付シール。P1a/P1b(X=250/510, Z=970)は<b>背面ポケットカバーの真裏</b>でグロメットごと隠れる。ベントは外寄せ(X=100/660中心)でカバーと干渉しない。レースウェイはP1の真下(X=250/510)が推奨位置。P3は標準盲栓。ファン・温湿度計・小棚はマグネット式で自由。</div>
   </div>
 
   <!-- SHEET 4 -->
   <div class="sheet">
-    <div class="sheet-head"><h2>S4 — 機器ベイ平面図(トップカバーを外した状態)</h2>
-      <div class="tb"><span>GRC-DWG-004</span><span>版 v0.3.1</span></div></div>
-    <div class="cv"><svg id="s4" width="860" height="360" viewBox="0 0 860 360"></svg></div>
-    <div class="notes"><b>注記</b>: EBOXは<b>ベイ中央配置</b>(P1a/P1bと左右等距離・配線長バジェットはSPEC-06 §7.5)。ベイ側壁の通気スリット開口率≥20%。
-      P1a/P1bはベイ床の貫通穴(S2と同一穴)。ベイ床はEBOXマグネットパッドの吸着面のため塗装平滑度に注意。</div>
+    <div class="sheet-head"><h2>S4 — 背面ユーティリティポケット(v0.4新設)</h2>
+      <div class="tb"><span>GRC-DWG-004</span><span>版 v0.4</span></div></div>
+    <div class="cv"><svg id="s4" width="860" height="400" viewBox="0 0 860 400"></svg></div>
+    <div class="notes"><b>注記</b>: 本図は庫内座標系のまま背面を透過表示。EBOX・カバーとも<b>マグネット着脱</b>(工具ゼロ)。
+      突出はカバー55mm——<b>壁から60mm離して設置</b>(転倒防止金具のスペーサーが同ギャップを吸収)。
+      EBOX上辺切欠きはP1a/P1bグロメットと整列、下辺切欠きからACコードを下ろす。屋外側(乾燥側)のため防湿要件は庫内機器より緩い。</div>
   </div>
 
   <!-- SHEET 5 -->
   <div class="sheet">
     <div class="sheet-head"><h2>S5 — マグネット小棚 GRC-MSH(選定基準図・プレステラ105×3対応)</h2>
-      <div class="tb"><span>GRC-DWG-005</span><span>版 v0.3.1</span></div></div>
+      <div class="tb"><span>GRC-DWG-005</span><span>版 v0.4</span></div></div>
     <div class="cv"><svg id="s5" width="860" height="450" viewBox="0 0 860 450"></svg></div>
     <div class="notes"><b>注記</b>: **既製マグネットキッチンラック(冷蔵庫横/スパイスラック)から選定**(SPEC-03 §0)。
       本図は選定基準(エンベロープ)図 — 必須条件: 内寸≥338×110・底面ソリッド+三方縁(水受け)・
@@ -128,7 +126,7 @@
   <!-- SHEET 6 -->
   <div class="sheet">
     <div class="sheet-head"><h2>S6 — 底面: 防水パン・ハーフトレイ・水切りマット</h2>
-      <div class="tb"><span>GRC-DWG-006</span><span>版 v0.3.1</span></div></div>
+      <div class="tb"><span>GRC-DWG-006</span><span>版 v0.4</span></div></div>
     <div class="cv"><svg id="s6" width="860" height="380" viewBox="0 0 860 380"></svg></div>
     <div class="notes"><b>注記</b>: パンはシーム溶接防水・立上り30。トレイはPP真空成形・前縁指掛かり一体。
       マットはPVCコイル(抗菌)345×295×8・トレイ内敷き。片側ずつ引き出して洗浄する運用。</div>
@@ -136,11 +134,11 @@
 
   <!-- SHEET 7 -->
   <div class="sheet">
-    <div class="sheet-head"><h2>S7 — 電源ボックス GRC-EBOX(マグネット着脱式)</h2>
-      <div class="tb"><span>GRC-DWG-007</span><span>版 v0.3.1</span></div></div>
+    <div class="sheet-head"><h2>S7 — 電源ボックス GRC-EBOX(背面ポケット用・320×160×45)</h2>
+      <div class="tb"><span>GRC-DWG-007</span><span>版 v0.4</span></div></div>
     <div class="cv"><svg id="s7" width="860" height="330" viewBox="0 0 860 330"></svg></div>
-    <div class="notes"><b>注記</b>: ABS(UL94 V-0)・肉厚2.5。底面マグネットパッドφ15×4(ラバー被覆)。
-      側面スリット開口率≥25%。妻面切欠きはP1a/P1b/P2位置に整列。内部レイアウトは代表例(面ファスナー固定)。</div>
+    <div class="notes"><b>注記</b>: ABS(UL94 V-0)・肉厚2.5。<b>背面(垂直面)取付</b>: マグネットパッドφ15×6+ゴムシート、せん断保持≥6kgf(満載1.3kg×3倍以上)。
+      上辺切欠き×2はP1a/P1bグロメットと整列、下辺切欠きはACコード出口。内部レイアウトは代表例(面ファスナー固定)。</div>
   </div>
 
 </div>
@@ -201,37 +199,36 @@ function ctx(svg, ox, oy, s, up) {
   f.txt(400,0,'正面図','vt','middle',0,-16);
   f.rect(0,0,800,1080,'ol');
   f.rect(-2,-8,804,8,'fills'); f.rect(-2,-8,804,8,'th');
-  f.line(0,85,800,85,'th');
-  f.txt(400,45,'機器収納ベイ(アダプター格納・EBOX)','lb2');
-  f.rect(4,90,392,985,'th'); f.rect(404,90,392,985,'th');
-  f.rect(24,110,352,945,'hd'); f.rect(424,110,352,945,'hd');
-  f.circ(388,590,10,'th'); f.circ(412,590,10,'th');
-  f.line(400,90,400,1075,'cl');
+  f.line(0,25,800,25,'th');
+  f.txt(400,14,'天板: 無孔・耐荷重10kg(上に物が置ける)','lb2');
+  f.rect(4,28,392,1020,'th'); f.rect(404,28,392,1020,'th');
+  f.rect(24,48,352,980,'hd'); f.rect(424,48,352,980,'hd');
+  f.circ(388,538,10,'th'); f.circ(412,538,10,'th');
+  f.line(400,28,400,1048,'cl');
   f.txt(200,600,'強化ガラス5mm','lb2'); f.txt(600,600,'強化ガラス5mm','lb2');
   f.rect(30,1080,24,120,'ol'); f.rect(746,1080,24,120,'ol');
   f.line(0,1080,800,1080,'ol');
   f.dimH(0,800,60,'800',1200);
-  f.dimH(4,396,30,'扉 396×2',90);
+  f.dimH(4,396,30,'扉 396×2',28);
   f.dimV(0,1080,42,'1080',800);
   f.dimV(1080,1200,42,'脚 120',800);
   f.dimV(0,1200,74,'総高 1200',800);
-  f.dimV(0,85,-36,'ベイ85',0);
-  f.dimV(90,1075,-70,'扉開口 985',0);
+  f.dimV(28,1048,-70,'扉開口 1020',0);
 
   // 側面図
   const g=ctx(svg,640,40,s,false);
   g.txt(185,0,'側面図','vt','middle',0,-16);
   g.rect(0,0,370,1080,'ol');
-  g.line(0,85,370,85,'th');
-  g.rect(0,90,22,985,'th'); g.txt(34,580,'扉框','lb2','start');
-  g.line(362,90,362,1075,'hd'); g.txt(354,700,'背面パネル t0.8','lb2','end');
+  g.line(0,25,370,25,'th');
+  g.rect(0,28,22,1020,'th'); g.txt(34,580,'扉框','lb2','start');
+  g.line(362,28,362,1048,'hd'); g.txt(354,700,'背面パネル t0.8(上下2分割)','lb2','end');
+  g.rect(370,80,55,220,'hd');
   g.rect(40,1080,24,120,'ol'); g.rect(306,1080,24,120,'ol');
   g.line(0,1080,370,1080,'ol');
-  for(let i=0;i<4;i++) g.line(80+i*60,42,120+i*60,42,'hl');
-  g.txt(185,16,'ベイ通気スリット','lbH','middle',0,0);
   g.line(22,1040,362,1040,'hd'); g.txt(190,1022,'防水パン立上り30','lb2');
+  g.txt(185,1265,'背面ポケット(破線): 突出55・壁から60mm離して設置','lb2');
   g.dimH(0,370,60,'370',1200);
-  g.dimV(0,1200,30,'1200',370);
+  g.dimV(0,1200,64,'1200',370);
 })();
 
 /* ---------- S2 天井伏図 ---------- */
@@ -244,37 +241,37 @@ function ctx(svg, ox, oy, s, up) {
   c.txt(190,290,'LEDパネルA 280×280(吊り投影)','lb2');
   c.txt(570,290,'LEDパネルB 280×280(吊り投影)','lb2');
   c.line(190,0,190,330,'cl'); c.line(570,0,570,330,'cl'); c.line(0,165,760,165,'cl');
-  c.hole(80,40,15,'P1a φ30','start',16,4); c.hole(680,40,15,'P1b φ30','end',-16,4);
   c.cross(90,165,'HK1'); c.cross(290,165,'HK2'); c.cross(470,165,'HK3'); c.cross(670,165,'HK4');
   c.dimH(0,760,46,'760(庫内幅)',330);
   c.dimH(0,190,-46,'190',0); c.dimH(190,570,-46,'380',0);
   c.dimH(90,290,-24,'吊りピッチ 200',0);
   c.dimV(0,330,40,'330',760);
-  c.dimV(0,40,-52,'40',0);
-  c.dimH(0,80,-24,'80',0); c.dimH(680,760,-24,'80',0);
   c.dimV(0,165,-90,'165',0);
 })();
 
 /* ---------- S3 背面立面 ---------- */
 (() => {
   const svg=document.getElementById('s3'), s=0.56;
-  const c=ctx(svg,170,600,s,true);
-  c.txt(380,950,'背面パネル立面図(庫内側から見る)','vt','middle',0,-28);
-  c.rect(0,0,760,950,'ol');
-  c.rect(30,350,700,350,'zn');
-  c.txt(380,525,'マグネット小棚 推奨ゾーン Z=350〜700','lbA');
+  const c=ctx(svg,170,630,s,true);
+  c.txt(380,1020,'背面パネル立面図(庫内側から見る・上下2分割)','vt','middle',0,-28);
+  c.rect(0,0,760,1020,'ol');
+  c.line(0,600,760,600,'hd'); c.txt(84,612,'分割目地(圧縮シール)','lb2','start');
+  c.rect(30,400,700,350,'zn');
+  c.txt(380,575,'マグネット小棚 推奨ゾーン Z=400〜750','lbA');
   for(let x=80;x<=680;x+=100) for(let z=100;z<=900;z+=100)
     E(svg,'circle',{cx:c.X(x),cy:c.Y(z),r:1.4,fill:'#9AA79C'});
   c.txt(380,108,'ドットグリッド φ2 @100ピッチ(シルク印刷)','lb2','middle',0,16);
-  c.rect(80,880,100,40,'hl'); c.rect(580,880,100,40,'hl');
-  c.txt(130,932,'ベント100×40','lbH','middle',0,-4); c.txt(630,932,'ベント100×40','lbH','middle',0,-4);
+  c.rect(50,930,100,40,'hl'); c.rect(610,930,100,40,'hl');
+  c.txt(100,986,'ベント100×40','lbH','middle',0,-2); c.txt(660,986,'ベント100×40','lbH','middle',0,-2);
+  c.hole(250,970,15,'P1a','end',-18,4); c.hole(510,970,15,'P1b','start',18,4);
+  c.rect(190,810,380,200,'hd'); c.txt(380,790,'背面ポケット カバー投影(外側)','lb2');
   c.hole(80,120,15,'P3a φ30(盲栓)','middle',0,26); c.hole(680,120,15,'P3b φ30(盲栓)','middle',0,26);
-  c.rect(4,100,22,800,'fills'); c.rect(4,100,22,800,'th');
-  c.rect(734,100,22,800,'fills'); c.rect(734,100,22,800,'th');
-  c.txt(15,480,'RC-L','lb2'); c.txt(745,480,'RC-R','lb2');
+  c.rect(239,170,22,800,'fills'); c.rect(239,170,22,800,'th');
+  c.rect(499,170,22,800,'fills'); c.rect(499,170,22,800,'th');
+  c.txt(226,480,'RC-L','lb2','end'); c.txt(534,480,'RC-R','lb2','start');
   c.rect(650,520,60,60,'hd'); c.txt(680,502,'温湿度計','lb2');
-  c.circ(540,860,32,'hd'); c.txt(540,806,'ファン上(推奨)','lb2');
-  c.circ(160,280,32,'hd'); c.txt(160,226,'ファン下(推奨)','lb2');
+  c.circ(560,930,30,'hd'); c.txt(560,878,'ファン上(推奨)','lb2');
+  c.circ(200,280,32,'hd'); c.txt(200,226,'ファン下(推奨)','lb2');
   c.dimH(0,760,30,'760',0);
   c.dimH(0,80,-40,'80',950); c.dimH(580,680,-40,'X=630中心',950);
   c.dimV(0,950,48,'950(庫内高)',760);
@@ -282,26 +279,32 @@ function ctx(svg, ox, oy, s, up) {
   c.dimV(350,700,-88,'350〜700',0);
 })();
 
-/* ---------- S4 機器ベイ平面 ---------- */
+/* ---------- S4 背面ユーティリティポケット ---------- */
 (() => {
   const svg=document.getElementById('s4'), s=0.72;
-  const c=ctx(svg,120,60,s,false);
-  c.txt(380,-40,'機器ベイ平面図(Y=0が背面壁)','vt','middle',0,0);
-  c.rect(0,0,760,330,'ol');
-  for(let i=0;i<5;i++){ c.line(0,40+i*55,0,70+i*55,'hl'); c.line(760,40+i*55,760,70+i*55,'hl'); }
-  c.txt(-14,165,'通気スリット','lbH','end');
-  c.rect(230,95,300,140,'ol');
-  c.rect(242,107,140,60,'hd'); c.txt(312,137,'ACアダプター','lb2');
-  c.rect(400,107,110,70,'hd'); c.txt(455,142,'電源ハブ','lb2');
-  c.txt(380,215,'GRC-EBOX 300×140(マグネット着脱・中央配置)','lb2');
-  c.rect(224,140,6,24,'hl'); c.rect(530,120,6,24,'hl'); c.rect(530,180,6,24,'hl');
-  c.hole(80,40,15,'P1a(床貫通)','start',16,14); c.hole(680,40,15,'P1b(床貫通)','end',-16,14);
-  c.hole(80,0,15,'P2a φ30','middle',0,-17); c.hole(680,0,15,'P2b(盲栓)','middle',0,-17);
-  c.dimH(0,760,44,'760',330);
-  c.dimH(230,530,24,'300',235);
-  c.dimV(0,330,40,'330',760);
-  c.dimV(95,235,-46,'140',230);
-  c.txt(500,290,'ベイ内寸高さ70・トップカバーはマグネット吸着式','lb2');
+  const c=ctx(svg,120,810,s,true);   // Z=700〜1020の上部帯を表示
+  c.txt(380,1020,'背面ユーティリティポケット(背面を透過表示・Z=700〜1020)','vt','middle',0,-26);
+  c.rect(0,700,760,320,'ol');
+  c.line(0,700,760,700,'hd');
+  // カバー(破線)とEBOX
+  c.rect(190,810,380,200,'hd'); c.txt(380,738,'GRC-RCOVカバー 380×200×D55(マグネット着脱・破線)','lb2');
+  c.rect(220,840,320,160,'ol');
+  c.rect(232,880,145,62,'hd'); c.txt(304,910,'ACアダプター','lb2');
+  c.rect(392,880,110,70,'hd'); c.txt(447,915,'電源ハブ','lb2');
+  c.txt(380,852,'GRC-EBOX 320×160×45(マグネット着脱)','lb2','middle',0,6);
+  // P1穴(EBOX上辺の切欠きと整列)
+  c.hole(250,970,15,'P1a','end',-18,4); c.hole(510,970,15,'P1b','start',18,4);
+  // ベント
+  c.rect(50,930,100,40,'hl'); c.rect(610,930,100,40,'hl');
+  c.txt(100,905,'ベント','lbH'); c.txt(660,905,'ベント','lbH');
+  // AC出口
+  c.line(380,840,380,760,'hl'); c.txt(380,742,'','lb2');
+  c.txt(392,790,'ACコード出口(下向き=ドリップループ)','lbH','start');
+  // 寸法
+  c.dimH(220,540,30,'EBOX 320',700);
+  c.dimH(190,570,58,'カバー 380',700);
+  c.dimV(840,1000,40,'160',760);
+  c.dimV(700,1020,84,'表示帯320',760);
 })();
 
 /* ---------- S5 小棚3面図 ---------- */
@@ -365,12 +368,12 @@ function ctx(svg, ox, oy, s, up) {
   const svg=document.getElementById('s7');
   const c=ctx(svg,110,60,0.95,false);
   c.txt(150,-28,'平面図','vt','middle',0,0);
-  c.rect(0,0,300,140,'ol');
-  c.rect(14,14,20,20,'th'); c.rect(266,14,20,20,'th'); c.rect(14,106,20,20,'th'); c.rect(266,106,20,20,'th');
-  c.txt(150,70,'マグネットパッドφ15×4(底面・角)','lb2');
-  c.rect(-6,55,6,30,'hl'); c.rect(300,35,6,24,'hl'); c.rect(300,85,6,24,'hl');
-  c.txt(-12,45,'切欠き(P2側)','lbH','end'); c.txt(316,30,'切欠き(P1a/P1b側)','lbH','start');
-  c.dimH(0,300,34,'300',140); c.dimV(0,140,36,'140',300);
+  c.rect(0,0,320,160,'ol');
+  c.rect(14,14,20,20,'th'); c.rect(286,14,20,20,'th'); c.rect(14,126,20,20,'th'); c.rect(286,126,20,20,'th'); c.rect(150,14,20,20,'th'); c.rect(150,126,20,20,'th');
+  c.txt(160,80,'マグネットパッドφ15×6(背面側)','lb2');
+  c.rect(80,-6,24,6,'hl'); c.rect(216,-6,24,6,'hl'); c.rect(148,160,24,6,'hl');
+  c.txt(92,-16,'切欠き(P1a)','lbH'); c.txt(228,-16,'切欠き(P1b)','lbH'); c.txt(160,182,'切欠き(AC出口)','lbH');
+  c.dimH(0,320,34,'320',160); c.dimV(0,160,36,'160',320);
 
   const f=ctx(svg,520,120,0.95,false);
   f.txt(150,-54,'正面図','vt','middle',0,0);
