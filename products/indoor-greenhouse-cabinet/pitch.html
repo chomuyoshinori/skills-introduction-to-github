@@ -149,12 +149,17 @@
     background: conic-gradient(#3C4636 0 25%, #202920 0 50%, #3C4636 0 75%, #202920 0);
   }
   .mshelf {
-    position: absolute; left: 18px; width: 52px; height: 5px; border-radius: 2px;
+    position: absolute; left: 16px; width: 94px; height: 5px; border-radius: 2px;
     background: #37412F; box-shadow: 0 2px 5px rgba(0,0,0,.5);
   }
   .mshelf.a { top: 108px; }
-  .mshelf.b { top: 170px; left: 26px; }
+  .mshelf.b { top: 170px; left: 24px; }
   .mshelf .leaf { position: absolute; bottom: 4px; }
+  .mshelf .pot {
+    position: absolute; bottom: 5px; width: 16px; height: 12px;
+    background: linear-gradient(#2E3A2E, #222C22); border-radius: 1px 1px 3px 3px;
+  }
+  .mshelf .pot.p1 { left: 6px; } .mshelf .pot.p2 { left: 39px; } .mshelf .pot.p3 { left: 72px; }
   .hygro {
     position: absolute; top: 132px; right: 14px;
     font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -356,8 +361,8 @@
           <i class="wire w1"></i><i class="wire w2"></i>
           <div class="lightbar"></div>
           <div class="fanunit"></div>
-          <div class="mshelf a"><span class="leaf s1"></span></div>
-          <div class="mshelf b"><span class="leaf s2"></span></div>
+          <div class="mshelf a"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s1" style="left: 8px; bottom: 14px;"></span></div>
+          <div class="mshelf b"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s2" style="left: 41px; bottom: 14px;"></span></div>
           <div class="hygro">25.6°C<br>67%RH</div>
           <span class="leaf l1"></span><span class="leaf l2"></span><span class="leaf l3"></span>
           <span class="leaf l4"></span><span class="leaf l5"></span>
@@ -419,7 +424,7 @@
       <div class="card">
         <span class="k">MAGNET WALL</span>
         <h3>マグネット壁面</h3>
-        <p>背面・天井はスチール。小棚2枚が標準付属し、小さな株を好きな高さでライトに寄せられる。増設売りにも。</p>
+        <p>背面・天井はスチール。<strong>プレステラ105が3鉢載る小棚×2枚</strong>が標準付属し、小さな株を好きな高さでライトに寄せられる。増設売りにも。</p>
       </div>
     </div>
   </section>
@@ -436,7 +441,7 @@
       <div class="tile"><div class="v num">40分</div><div class="l">組立時間。工具は付属の六角レンチのみ</div></div>
       <div class="tile"><div class="v num">120mm ×2</div><div class="l">循環ファン(24時間静音駆動・ボールベアリング)</div></div>
       <div class="tile"><div class="v num">RH 70–85%</div><div class="l">扉ガスケット+開閉ベントで湿度を保持・調整</div></div>
-      <div class="tile"><div class="v num">2.0kg ×2</div><div class="l">マグネット小棚の耐荷重。壁面が育成スペースになる</div></div>
+      <div class="tile"><div class="v num">3鉢 ×2枚</div><div class="l">マグネット小棚はプレステラ105が3つ載る(耐荷重3kg/枚)</div></div>
     </div>
     <p class="note" style="margin-top: 16px;">数値は仕様書(SPEC-00〜05)の一次設計値。試作機で実証後に確定。</p>
   </section>
