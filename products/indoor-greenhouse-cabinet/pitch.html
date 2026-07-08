@@ -124,8 +124,10 @@
       radial-gradient(90% 40% at 50% 2%, rgba(255, 128, 160, .18), transparent 62%),
       linear-gradient(#18231A, var(--cab-glass) 60%);
   }
+  .wire { position: absolute; top: 0; width: 2px; height: 20px; background: rgba(214, 232, 214, .45); }
+  .wire.w1 { left: 46px; } .wire.w2 { right: 46px; }
   .lightbar {
-    position: absolute; top: 6px; left: 14px; right: 14px; height: 7px; border-radius: 4px;
+    position: absolute; top: 20px; left: 14px; right: 14px; height: 7px; border-radius: 4px;
     background: linear-gradient(90deg, #FFF6E8, #FFFFFF 30%, #FFD9E4 55%, #FFFFFF 80%, #EFFFE9);
     box-shadow: 0 4px 22px rgba(255, 246, 220, .8), 0 10px 44px rgba(140, 255, 180, .35);
     animation: glow 5.5s ease-in-out infinite;
@@ -351,6 +353,7 @@
       <div class="cabinet" role="img" aria-label="グロウキャビネットの構成図。上部に機器収納ベイとLEDライト、庫内に植物とマグネット小棚、温湿度計、底面トレイ。">
         <div class="cab-bay"><i></i><i></i><i></i></div>
         <div class="cab-inner">
+          <i class="wire w1"></i><i class="wire w2"></i>
           <div class="lightbar"></div>
           <div class="fanunit"></div>
           <div class="mshelf a"><span class="leaf s1"></span></div>
@@ -396,17 +399,17 @@
   <section class="slide">
     <div class="eyebrow"><span class="no">03</span>解決 — PRODUCT</div>
     <h2>「最初からそう作られた温室」を、家具の見た目で。</h2>
-    <p class="lead">スチール×強化ガラスの一室空間キャビネット。DIYの不満3点を製品仕様に変換した、そのまま使える室内温室です。</p>
+    <p class="lead">スチール×強化ガラスの一室空間キャビネット。<strong>電装はすべてマグネット着脱式</strong>——ネジも粘着も使わず、外して机の上でメンテできます。</p>
     <div class="grid4" style="margin-top: 28px;">
       <div class="card">
         <span class="k">PORTS</span>
-        <h3>配線ポート3系統</h3>
-        <p>天井×2・背面×2にグロメット付き配線口を標準装備。工具なしで着脱でき、隙間は塞がって湿度を逃さない。</p>
+        <h3>配線ポート6口</h3>
+        <p>φ30グロメットを天井×2・背面×4に。<strong>機器の真上</strong>に配置して庫内でケーブルを這わせず、未使用穴は盲栓で密閉。縦の配線はマグネット式カバーで隠す。</p>
       </div>
       <div class="card">
         <span class="k">BAY</span>
         <h3>機器収納ベイ</h3>
-        <p>天井の上に高さ8cmの隠し収納。ACアダプター・タイマーハブ・余長ケーブルが全部入る。通気付き・マグネット開閉。</p>
+        <p>天井の上に高さ8cmの隠し収納。アダプター・ハブ・余長ケーブルは専用ボックスに収まり、<strong>箱ごとマグネットで着脱</strong>。配線メンテはネジゼロ。</p>
       </div>
       <div class="card">
         <span class="k">ONE ROOM</span>
@@ -427,7 +430,7 @@
     <h2>電気の不安ごと、設計済み。</h2>
     <div class="tiles" style="margin-top: 26px;">
       <div class="tile"><div class="v num">W800<small> × D450 × H1400<br>mm(脚込み)</small></div><div class="l">本体外形。KD式・強化ガラス・転倒防止ベルト標準</div></div>
-      <div class="tile"><div class="v num">50W<small> LED ×12h</small></div><div class="l">フルスペクトラムLEDパネル×2(落下防止テザー付き)</div></div>
+      <div class="tile"><div class="v num">50W<small> LED ×12h</small></div><div class="l">LEDパネル×2。フック磁石で吊り、高さ=光量を調整できる</div></div>
       <div class="tile"><div class="v num">AC 1系統</div><div class="l">PSE認証済みアダプター1個のみ。庫内はすべてDC・防湿仕様</div></div>
       <div class="tile"><div class="v"><span class="num">約20</span><small>円 / 日</small></div><div class="l">電気代目安(ライト12h+ファン24h ≒ 月約650円)</div></div>
       <div class="tile"><div class="v num">40分</div><div class="l">組立時間。工具は付属の六角レンチのみ</div></div>
