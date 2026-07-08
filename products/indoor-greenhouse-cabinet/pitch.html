@@ -1,0 +1,562 @@
+<title>グロウキャビネット — 事業ピッチ</title>
+<style>
+  :root {
+    --bg: #EFF3ED;
+    --surface: #FAFCF9;
+    --ink: #1D2B21;
+    --ink-2: #44544A;
+    --muted: #5A6A5E;
+    --line: #D2DCD0;
+    --leaf: #2F7D52;
+    --leaf-soft: #E0EDE4;
+    --red660: #C13A5E;
+    --red660-soft: #F5E2E8;
+    --cab-frame: #23291F;
+    --cab-glass: #101812;
+    --chip-bg: #FFFFFF;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0D1510;
+      --surface: #131E16;
+      --ink: #E7EFE7;
+      --ink-2: #BCCBBE;
+      --muted: #97A99B;
+      --line: #263429;
+      --leaf: #64C48E;
+      --leaf-soft: #1A2C20;
+      --red660: #F06A8C;
+      --red660-soft: #33141D;
+      --cab-frame: #060906;
+      --cab-glass: #0B120C;
+      --chip-bg: #182319;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #EFF3ED; --surface: #FAFCF9; --ink: #1D2B21; --ink-2: #44544A;
+    --muted: #5A6A5E; --line: #D2DCD0; --leaf: #2F7D52; --leaf-soft: #E0EDE4;
+    --red660: #C13A5E; --red660-soft: #F5E2E8;
+    --cab-frame: #23291F; --cab-glass: #101812; --chip-bg: #FFFFFF;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1510; --surface: #131E16; --ink: #E7EFE7; --ink-2: #BCCBBE;
+    --muted: #97A99B; --line: #263429; --leaf: #64C48E; --leaf-soft: #1A2C20;
+    --red660: #F06A8C; --red660-soft: #33141D;
+    --cab-frame: #060906; --cab-glass: #0B120C; --chip-bg: #182319;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+    line-height: 1.85;
+    margin: 0;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .deck { max-width: 980px; margin: 0 auto; padding: 0 28px; }
+
+  .slide { padding: 72px 0 84px; border-top: 1px solid var(--line); }
+  .slide:first-child { border-top: none; }
+
+  .eyebrow {
+    display: flex; align-items: baseline; gap: 14px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px; letter-spacing: .18em; color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .eyebrow .no { color: var(--leaf); font-weight: 700; }
+  .eyebrow::after { content: ""; flex: 1; border-top: 1px solid var(--line); transform: translateY(-4px); }
+
+  h1, h2, h3 {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Noto Serif JP", "MS PMincho", serif;
+    font-weight: 600; line-height: 1.45; margin: 0;
+    text-wrap: balance;
+  }
+  h2 { font-size: clamp(24px, 3.4vw, 32px); margin-bottom: 18px; }
+  h3 { font-size: 18px; margin-bottom: 8px; }
+  p { margin: 0 0 1em; max-width: 44em; }
+  .lead { font-size: 17px; color: var(--ink-2); }
+  .note { font-size: 13px; color: var(--muted); }
+  .num { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  .accent { color: var(--leaf); }
+  strong { font-weight: 700; }
+
+  /* ---------- hero ---------- */
+  .hero { display: grid; grid-template-columns: 1.25fr .75fr; gap: 48px; align-items: center; padding: 84px 0 88px; }
+  .hero .brand {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px; letter-spacing: .3em; color: var(--muted); margin-bottom: 22px;
+  }
+  .hero .brand b { color: var(--leaf); letter-spacing: .3em; }
+  .hero h1 { font-size: clamp(34px, 5.6vw, 52px); line-height: 1.35; margin-bottom: 20px; }
+  .hero .sub { font-size: 17px; color: var(--ink-2); max-width: 30em; }
+  .hero .meta { margin-top: 34px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .pill {
+    font-size: 12.5px; padding: 5px 13px; border: 1px solid var(--line);
+    border-radius: 999px; color: var(--ink-2); background: var(--surface); white-space: nowrap;
+  }
+
+  /* ---------- CSSキャビネット図 ---------- */
+  .cab-wrap { justify-self: center; text-align: center; }
+  .cabinet {
+    position: relative; width: 232px; height: 372px; margin: 0 auto;
+    background: var(--cab-frame); border-radius: 8px; padding: 9px;
+    box-shadow: 0 24px 60px rgba(10, 25, 15, .35);
+  }
+  .cabinet::before, .cabinet::after {
+    content: ""; position: absolute; bottom: -34px; width: 12px; height: 34px;
+    background: var(--cab-frame); border-radius: 0 0 3px 3px;
+  }
+  .cabinet::before { left: 22px; }
+  .cabinet::after { right: 22px; }
+  .cab-bay {
+    height: 22px; border-radius: 4px 4px 0 0; margin-bottom: 4px;
+    background: linear-gradient(#2E362A, #232A20);
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .cab-bay i { width: 14px; height: 3px; border-radius: 2px; background: #4A5644; }
+  .cab-inner {
+    position: relative; height: 316px; border-radius: 0 0 5px 5px; overflow: hidden;
+    background:
+      radial-gradient(120% 65% at 50% 0%, rgba(198, 255, 214, .38), rgba(198, 255, 214, .07) 46%, transparent 70%),
+      radial-gradient(90% 40% at 50% 2%, rgba(255, 128, 160, .18), transparent 62%),
+      linear-gradient(#18231A, var(--cab-glass) 60%);
+  }
+  .lightbar {
+    position: absolute; top: 6px; left: 14px; right: 14px; height: 7px; border-radius: 4px;
+    background: linear-gradient(90deg, #FFF6E8, #FFFFFF 30%, #FFD9E4 55%, #FFFFFF 80%, #EFFFE9);
+    box-shadow: 0 4px 22px rgba(255, 246, 220, .8), 0 10px 44px rgba(140, 255, 180, .35);
+    animation: glow 5.5s ease-in-out infinite;
+  }
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 4px 22px rgba(255,246,220,.8), 0 10px 44px rgba(140,255,180,.35); }
+    50% { box-shadow: 0 4px 26px rgba(255,246,220,.95), 0 12px 52px rgba(140,255,180,.5); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .lightbar { animation: none; }
+  }
+  .fanunit {
+    position: absolute; top: 22px; right: 16px; width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid #47523F; background: #1A2118;
+  }
+  .fanunit::before {
+    content: ""; position: absolute; inset: 5px; border-radius: 50%;
+    background: conic-gradient(#3C4636 0 25%, #202920 0 50%, #3C4636 0 75%, #202920 0);
+  }
+  .mshelf {
+    position: absolute; left: 18px; width: 52px; height: 5px; border-radius: 2px;
+    background: #37412F; box-shadow: 0 2px 5px rgba(0,0,0,.5);
+  }
+  .mshelf.a { top: 108px; }
+  .mshelf.b { top: 170px; left: 26px; }
+  .mshelf .leaf { position: absolute; bottom: 4px; }
+  .hygro {
+    position: absolute; top: 132px; right: 14px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 9.5px; letter-spacing: .04em; line-height: 1.5;
+    color: #CFE8D2; background: rgba(16, 24, 17, .85);
+    border: 1px solid #35402F; border-radius: 4px; padding: 3px 7px; text-align: right;
+  }
+  .leaf {
+    display: block; position: absolute;
+    background: linear-gradient(135deg, #5FAE72, #2E6B44);
+    border-radius: 0 100% 4px 100%;
+  }
+  .leaf.l1 { width: 52px; height: 52px; bottom: 34px; left: 22px; transform: rotate(-18deg); }
+  .leaf.l2 { width: 40px; height: 40px; bottom: 52px; left: 62px; transform: rotate(30deg); background: linear-gradient(135deg, #79C48B, #3C7D52); }
+  .leaf.l3 { width: 60px; height: 60px; bottom: 30px; right: 30px; transform: rotate(200deg); background: linear-gradient(135deg, #4E9A63, #26543A); }
+  .leaf.l4 { width: 34px; height: 34px; bottom: 68px; right: 66px; transform: rotate(160deg); background: linear-gradient(135deg, #8FD19E, #4E8F60); }
+  .leaf.l5 { width: 26px; height: 26px; bottom: 96px; left: 100px; transform: rotate(-40deg); }
+  .leaf.s1 { width: 15px; height: 15px; left: 8px; transform: rotate(-24deg); }
+  .leaf.s2 { width: 13px; height: 13px; left: 26px; transform: rotate(28deg); background: linear-gradient(135deg, #86CB96, #47855B); }
+  .tray {
+    position: absolute; bottom: 8px; left: 12px; right: 12px; height: 9px;
+    border-radius: 2px; background: #202822; border: 1px solid #333F2F;
+  }
+  .doorline { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: rgba(230, 245, 230, .14); }
+  .cab-cap { margin-top: 46px; font-size: 12.5px; color: var(--muted); }
+  .cab-cap .num { color: var(--ink-2); }
+
+  /* ---------- 汎用グリッド・カード ---------- */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 22px 24px;
+  }
+  .card h3 { font-family: inherit; font-weight: 700; font-size: 15.5px; }
+  .card p { font-size: 14px; color: var(--ink-2); margin: 0; }
+  .card .k {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px; letter-spacing: .14em; color: var(--leaf); display: block; margin-bottom: 10px;
+  }
+
+  /* ---------- 02 課題 ---------- */
+  .pains { margin-top: 30px; }
+  .pain { display: grid; grid-template-columns: 200px 1fr; gap: 20px; padding: 18px 0; border-top: 1px dashed var(--line); }
+  .pain:last-child { border-bottom: 1px dashed var(--line); }
+  .pain .q {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-weight: 600; font-size: 16px;
+  }
+  .pain p { font-size: 14px; color: var(--ink-2); margin: 0; }
+  .quote {
+    border-left: 3px solid var(--leaf); padding: 6px 0 6px 20px; margin: 26px 0 0;
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: 17px; color: var(--ink);
+  }
+  .quote .note { display: block; margin-top: 6px; font-family: "Hiragino Kaku Gothic ProN", sans-serif; }
+
+  /* ---------- 04 スペック(統計タイル) ---------- */
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .tile .v { font-size: 26px; font-weight: 700; line-height: 1.3; }
+  .tile .v small { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+  .tile .l { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+
+  /* ---------- 05 ポジショニングマップ ---------- */
+  .posmap-wrap { overflow-x: auto; }
+  .posmap {
+    position: relative; min-width: 560px; height: 420px; margin: 8px 0 4px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  }
+  .posmap .zone {
+    position: absolute; right: 4%; top: 6%; width: 42%; height: 44%;
+    border: 1.5px dashed var(--leaf); border-radius: 10px; background: var(--leaf-soft); opacity: .55;
+  }
+  .posmap .zone-label {
+    position: absolute; right: 6.5%; top: 8.5%;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px; letter-spacing: .2em; color: var(--leaf); font-weight: 700;
+  }
+  .axis-x, .axis-y {
+    position: absolute; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px; letter-spacing: .12em; color: var(--muted);
+  }
+  .axis-x { bottom: 12px; right: 18px; }
+  .axis-x::before { content: "→ "; color: var(--ink-2); }
+  .axis-y { top: 14px; left: 16px; writing-mode: vertical-rl; }
+  .axis-y::before { content: "↑ "; color: var(--ink-2); }
+  .pt { position: absolute; transform: translate(-50%, -50%); text-align: center; }
+  .pt .dot {
+    width: 13px; height: 13px; border-radius: 50%; margin: 0 auto 5px;
+    background: var(--muted); border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line);
+  }
+  .pt .lbl { font-size: 12px; color: var(--ink-2); white-space: nowrap; line-height: 1.4; }
+  .pt .lbl small { display: block; font-size: 10.5px; color: var(--muted); }
+  .pt.me .dot {
+    width: 18px; height: 18px; background: var(--leaf);
+    box-shadow: 0 0 0 1px var(--leaf), 0 0 18px 2px color-mix(in srgb, var(--leaf) 45%, transparent);
+  }
+  .pt.me .lbl { font-weight: 700; color: var(--ink); font-size: 13px; }
+
+  /* ---------- 06 ペルソナ ---------- */
+  .persona-main { border: 1.5px solid var(--leaf); position: relative; }
+  .persona-main .tag {
+    position: absolute; top: -11px; left: 20px; font-size: 11px; letter-spacing: .18em;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--leaf); color: var(--bg); border-radius: 999px; padding: 2px 12px; font-weight: 700;
+  }
+  .copyline {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+    font-size: 14.5px; color: var(--ink); margin-top: 12px !important;
+  }
+  .copyline::before { content: "「"; color: var(--leaf); }
+  .copyline::after { content: "」"; color: var(--leaf); }
+
+  /* ---------- 07 ビジネス ---------- */
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  .tbl-wrap { overflow-x: auto; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  th {
+    font-size: 11.5px; letter-spacing: .12em; color: var(--muted); font-weight: 600;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  td.r, th.r { text-align: right; }
+  td .num { font-size: 14px; }
+  .econbar { margin-top: 30px; }
+  .econbar .bar { display: flex; gap: 2px; height: 40px; border-radius: 6px; overflow: hidden; }
+  .econbar .seg-cost { background: color-mix(in srgb, var(--muted) 38%, var(--surface)); flex: 0 0 52%; }
+  .econbar .seg-gp { background: var(--leaf); flex: 1; }
+  .econbar .seg { display: flex; align-items: center; padding: 0 14px; font-size: 12.5px; white-space: nowrap; }
+  .econbar .seg-cost { color: var(--ink); }
+  .econbar .seg-gp { color: var(--bg); font-weight: 700; }
+  .econbar .cap { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--muted); }
+
+  /* ---------- 08 GTM ---------- */
+  .steps { counter-reset: gtm; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .step { counter-increment: gtm; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; }
+  .step::before {
+    content: "PHASE " counter(gtm);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10.5px; letter-spacing: .2em; color: var(--leaf); display: block; margin-bottom: 8px; font-weight: 700;
+  }
+  .step h3 { font-family: inherit; font-weight: 700; font-size: 15px; }
+  .step p { font-size: 13px; color: var(--ink-2); margin: 0; }
+
+  /* ---------- 09 ロードマップ ---------- */
+  .timeline { border-left: 2px solid var(--line); margin: 8px 0 34px; padding-left: 26px; display: grid; gap: 20px; }
+  .tl { position: relative; }
+  .tl::before {
+    content: ""; position: absolute; left: -33px; top: 7px; width: 12px; height: 12px;
+    border-radius: 50%; background: var(--leaf); border: 3px solid var(--bg);
+  }
+  .tl .when {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11.5px; letter-spacing: .1em; color: var(--muted);
+  }
+  .tl h3 { font-family: inherit; font-weight: 700; font-size: 15.5px; display: inline; }
+  .tl p { font-size: 13.5px; color: var(--ink-2); margin: 2px 0 0; }
+  .ask {
+    background: var(--leaf-soft); border: 1.5px solid var(--leaf); border-radius: 12px;
+    padding: 28px 32px; margin-top: 36px;
+  }
+  .ask h3 { font-size: 20px; margin-bottom: 10px; }
+  .ask p { margin: 0; font-size: 14.5px; }
+
+  .risk { border-top: 3px solid var(--red660); }
+  .risk .k { color: var(--red660); }
+
+  footer { padding: 40px 0 64px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 56px; }
+    .cab-wrap { order: -1; }
+    .grid2, .grid3, .grid4, .tiles, .steps { grid-template-columns: 1fr 1fr; }
+    .pain { grid-template-columns: 1fr; gap: 6px; }
+  }
+  @media (max-width: 480px) {
+    .grid2, .grid3, .grid4, .tiles, .steps { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="deck">
+
+  <!-- 01 表紙 -->
+  <section class="slide hero">
+    <div>
+      <div class="brand"><b>GROW CABINET</b>(仮称) — 事業ピッチ 2026.07</div>
+      <h1>リビングに、<br>熱帯をひと部屋。</h1>
+      <p class="sub">配線も、電源も、湿度も。ぜんぶ設計済みの室内温室。
+      ガラスキャビネットを自作改造してきた植物愛好家の不満を、製品仕様で最初から解決します。</p>
+      <div class="meta">
+        <span class="pill">中国OEM製造 × 日本市場</span>
+        <span class="pill">フルセット <span class="num">¥59,800</span></span>
+        <span class="pill">国内完成品市場はほぼ空白</span>
+      </div>
+    </div>
+    <div class="cab-wrap">
+      <div class="cabinet" role="img" aria-label="グロウキャビネットの構成図。上部に機器収納ベイとLEDライト、庫内に植物とマグネット小棚、温湿度計、底面トレイ。">
+        <div class="cab-bay"><i></i><i></i><i></i></div>
+        <div class="cab-inner">
+          <div class="lightbar"></div>
+          <div class="fanunit"></div>
+          <div class="mshelf a"><span class="leaf s1"></span></div>
+          <div class="mshelf b"><span class="leaf s2"></span></div>
+          <div class="hygro">25.6°C<br>67%RH</div>
+          <span class="leaf l1"></span><span class="leaf l2"></span><span class="leaf l3"></span>
+          <span class="leaf l4"></span><span class="leaf l5"></span>
+          <div class="tray"></div>
+          <div class="doorline"></div>
+        </div>
+      </div>
+      <p class="cab-cap">開発者自作のDIY温室(原器)実測 <span class="num">25.6°C / 67%RH</span><br>この実証機の不満を製品化したのが本企画</p>
+    </div>
+  </section>
+
+  <!-- 02 課題 -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">02</span>課題 — PROBLEM</div>
+    <h2>高湿度系の植物は、日本のリビングで枯れる。<br>解決策は今も「自作」しかない。</h2>
+    <p class="lead">アロイド・ビカクシダ・ジュエルオーキッドなど1株数千〜数万円の「コレクション株」市場が拡大する一方、
+    エアコンの乾燥と冬の低温が最大の枯死要因。世界的にはIKEAのガラスキャビネットを改造する
+    「Greenhouse Cabinet」文化が定着しましたが、<strong>完成品を売るプレイヤーは国内にほぼ存在しません</strong>。</p>
+    <div class="pains">
+      <div class="pain">
+        <div class="q">配線を通す穴がない</div>
+        <p>市販キャビネットは家具なので配線口がない。扉の隙間からケーブルを潰して出すしかなく、見た目も密閉性も損なわれる。</p>
+      </div>
+      <div class="pain">
+        <div class="q">アダプターの置き場がない</div>
+        <p>ライト・ファン・タイマーのACアダプターと電源タップが床に転がる。高湿度の庫内には置けず、外に出すと生活感が出る。</p>
+      </div>
+      <div class="pain">
+        <div class="q">棚板が育成の邪魔をする</div>
+        <p>ガラス棚が空間を分断し、大型株や着生板(ビカクシダ)が入らない。棚を外すと今度は小型株の置き場に困る。</p>
+      </div>
+    </div>
+    <p class="quote">「湿度は保てた。植物はよく育った。でも、穴がない。置き場がない。棚が邪魔。
+      <span class="note">— 開発者自身のDIY実機(Instagram公開)で実証済みの不満。これが本製品の設計要求そのものです。</span>
+    </p>
+  </section>
+
+  <!-- 03 解決 -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">03</span>解決 — PRODUCT</div>
+    <h2>「最初からそう作られた温室」を、家具の見た目で。</h2>
+    <p class="lead">スチール×強化ガラスの一室空間キャビネット。DIYの不満3点を製品仕様に変換した、そのまま使える室内温室です。</p>
+    <div class="grid4" style="margin-top: 28px;">
+      <div class="card">
+        <span class="k">PORTS</span>
+        <h3>配線ポート3系統</h3>
+        <p>天井×2・背面×2にグロメット付き配線口を標準装備。工具なしで着脱でき、隙間は塞がって湿度を逃さない。</p>
+      </div>
+      <div class="card">
+        <span class="k">BAY</span>
+        <h3>機器収納ベイ</h3>
+        <p>天井の上に高さ8cmの隠し収納。ACアダプター・タイマーハブ・余長ケーブルが全部入る。通気付き・マグネット開閉。</p>
+      </div>
+      <div class="card">
+        <span class="k">ONE ROOM</span>
+        <h3>棚なしの一室空間</h3>
+        <p>庫内 約76×40×105cm。大型株も着生板もそのまま。床は防水パン+引き出せるトレイの二重防水。</p>
+      </div>
+      <div class="card">
+        <span class="k">MAGNET WALL</span>
+        <h3>マグネット壁面</h3>
+        <p>背面・天井はスチール。小棚2枚が標準付属し、小さな株を好きな高さでライトに寄せられる。増設売りにも。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 スペック -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">04</span>主要スペック — SPECS</div>
+    <h2>電気の不安ごと、設計済み。</h2>
+    <div class="tiles" style="margin-top: 26px;">
+      <div class="tile"><div class="v num">W800<small> × D450 × H1400<br>mm(脚込み)</small></div><div class="l">本体外形。KD式・強化ガラス・転倒防止ベルト標準</div></div>
+      <div class="tile"><div class="v num">50W<small> LED ×12h</small></div><div class="l">フルスペクトラムLEDパネル×2(落下防止テザー付き)</div></div>
+      <div class="tile"><div class="v num">AC 1系統</div><div class="l">PSE認証済みアダプター1個のみ。庫内はすべてDC・防湿仕様</div></div>
+      <div class="tile"><div class="v"><span class="num">約20</span><small>円 / 日</small></div><div class="l">電気代目安(ライト12h+ファン24h ≒ 月約650円)</div></div>
+      <div class="tile"><div class="v num">40分</div><div class="l">組立時間。工具は付属の六角レンチのみ</div></div>
+      <div class="tile"><div class="v num">120mm ×2</div><div class="l">循環ファン(24時間静音駆動・ボールベアリング)</div></div>
+      <div class="tile"><div class="v num">RH 70–85%</div><div class="l">扉ガスケット+開閉ベントで湿度を保持・調整</div></div>
+      <div class="tile"><div class="v num">2.0kg ×2</div><div class="l">マグネット小棚の耐荷重。壁面が育成スペースになる</div></div>
+    </div>
+    <p class="note" style="margin-top: 16px;">数値は仕様書(SPEC-00〜05)の一次設計値。試作機で実証後に確定。</p>
+  </section>
+
+  <!-- 05 市場・競合 -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">05</span>市場と競合 — MARKET</div>
+    <h2>「家具見え × 電装込みの完成品」は国内空白。</h2>
+    <p class="lead">競合は6カテゴリを調査。どれも「見た目」か「完成度」のどちらかを諦めています。
+    最大の競合は既製品ではなく、<strong>DIYの楽しさと「何も買わない現状維持」</strong>です。</p>
+    <div class="posmap-wrap">
+      <div class="posmap" role="img" aria-label="ポジショニングマップ。横軸は完成度(電装・湿度設計込み)、縦軸はインテリア性。右上の空白地帯に本製品が位置し、競合はいずれか一方の軸に留まる。">
+        <div class="zone"></div>
+        <div class="zone-label">空白地帯</div>
+        <span class="axis-y">インテリア性</span>
+        <span class="axis-x">完成度(電装・湿度設計込み)</span>
+        <div class="pt" style="left: 18%; top: 78%;"><div class="dot"></div><div class="lbl">ビニール温室<small>〜¥1万</small></div></div>
+        <div class="pt" style="left: 38%; top: 62%;"><div class="dot"></div><div class="lbl">園芸用ガラス温室<small>約¥2.8万・照明別</small></div></div>
+        <div class="pt" style="left: 56%; top: 68%;"><div class="dot"></div><div class="lbl">パルダリウムケージ<small>数万円・小型中心</small></div></div>
+        <div class="pt" style="left: 47%; top: 40%;"><div class="dot"></div><div class="lbl">海外の簡易完成品<small>$80–200・日本未対応</small></div></div>
+        <div class="pt" style="left: 62%; top: 22%;"><div class="dot"></div><div class="lbl">ガラスキャビネットDIY<small>総額¥3–4万+工数</small></div></div>
+        <div class="pt me" style="left: 81%; top: 17%;"><div class="dot"></div><div class="lbl">本製品<small>¥59,800・設計済み完成品</small></div></div>
+      </div>
+    </div>
+    <p class="note">出典: 楽天市場・Amazon・各社公式サイト調査(2026年7月)。DIY総額はキャビネット+ライト+ファン+タイマー等の実勢積算。</p>
+  </section>
+
+  <!-- 06 ターゲット -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">06</span>ターゲット — WHO</div>
+    <h2>「株を守る保険」として買う人から広げる。</h2>
+    <div class="grid2" style="margin-top: 30px;">
+      <div class="card persona-main">
+        <span class="tag">メイン</span>
+        <h3>コレクター深化層(30–45歳)</h3>
+        <p>アロイド・ビカクシダに月1〜3万円。「冬に高い株を枯らした」経験があり、失敗回避が最優先。価格感度は低い。
+        <em>1万円の株を2つ守れば元が取れる</em>という保険換算が刺さる。</p>
+        <p class="copyline">その一株を枯らす前に。温室は、株を守る保険です。</p>
+      </div>
+      <div class="card">
+        <h3>インテリア文脈層(25–40歳)</h3>
+        <p>「植物のある暮らし」をSNSに投稿し、温室の中まで飾る層。配線が見えない設計と夜の見え方が刺さる。</p>
+        <p class="copyline">夜のリビングで、いちばん綺麗な家具になる。</p>
+      </div>
+      <div class="card">
+        <h3>ステップアップ層(入門〜中級)</h3>
+        <p>ビニール温室や卓上ケースで限界を感じているが、何を買い足せばいいか分からず電気工作が怖い層。</p>
+        <p class="copyline">工具は六角レンチひとつ。40分で熱帯が立ち上がる。</p>
+      </div>
+      <div class="card">
+        <h3>B2B(ショップ・カフェ・オフィス)</h3>
+        <p>高額株のディスプレイ兼保管什器。組立即戦力・保守部品供給が決め手。展示会と直営業で開拓。</p>
+        <p class="copyline">売り場の主役を、枯らさない什器。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 ビジネス -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">07</span>ビジネスモデル — ECONOMICS</div>
+    <h2>本体で信頼を、増設アクセサリーで継続売上を。</h2>
+    <div class="tbl-wrap" style="margin-top: 26px;">
+      <table>
+        <thead><tr><th>SKU</th><th>内容</th><th class="r">FOB原価</th><th class="r">売価(税込)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>フルセット</strong></td><td>本体+LED×2+ファン×2+電源系+付属品一式</td><td class="r num">$140–150</td><td class="r num"><strong>¥59,800</strong></td></tr>
+          <tr><td>本体のみ</td><td>キャビネット+グリッド+小棚×2+トレイ</td><td class="r num">$96</td><td class="r num">¥39,800</td></tr>
+          <tr><td>増設: LEDパネル</td><td>1枚(テザー・延長ケーブル付き)</td><td class="r num">$11</td><td class="r num">¥4,980</td></tr>
+          <tr><td>増設: マグネット小棚</td><td>2枚組</td><td class="r num">$4</td><td class="r num">¥1,980</td></tr>
+          <tr><td>増設: 循環ファン</td><td>1基</td><td class="r num">$4.5</td><td class="r num">¥2,480</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="econbar">
+      <div class="bar">
+        <div class="seg seg-cost">着地原価 <span class="num">&nbsp;約¥31,000</span>(製造+輸送+関税+検品)</div>
+        <div class="seg seg-gp">粗利 <span class="num">&nbsp;約¥28,800(48%)</span></div>
+      </div>
+      <div class="cap"><span>フルセット売価 <span class="num">¥59,800</span> の内訳(概算)</span><span>MOQ <span class="num">100–200</span>台 / 初回ロット <span class="num">100</span>台想定</span></div>
+    </div>
+    <p class="note" style="margin-top: 14px;">原価は交渉前の概算上限。ガラス破損・返品は梱包試験(ISTA-2A相当)+補修部品在庫5%で吸収する設計。</p>
+  </section>
+
+  <!-- 08 GTM -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">08</span>販売戦略 — GO TO MARKET</div>
+    <h2>クラファンで検証し、SNSの実績を公式化する。</h2>
+    <p class="lead">開発者のDIY実機投稿(Instagram)がすでに反応を得ており、開発ストーリーごと販売の資産になります。</p>
+    <div class="steps" style="margin-top: 26px;">
+      <div class="step"><h3>クラウドファンディング</h3><p>Makuake等で先行販売100台。需要検証と初回ロット資金を両取り。応援購入は高単価と相性が良い。</p></div>
+      <div class="step"><h3>自社EC + SNS</h3><p>Shopify+Instagram/YouTube。植物系インフルエンサー3〜5名へ貸与レビュー。開発ストーリーをLPの軸に。</p></div>
+      <div class="step"><h3>モール展開</h3><p>Amazon・楽天。送料・返品コストを初回ロットの実績で織り込んでから参入。</p></div>
+      <div class="step"><h3>B2B・卸</h3><p>植物ショップ・カフェ・オフィス緑化。展示会(国際ガーデンEXPO等)と直営業。</p></div>
+    </div>
+  </section>
+
+  <!-- 09 ロードマップとアスク -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">09</span>ロードマップ — NEXT</div>
+    <h2>発売まで約6ヶ月。仕様書はもう出来ている。</h2>
+    <div class="timeline" style="margin-top: 28px;">
+      <div class="tl"><span class="when">〜2週</span><br><h3>設計確定</h3><p>DIY原器の実測(D1〜D8)を仕様書に反映。RFQを家具・電装の2系統サプライヤーへ発行。</p></div>
+      <div class="tl"><span class="when">+8週</span><br><h3>試作・検証</h3><p>試作機で組立検証・168h連続運転・PPFD実測・安全性試験(転倒/強化ガラス/PSE表示)。</p></div>
+      <div class="tl"><span class="when">+8週(並行)</span><br><h3>クラファン先行販売</h3><p>試作機の実測データと開発ストーリーで公開。目標100台。</p></div>
+      <div class="tl"><span class="when">+10〜12週</span><br><h3>量産・出荷</h3><p>FAI合格→量産→船便→国内検品→クラファン配送・一般販売開始。</p></div>
+    </div>
+    <div class="grid3">
+      <div class="card risk"><span class="k">RISK 1</span><h3>ガラス破損・物流</h3><p>ISTA-2A相当の梱包試験を出荷条件に。補修部品5%在庫で本体交換を回避。</p></div>
+      <div class="card risk"><span class="k">RISK 2</span><h3>コピー品</h3><p>機器ベイ+配線ポート+小棚の組合せで意匠登録を検討。レビューとブランドの先行者利益で防衛。</p></div>
+      <div class="card risk"><span class="k">RISK 3</span><h3>安全・PL</h3><p>転倒防止ベルト標準・強化ガラス証明・PSE整理済み・PL保険加入を発売条件に。</p></div>
+    </div>
+    <div class="ask">
+      <h3>ASK — 初回ロット100台を、一緒に立ち上げる仲間を探しています。</h3>
+      <p>資金使途は試作・安全試験・初回ロット製造(概算<span class="num">¥450〜550万</span>)。
+      仕様書一式(BOM・部品仕様・法規制整理)と、実証済みのDIY原器はすでにあります。
+      必要なのは、最初の100台を世に出す推進力です。</p>
+    </div>
+  </section>
+
+  <footer>
+    GROW CABINET(仮称)事業ピッチ — 2026年7月版。
+    記載の価格・原価・競合情報は調査時点の概算値であり、見積・実測により変動します。
+    本資料は社内・パートナー検討用であり、投資勧誘を目的とするものではありません。
+  </footer>
+
+</div>
