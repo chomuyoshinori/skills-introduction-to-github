@@ -50,6 +50,7 @@ DIYで判明した既製ケースの不満点を製品仕様で解消するこ�
 | `SPEC-04_power-hub-timer.md` | 電源ハブ(タイマー)+PSEアダプター |
 | `SPEC-05_accessories.md` | 温湿度計・フック・トレイ等 |
 | `SPEC-06_mounting-layout.md` | **マグネット・マウントシステムと穴位置の座標定義**(フック磁石・電源ボックス・レースウェイ) |
+| `drawings.html` | **一次設計図 v0.3**(寸法線入り7シート: 全体図・天井伏図・背面立面・機器ベイ・小棚・トレイ・EBOX)。ブラウザで開く |
 | `VERIFICATION.md` | 試作評価・FAI・安全性試験(自社製品版) |
 | `COMPLIANCE.md` | PSE・家具安全・ガラス・PL(自社製品版) |
 | `MARKETING.md` | 競合分析・SWOT・ターゲット・訴求コピー・チャネル戦略 |

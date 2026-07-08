@@ -1,0 +1,381 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body><title>グロウキャビネット 設計図 v0.3</title>
+<style>
+  :root { --pg: #E9EDE7; --ink: #1D2B21; --mut: #5A6A5E; }
+  @media (prefers-color-scheme: dark) { :root { --pg: #10160F; --ink: #E7EFE7; --mut: #97A99B; } }
+  :root[data-theme="light"] { --pg: #E9EDE7; --ink: #1D2B21; --mut: #5A6A5E; }
+  :root[data-theme="dark"]  { --pg: #10160F; --ink: #E7EFE7; --mut: #97A99B; }
+
+  body { background: var(--pg); color: var(--ink); margin: 0; padding: 32px 20px 64px;
+         font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif; }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  h1 { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: 26px; margin: 0 0 4px; }
+  .sub { color: var(--mut); font-size: 13px; margin-bottom: 28px; line-height: 1.9; }
+  .sub b { color: var(--ink); }
+
+  /* 図面シートは意図的に白紙固定(製図用紙のメタファー) */
+  .sheet { background: #FFFFFF; color: #1F2937; border: 1px solid #C9CFC6; border-radius: 6px;
+           margin: 0 0 26px; padding: 18px 20px 14px; box-shadow: 0 6px 22px rgba(20,35,25,.10); }
+  .sheet-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+                border-bottom: 2px solid #1F2937; padding-bottom: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+  .sheet-head h2 { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: 17px; margin: 0; }
+  .tb { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 11px; color: #4B5563;
+        display: flex; gap: 16px; flex-wrap: wrap; }
+  .cv { overflow-x: auto; }
+  svg { display: block; margin: 6px auto; }
+  .notes { font-size: 12px; color: #4B5563; border-top: 1px solid #D7DCD4; margin-top: 8px; padding-top: 8px; line-height: 1.8; }
+  .notes b { color: #1F2937; }
+
+  table.spec { border-collapse: collapse; width: 100%; font-size: 13px; }
+  table.spec th, table.spec td { border: 1px solid #D7DCD4; padding: 7px 12px; text-align: left; }
+  table.spec th { background: #F1F4EF; font-weight: 600; width: 30%;
+                  font-family: ui-monospace, Menlo, monospace; font-size: 11.5px; letter-spacing: .06em; }
+  table.spec td { font-variant-numeric: tabular-nums; }
+
+  /* SVG line classes */
+  .ol  { stroke: #1F2937; stroke-width: 1.8; fill: none; stroke-linecap: square; }
+  .th  { stroke: #1F2937; stroke-width: .9;  fill: none; }
+  .hd  { stroke: #6B7280; stroke-width: .9;  fill: none; stroke-dasharray: 5 3; }
+  .cl  { stroke: #94A3B8; stroke-width: .7;  fill: none; stroke-dasharray: 12 3 2.5 3; }
+  .dm  { stroke: #6B7280; stroke-width: .8;  fill: none; }
+  .hl  { stroke: #B03A5B; stroke-width: 1.1; fill: none; }
+  .zn  { stroke: #2F7D52; stroke-width: 1;   fill: rgba(47,125,82,.10); stroke-dasharray: 6 4; }
+  .fillg { fill: #EEF2EC; stroke: none; }
+  .fills { fill: #DDE3DB; stroke: none; }
+  text { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; fill: #374151; }
+  .lb  { font-size: 10.5px; }
+  .lb2 { font-size: 10px; fill: #6B7280; }
+  .lbA { font-size: 10.5px; fill: #2F7D52; font-weight: 700; }
+  .lbH { font-size: 10.5px; fill: #B03A5B; }
+  .vt  { font-size: 12px; fill: #1F2937; font-weight: 700; }
+</style>
+
+<div class="wrap">
+  <h1>グロウキャビネット 一次設計図</h1>
+  <p class="sub">図面セット <b>GRC-DWG v0.3</b> / 2026-07-08 / 単位: mm / 外形は<b>RUDSTAワイド同寸(800×370×総高1200)に確定</b>。
+  本図はRFQ・試作用の一次設計図であり、製造図面(DXF/STEP)はサプライヤー作成・当社承認とする。座標系・根拠は SPEC-06 と同一。</p>
+
+  <!-- SHEET 0 -->
+  <div class="sheet">
+    <div class="sheet-head"><h2>S0 — 諸元表・一般注記</h2>
+      <div class="tb"><span>GRC-DWG-000</span><span>版 v0.3</span></div></div>
+    <table class="spec">
+      <tr><th>本体外形 W×D×H</th><td>800 × 370 × 1080(+脚120 = 総高 1200)</td></tr>
+      <tr><th>庫内有効 W×D×H</th><td>760 × 330 × 950(棚なし一室空間)</td></tr>
+      <tr><th>機器ベイ</th><td>内寸 760 × 330 × 70(本体最上部・トップカバー下)</td></tr>
+      <tr><th>防水パン</th><td>内寸 740 × 320・立上り30(ハーフトレイ 360×315×25 ×2)</td></tr>
+      <tr><th>扉</th><td>観音開き2枚(各 約396×985)・強化ガラス5mm・EPDMガスケット・マグネットキャッチ</td></tr>
+      <tr><th>材料</th><td>フレーム: 角管25×25×t1.2 / 背面・天井: スチールt0.8(磁性面) / 粉体塗装 艶消し黒</td></tr>
+      <tr><th>配線ポート</th><td>φ30 × 6口(天井2・ベイ背面2・背面下部2)+盲栓3</td></tr>
+      <tr><th>電源</th><td>DC24V 最大60W(PSE菱形認証済みACアダプター1個・機器ベイ内EBOX収納)</td></tr>
+      <tr><th>質量 / 耐荷重</th><td>本体 ≤40kg / パン60kg(等分布)・マグネット小棚3.0kg/枚</td></tr>
+    </table>
+    <div class="notes">
+      <b>一般注記</b>: ①一般公差 板金±0.5・樹脂成形±0.3・ガラス±1.0 ②穴位置公差 ±2.0(グロメット吸収)
+      ③スチール露出面はすべて粉体塗装(エポキシポリエステル・塩水噴霧240h) ④ガラスは全て強化処理・証明書ロット添付
+      ⑤磁性面(背面・天井)は塗膜厚 ≤80µm(磁力低下防止) ⑥赤色表記=穴・開口、緑色表記=推奨ゾーン。
+    </div>
+  </div>
+
+  <!-- SHEET 1 -->
+  <div class="sheet">
+    <div class="sheet-head"><h2>S1 — 全体図(正面・側面)</h2>
+      <div class="tb"><span>GRC-DWG-001</span><span>版 v0.3</span></div></div>
+    <div class="cv"><svg id="s1" width="920" height="600" viewBox="0 0 920 600"></svg></div>
+    <div class="notes"><b>注記</b>: 扉ヒンジは左右外側・開き角110°以上。脚はM10アジャスター±10。
+      転倒防止ベルト取付座は背面上部左右(ベイ側壁外面)。ベントは背面上部(S3参照)のため正面・側面に開口なし。</div>
+  </div>
+
+  <!-- SHEET 2 -->
+  <div class="sheet">
+    <div class="sheet-head"><h2>S2 — 天井伏図(下から見上げ・庫内側)</h2>
+      <div class="tb"><span>GRC-DWG-002</span><span>版 v0.3</span></div></div>
+    <div class="cv"><svg id="s2" width="860" height="380" viewBox="0 0 860 380"></svg></div>
+    <div class="notes"><b>注記</b>: ◎P1a/P1b=φ30貫通(ベイ床と共通プレス)・シリコン割グロメット装着。
+      +印=フック磁石(GRC-HOOK32)推奨位置のシルク印刷十字(8×8mm)。パネル(破線)は吊り下げ時の投影位置。
+      吊り金具ピッチ200(パネル端から各40内側)。</div>
+  </div>
+
+  <!-- SHEET 3 -->
+  <div class="sheet">
+    <div class="sheet-head"><h2>S3 — 背面パネル立面図(庫内側)</h2>
+      <div class="tb"><span>GRC-DWG-003</span><span>版 v0.3</span></div></div>
+    <div class="cv"><svg id="s3" width="860" height="660" viewBox="0 0 860 660"></svg></div>
+    <div class="notes"><b>注記</b>: ドットグリッド=φ2シルク印刷・100ピッチ(X80〜680 / Z100〜900)。
+      P3a/P3b はφ30・標準は盲栓。スライドベントは有効開口100×40・防虫メッシュ・庫内側から操作。
+      レースウェイ(GRC-RACE L800)はマグネット式のため位置自由、図は推奨位置。ファン・温湿度計・小棚は取説推奨位置(マグネット式)。</div>
+  </div>
+
+  <!-- SHEET 4 -->
+  <div class="sheet">
+    <div class="sheet-head"><h2>S4 — 機器ベイ平面図(トップカバーを外した状態)</h2>
+      <div class="tb"><span>GRC-DWG-004</span><span>版 v0.3</span></div></div>
+    <div class="cv"><svg id="s4" width="860" height="360" viewBox="0 0 860 360"></svg></div>
+    <div class="notes"><b>注記</b>: EBOXは左寄せ推奨(P2a入線と最短)。ベイ側壁の通気スリット開口率≥20%。
+      P1a/P1bはベイ床の貫通穴(S2と同一穴)。ベイ床はEBOXマグネットパッドの吸着面のため塗装平滑度に注意。</div>
+  </div>
+
+  <!-- SHEET 5 -->
+  <div class="sheet">
+    <div class="sheet-head"><h2>S5 — マグネット小棚 GRC-MSH(プレステラ105×3対応)</h2>
+      <div class="tb"><span>GRC-DWG-005</span><span>版 v0.3</span></div></div>
+    <div class="cv"><svg id="s5" width="860" height="450" viewBox="0 0 860 450"></svg></div>
+    <div class="notes"><b>注記</b>: 材質スチールt1.0・全角R3・ヘム曲げ。磁石=ネオジムN38 φ25×6+背面全面ゴムマグネットシート。
+      定格積載3.0kg・せん断保持≥9kgf。有効内寸≥338×110(プレステラ105=本体92角・縁105角・標準H80/深型H120)。</div>
+  </div>
+
+  <!-- SHEET 6 -->
+  <div class="sheet">
+    <div class="sheet-head"><h2>S6 — 底面: 防水パン・ハーフトレイ・水切りマット</h2>
+      <div class="tb"><span>GRC-DWG-006</span><span>版 v0.3</span></div></div>
+    <div class="cv"><svg id="s6" width="860" height="380" viewBox="0 0 860 380"></svg></div>
+    <div class="notes"><b>注記</b>: パンはシーム溶接防水・立上り30。トレイはPP真空成形・前縁指掛かり一体。
+      マットはPVCコイル(抗菌)345×295×8・トレイ内敷き。片側ずつ引き出して洗浄する運用。</div>
+  </div>
+
+  <!-- SHEET 7 -->
+  <div class="sheet">
+    <div class="sheet-head"><h2>S7 — 電源ボックス GRC-EBOX(マグネット着脱式)</h2>
+      <div class="tb"><span>GRC-DWG-007</span><span>版 v0.3</span></div></div>
+    <div class="cv"><svg id="s7" width="860" height="330" viewBox="0 0 860 330"></svg></div>
+    <div class="notes"><b>注記</b>: ABS(UL94 V-0)・肉厚2.5。底面マグネットパッドφ15×4(ラバー被覆)。
+      側面スリット開口率≥25%。妻面切欠きはP1a/P1b/P2位置に整列。内部レイアウトは代表例(面ファスナー固定)。</div>
+  </div>
+
+</div>
+
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+function E(svg, tag, at) { const e = document.createElementNS(NS, tag);
+  for (const k in at) e.setAttribute(k, at[k]); svg.appendChild(e); return e; }
+
+/* 製図コンテキスト: mm座標→px。up=true なら Z 上向き */
+function ctx(svg, ox, oy, s, up) {
+  const X = mm => ox + mm * s;
+  const Y = mm => up ? oy - mm * s : oy + mm * s;
+  const c = { X, Y,
+    line: (x1,y1,x2,y2,cls) => E(svg,'line',{x1:X(x1),y1:Y(y1),x2:X(x2),y2:Y(y2),class:cls||'th'}),
+    rect: (x,y,w,h,cls) => E(svg,'rect',{x:X(x), y:up?Y(y+h):Y(y), width:w*s, height:h*s, class:cls||'th'}),
+    circ: (cx,cy,r,cls) => E(svg,'circle',{cx:X(cx),cy:Y(cy),r:r*s,class:cls||'th'}),
+    txt: (x,y,str,cls,anch,dx,dy) => { const t=E(svg,'text',{x:X(x)+(dx||0),y:Y(y)+(dy||0),
+      class:cls||'lb','text-anchor':anch||'middle'}); t.textContent=str; return t; },
+    hole: (cx,cy,rmm,lbl,la,ldx,ldy) => {
+      c.circ(cx,cy,rmm,'hl');
+      const r2 = rmm + 4/s;
+      c.line(cx-r2,cy,cx+r2,cy,'hl'); c.line(cx,cy-r2,cx,cy+r2,'hl');
+      if(lbl) c.txt(cx,cy,lbl,'lbH',la||'middle',ldx||0,(ldy!==undefined?ldy:-(rmm*s+7)));
+    },
+    cross: (cx,cy,lbl,ldy) => {
+      const r=7; E(svg,'line',{x1:X(cx)-r,y1:Y(cy),x2:X(cx)+r,y2:Y(cy),class:'th'});
+      E(svg,'line',{x1:X(cx),y1:Y(cy)-r,x2:X(cx),y2:Y(cy)+r,class:'th'});
+      E(svg,'circle',{cx:X(cx),cy:Y(cy),r:3,class:'th'});
+      if(lbl) c.txt(cx,cy,lbl,'lb2','middle',0,ldy||17);
+    } };
+  function tick(px,py){ E(svg,'line',{x1:px-4,y1:py+4,x2:px+4,y2:py-4,class:'dm'}); }
+  c.dimH = (x1mm,x2mm,pyOff,lbl,edgeYmm) => {
+    const px1=X(Math.min(x1mm,x2mm)), px2=X(Math.max(x1mm,x2mm));
+    const ey=Y(edgeYmm), py=ey+pyOff;
+    E(svg,'line',{x1:px1,y1:ey+(pyOff>0?3:-3),x2:px1,y2:py+(pyOff>0?5:-5),class:'dm'});
+    E(svg,'line',{x1:px2,y1:ey+(pyOff>0?3:-3),x2:px2,y2:py+(pyOff>0?5:-5),class:'dm'});
+    E(svg,'line',{x1:px1,y1:py,x2:px2,y2:py,class:'dm'}); tick(px1,py); tick(px2,py);
+    const t=E(svg,'text',{x:(px1+px2)/2,y:py-4,class:'lb','text-anchor':'middle'}); t.textContent=lbl;
+  };
+  c.dimV = (y1mm,y2mm,pxOff,lbl,edgeXmm) => {
+    const py1=Math.min(Y(y1mm),Y(y2mm)), py2=Math.max(Y(y1mm),Y(y2mm));
+    const ex=X(edgeXmm), px=ex+pxOff;
+    E(svg,'line',{x1:ex+(pxOff>0?3:-3),y1:py1,x2:px+(pxOff>0?5:-5),y2:py1,class:'dm'});
+    E(svg,'line',{x1:ex+(pxOff>0?3:-3),y1:py2,x2:px+(pxOff>0?5:-5),y2:py2,class:'dm'});
+    E(svg,'line',{x1:px,y1:py1,x2:px,y2:py2,class:'dm'}); tick(px,py1); tick(px,py2);
+    const t=E(svg,'text',{x:px+(pxOff>0?10:-10),y:(py1+py2)/2+3,class:'lb',
+      'text-anchor':pxOff>0?'start':'end'}); t.textContent=lbl;
+  };
+  return c;
+}
+
+/* ---------- S1 全体図 ---------- */
+(() => {
+  const svg=document.getElementById('s1'), s=0.40;
+  // 正面図
+  const f=ctx(svg,150,40,s,false);
+  f.txt(400,0,'正面図','vt','middle',0,-16);
+  f.rect(0,0,800,1080,'ol');
+  f.rect(-2,-8,804,8,'fills'); f.rect(-2,-8,804,8,'th');
+  f.line(0,85,800,85,'th');
+  f.txt(400,45,'機器ベイ(トップカバー内)','lb2');
+  f.rect(4,90,392,985,'th'); f.rect(404,90,392,985,'th');
+  f.rect(24,110,352,945,'hd'); f.rect(424,110,352,945,'hd');
+  f.circ(388,590,10,'th'); f.circ(412,590,10,'th');
+  f.line(400,90,400,1075,'cl');
+  f.txt(200,600,'強化ガラス5mm','lb2'); f.txt(600,600,'強化ガラス5mm','lb2');
+  f.rect(30,1080,24,120,'ol'); f.rect(746,1080,24,120,'ol');
+  f.line(0,1080,800,1080,'ol');
+  f.dimH(0,800,60,'800',1200);
+  f.dimH(4,396,30,'扉 396×2',90);
+  f.dimV(0,1080,42,'1080',800);
+  f.dimV(1080,1200,42,'脚 120',800);
+  f.dimV(0,1200,74,'総高 1200',800);
+  f.dimV(0,85,-36,'ベイ85',0);
+  f.dimV(90,1075,-70,'扉開口 985',0);
+
+  // 側面図
+  const g=ctx(svg,640,40,s,false);
+  g.txt(185,0,'側面図','vt','middle',0,-16);
+  g.rect(0,0,370,1080,'ol');
+  g.line(0,85,370,85,'th');
+  g.rect(0,90,22,985,'th'); g.txt(34,580,'扉框','lb2','start');
+  g.line(362,90,362,1075,'hd'); g.txt(354,700,'背面パネル t0.8','lb2','end');
+  g.rect(40,1080,24,120,'ol'); g.rect(306,1080,24,120,'ol');
+  g.line(0,1080,370,1080,'ol');
+  for(let i=0;i<4;i++) g.line(80+i*60,42,120+i*60,42,'hl');
+  g.txt(185,16,'ベイ通気スリット','lbH','middle',0,0);
+  g.line(22,1040,362,1040,'hd'); g.txt(190,1022,'防水パン立上り30','lb2');
+  g.dimH(0,370,60,'370',1200);
+  g.dimV(0,1200,30,'1200',370);
+})();
+
+/* ---------- S2 天井伏図 ---------- */
+(() => {
+  const svg=document.getElementById('s2'), s=0.72;
+  const c=ctx(svg,120,70,s,false);
+  c.txt(380,330,'天井伏図(下から見上げ・Y=0が背面)','vt','middle',0,66);
+  c.rect(0,0,760,330,'ol');
+  c.rect(50,25,280,280,'hd'); c.rect(430,25,280,280,'hd');
+  c.txt(190,290,'LEDパネルA 280×280(吊り投影)','lb2');
+  c.txt(570,290,'LEDパネルB 280×280(吊り投影)','lb2');
+  c.line(190,0,190,330,'cl'); c.line(570,0,570,330,'cl'); c.line(0,165,760,165,'cl');
+  c.hole(190,50,15,'P1a φ30'); c.hole(570,50,15,'P1b φ30');
+  c.cross(90,165,'HK1'); c.cross(290,165,'HK2'); c.cross(470,165,'HK3'); c.cross(670,165,'HK4');
+  c.dimH(0,760,46,'760(庫内幅)',330);
+  c.dimH(0,190,-46,'190',0); c.dimH(190,570,-46,'380',0);
+  c.dimH(90,290,-24,'吊りピッチ 200',0);
+  c.dimV(0,330,40,'330',760);
+  c.dimV(0,50,-52,'50',0);
+  c.dimV(0,165,-90,'165',0);
+})();
+
+/* ---------- S3 背面立面 ---------- */
+(() => {
+  const svg=document.getElementById('s3'), s=0.56;
+  const c=ctx(svg,170,600,s,true);
+  c.txt(380,950,'背面パネル立面図(庫内側から見る)','vt','middle',0,-28);
+  c.rect(0,0,760,950,'ol');
+  c.rect(30,350,700,350,'zn');
+  c.txt(380,525,'マグネット小棚 推奨ゾーン Z=350〜700','lbA');
+  for(let x=80;x<=680;x+=100) for(let z=100;z<=900;z+=100)
+    E(svg,'circle',{cx:c.X(x),cy:c.Y(z),r:1.4,fill:'#9AA79C'});
+  c.txt(380,108,'ドットグリッド φ2 @100ピッチ(シルク印刷)','lb2','middle',0,16);
+  c.rect(80,880,100,40,'hl'); c.rect(580,880,100,40,'hl');
+  c.txt(130,932,'ベント100×40','lbH','middle',0,-4); c.txt(630,932,'ベント100×40','lbH','middle',0,-4);
+  c.hole(80,120,15,'P3a φ30(盲栓)','middle',0,26); c.hole(680,120,15,'P3b φ30(盲栓)','middle',0,26);
+  c.rect(4,100,22,800,'fills'); c.rect(4,100,22,800,'th');
+  c.rect(734,100,22,800,'fills'); c.rect(734,100,22,800,'th');
+  c.txt(15,480,'RC-L','lb2'); c.txt(745,480,'RC-R','lb2');
+  c.rect(650,520,60,60,'hd'); c.txt(680,502,'温湿度計','lb2');
+  c.circ(540,860,32,'hd'); c.txt(540,806,'ファン上(推奨)','lb2');
+  c.circ(160,280,32,'hd'); c.txt(160,226,'ファン下(推奨)','lb2');
+  c.dimH(0,760,30,'760',0);
+  c.dimH(0,80,-40,'80',950); c.dimH(580,680,-40,'X=630中心',950);
+  c.dimV(0,950,48,'950(庫内高)',760);
+  c.dimV(0,120,-46,'120',0);
+  c.dimV(350,700,-88,'350〜700',0);
+})();
+
+/* ---------- S4 機器ベイ平面 ---------- */
+(() => {
+  const svg=document.getElementById('s4'), s=0.72;
+  const c=ctx(svg,120,60,s,false);
+  c.txt(380,-40,'機器ベイ平面図(Y=0が背面壁)','vt','middle',0,0);
+  c.rect(0,0,760,330,'ol');
+  for(let i=0;i<5;i++){ c.line(0,40+i*55,0,70+i*55,'hl'); c.line(760,40+i*55,760,70+i*55,'hl'); }
+  c.txt(-14,165,'通気スリット','lbH','end');
+  c.rect(40,95,300,140,'ol');
+  c.rect(52,107,140,60,'hd'); c.txt(122,137,'ACアダプター','lb2');
+  c.rect(210,107,110,70,'hd'); c.txt(265,142,'電源ハブ','lb2');
+  c.txt(190,215,'GRC-EBOX 300×140(マグネット着脱)','lb2');
+  c.rect(34,140,6,24,'hl'); c.rect(340,120,6,24,'hl'); c.rect(340,180,6,24,'hl');
+  c.hole(190,50,15,'P1a(床貫通)','middle',0,-17); c.hole(570,50,15,'P1b(床貫通)','middle',0,-17);
+  c.hole(80,0,15,'P2a φ30','middle',0,-17); c.hole(680,0,15,'P2b(盲栓)','middle',0,-17);
+  c.dimH(0,760,44,'760',330);
+  c.dimH(40,340,24,'300',235);
+  c.dimV(0,330,40,'330',760);
+  c.dimV(95,235,-46,'140',40);
+  c.txt(500,290,'ベイ内寸高さ70・トップカバーはマグネット吸着式','lb2');
+})();
+
+/* ---------- S5 小棚3面図 ---------- */
+(() => {
+  const svg=document.getElementById('s5');
+  // 正面図
+  const f=ctx(svg,110,190,0.95,true);
+  f.txt(175,120,'正面図','vt','middle',0,-18);
+  f.rect(0,0,350,120,'ol');
+  f.line(0,20,350,20,'th'); f.txt(175,6,'棚面前縁(立上り前15/横20)','lb2','middle',0,5);
+  [45,175,305].forEach(x=>{ f.circ(x,95,12.5,'hd'); f.circ(x,30,12.5,'hd'); });
+  f.txt(175,78,'ネオジムφ25×6(裏面)+全面ゴムシート','lb2');
+  f.dimH(0,350,36,'350',0);
+  f.dimH(0,45,-30,'45',120); f.dimH(45,175,-30,'130',120); f.dimH(175,305,-30,'130',120);
+  f.dimV(0,30,-36,'30',0); f.dimV(30,95,-64,'65',0);
+
+  // 側面図
+  const sd=ctx(svg,560,190,0.95,true);
+  sd.txt(65,120,'側面図','vt','middle',0,-18);
+  sd.line(0,0,0,120,'ol');
+  sd.line(0,0,130,0,'ol');
+  sd.line(130,0,130,15,'ol');
+  sd.line(0,60,60,0,'th'); sd.txt(52,42,'ガセット','lb2','start');
+  sd.rect(-6,20,6,80,'fills'); sd.rect(-6,20,6,80,'th'); sd.txt(-14,60,'磁石+ゴム','lb2','end');
+  sd.rect(12,0,105,105,'hd'); sd.txt(64,50,'プレステラ105','lb2');
+  sd.dimH(0,130,30,'130',0);
+  sd.dimV(0,15,26,'15',130);
+  sd.dimV(0,120,60,'120',130);
+
+  // 平面図
+  const t=ctx(svg,110,270,0.95,false);
+  t.txt(175,-20,'平面図(3鉢配置)','vt','middle',0,0);
+  t.rect(0,0,350,130,'ol');
+  t.line(6,0,6,130,'th'); t.line(344,0,344,130,'th'); t.line(0,124,350,124,'th');
+  [9,122.5,236].forEach(x=>{ t.rect(x,9,105,105,'hd'); });
+  t.txt(61,61,'105','lb2'); t.txt(175,61,'105','lb2'); t.txt(288,61,'105','lb2');
+  t.dimH(0,350,30,'350(有効内寸≥338)',130);
+  t.dimV(0,130,36,'130',350);
+})();
+
+/* ---------- S6 底面トレイ ---------- */
+(() => {
+  const svg=document.getElementById('s6'), s=0.78;
+  const c=ctx(svg,140,80,s,false);
+  c.txt(370,-52,'防水パン+ハーフトレイ 平面図','vt','middle',0,0);
+  c.rect(0,0,740,320,'ol'); c.txt(370,-30,'防水パン内寸 740×320・立上り30','lb2');
+  c.rect(5,2.5,360,315,'th'); c.rect(375,2.5,360,315,'th');
+  c.rect(12.5,12.5,345,295,'hd'); c.rect(382.5,12.5,345,295,'hd');
+  c.txt(185,150,'ハーフトレイ 360×315×25','lb'); c.txt(185,185,'マット345×295×8(破線)','lb2');
+  c.txt(555,150,'ハーフトレイ 360×315×25','lb'); c.txt(555,185,'マット345×295×8(破線)','lb2');
+  c.rect(150,-4,70,4,'fillg'); c.rect(150,-4,70,4,'th'); c.rect(520,-4,70,4,'fillg'); c.rect(520,-4,70,4,'th');
+  c.txt(185,-12,'指掛かり','lb2'); c.txt(555,-12,'指掛かり','lb2');
+  c.dimH(0,740,42,'740',320);
+  c.dimH(5,365,24,'360',320);
+  c.dimV(0,320,40,'320',740);
+  c.dimV(2.5,317.5,-46,'315',0);
+})();
+
+/* ---------- S7 EBOX ---------- */
+(() => {
+  const svg=document.getElementById('s7');
+  const c=ctx(svg,110,60,0.95,false);
+  c.txt(150,-28,'平面図','vt','middle',0,0);
+  c.rect(0,0,300,140,'ol');
+  c.rect(14,14,20,20,'th'); c.rect(266,14,20,20,'th'); c.rect(14,106,20,20,'th'); c.rect(266,106,20,20,'th');
+  c.txt(150,70,'マグネットパッドφ15×4(底面・角)','lb2');
+  c.rect(-6,55,6,30,'hl'); c.rect(300,35,6,24,'hl'); c.rect(300,85,6,24,'hl');
+  c.txt(-12,45,'切欠き(P2側)','lbH','end'); c.txt(316,30,'切欠き(P1a/P1b側)','lbH','start');
+  c.dimH(0,300,34,'300',140); c.dimV(0,140,36,'140',300);
+
+  const f=ctx(svg,520,120,0.95,false);
+  f.txt(150,-54,'正面図','vt','middle',0,0);
+  f.rect(0,0,300,60,'ol');
+  for(let i=0;i<8;i++) f.line(28+i*32,12,28+i*32,48,'th');
+  f.txt(150,84,'側面スリット(開口率≥25%)','lb2');
+  f.rect(130,-6,40,6,'fills'); f.rect(130,-6,40,6,'th'); f.txt(150,-16,'ハンドル凹(両端)','lb2');
+  f.dimV(0,60,24,'60',300);
+})();
+</script>
+</body></html>
