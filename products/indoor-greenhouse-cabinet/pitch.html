@@ -111,14 +111,50 @@
   }
   .cabinet::before { left: 22px; }
   .cabinet::after { right: 22px; }
-  .cab-bay {
-    height: 22px; border-radius: 4px 4px 0 0; margin-bottom: 4px;
-    background: linear-gradient(#2E362A, #232A20);
-    display: flex; align-items: center; justify-content: center; gap: 5px;
+  .cab-top {
+    height: 10px; border-radius: 4px 4px 0 0; margin-bottom: 4px;
+    background: linear-gradient(#333D2E, #262E22);
   }
-  .cab-bay i { width: 14px; height: 3px; border-radius: 2px; background: #4A5644; }
+  .top-pot {
+    position: absolute; top: -21px; left: 38px; width: 20px; height: 15px;
+    background: linear-gradient(#3A473A, #2A342A); border-radius: 2px 2px 5px 5px;
+  }
+  .top-pot::before {
+    content: ""; position: absolute; top: -12px; left: 3px; width: 13px; height: 13px;
+    border-radius: 0 100% 4px 100%; transform: rotate(-20deg);
+    background: linear-gradient(135deg, #6FB477, #3F7A4C);
+  }
+  .top-pot::after {
+    content: ""; position: absolute; top: -9px; left: 11px; width: 10px; height: 10px;
+    border-radius: 0 100% 4px 100%; transform: rotate(34deg);
+    background: linear-gradient(135deg, #8FCB96, #4E8F60);
+  }
+  .cab-side {
+    position: absolute; top: 14px; right: -30px; width: 30px; height: 344px;
+    transform: skewY(-13deg); transform-origin: left top;
+    background: linear-gradient(180deg, rgba(30, 46, 34, .88), rgba(20, 33, 25, .78) 55%, rgba(16, 27, 20, .82));
+    border: 1px solid rgba(222, 242, 230, .30); border-left: none;
+    box-shadow: inset 0 14px 24px rgba(190, 255, 210, .10);
+    border-radius: 0 6px 6px 0; overflow: hidden;
+  }
+  .cab-side::before {
+    content: ""; position: absolute; top: 6%; left: 42%; width: 2px; height: 86%;
+    background: rgba(255, 255, 255, .20); transform: rotate(4deg);
+  }
+  .cab-side .leaf { opacity: .85; }
+  .stag { position: absolute; top: 86px; left: 122px; width: 36px; height: 44px; }
+  .stag .board { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; border-radius: 5px;
+    background: linear-gradient(#7A5A3A, #5D4128); box-shadow: 0 2px 6px rgba(0,0,0,.5); }
+  .stag .shield { position: absolute; bottom: 12px; left: 7px; width: 22px; height: 18px;
+    border-radius: 50% 50% 42% 42%; background: linear-gradient(#8FBF87, #5C8F58); }
+  .stag .frond { position: absolute; bottom: 22px; width: 7px; height: 27px;
+    border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+    background: linear-gradient(#6FB477, #3F7A4C); transform-origin: bottom center; }
+  .stag .f1 { left: 5px; transform: rotate(-30deg); }
+  .stag .f2 { left: 14px; transform: rotate(-4deg); height: 31px; }
+  .stag .f3 { left: 23px; transform: rotate(24deg); }
   .cab-inner {
-    position: relative; height: 316px; border-radius: 0 0 5px 5px; overflow: hidden;
+    position: relative; height: 328px; border-radius: 0 0 5px 5px; overflow: hidden;
     background:
       radial-gradient(120% 65% at 50% 0%, rgba(198, 255, 214, .38), rgba(198, 255, 214, .07) 46%, transparent 70%),
       radial-gradient(90% 40% at 50% 2%, rgba(255, 128, 160, .18), transparent 62%),
@@ -351,16 +387,20 @@
       <div class="meta">
         <span class="pill">中国OEM製造 × 日本市場</span>
         <span class="pill">フルセット <span class="num">¥59,800</span></span>
+        <span class="pill">3面ガラスのショーケース造形</span>
         <span class="pill">国内完成品市場はほぼ空白</span>
       </div>
     </div>
     <div class="cab-wrap">
-      <div class="cabinet" role="img" aria-label="グロウキャビネットの構成図。上部に機器収納ベイとLEDライト、庫内に植物とマグネット小棚、温湿度計、底面トレイ。">
-        <div class="cab-bay"><i></i><i></i><i></i></div>
+      <div class="cabinet" role="img" aria-label="グロウキャビネットの構成図。無孔の天板の上に鉢、庫内にLEDライト・板付けビカクシダ・マグネット小棚・温湿度計・底面トレイ。側面もガラスで中が見える。">
+        <div class="top-pot"></div>
+        <div class="cab-top"></div>
+        <div class="cab-side"><span class="leaf" style="width:26px;height:26px;position:absolute;bottom:120px;left:2px;transform:rotate(160deg);"></span><span class="leaf" style="width:20px;height:20px;position:absolute;bottom:60px;left:5px;transform:rotate(200deg);background:linear-gradient(135deg,#79C48B,#3C7D52);"></span></div>
         <div class="cab-inner">
           <i class="wire w1"></i><i class="wire w2"></i>
           <div class="lightbar"></div>
           <div class="fanunit"></div>
+          <div class="stag"><div class="board"></div><i class="frond f1"></i><i class="frond f2"></i><i class="frond f3"></i><div class="shield"></div></div>
           <div class="mshelf a"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s1" style="left: 8px; bottom: 14px;"></span></div>
           <div class="mshelf b"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s2" style="left: 41px; bottom: 14px;"></span></div>
           <div class="hygro">25.6°C<br>67%RH</div>
@@ -370,7 +410,7 @@
           <div class="doorline"></div>
         </div>
       </div>
-      <p class="cab-cap">開発者自作のDIY温室(原器)実測 <span class="num">25.6°C / 67%RH</span><br>この実証機の不満を製品化したのが本企画</p>
+      <p class="cab-cap">開発者自作のDIY温室(原器)実測 <span class="num">25.6°C / 67%RH</span><br>3面ガラス・板付けビカクの壁掛け・天板の上にも鉢が置ける</p>
     </div>
   </section>
 
@@ -424,7 +464,7 @@
       <div class="card">
         <span class="k">MAGNET WALL</span>
         <h3>マグネット壁面</h3>
-        <p>背面・天井はスチール。<strong>プレステラ105が3鉢載る小棚×2枚</strong>が標準付属し、小さな株を好きな高さでライトに寄せられる。増設売りにも。</p>
+        <p>背面・天井はスチール。<strong>プレステラ105が3鉢載る小棚×2枚</strong>が標準付属。側面ワイヤーグリッドとフック磁石で<strong>板付けビカクシダの壁掛け</strong>もできる。</p>
       </div>
     </div>
   </section>
