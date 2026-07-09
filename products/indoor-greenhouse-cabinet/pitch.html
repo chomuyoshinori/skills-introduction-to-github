@@ -177,12 +177,19 @@
     .lightbar { animation: none; }
   }
   .fanunit {
-    position: absolute; top: 22px; right: 16px; width: 26px; height: 26px; border-radius: 50%;
-    border: 2px solid #47523F; background: #1A2118;
+    position: absolute; top: 22px; right: 16px; width: 24px; height: 24px; border-radius: 5px;
+    border: 2px solid #4B5642; background: #232B20;
   }
   .fanunit::before {
-    content: ""; position: absolute; inset: 5px; border-radius: 50%;
-    background: conic-gradient(#3C4636 0 25%, #202920 0 50%, #3C4636 0 75%, #202920 0);
+    content: ""; position: absolute; inset: 2px; border-radius: 50%;
+    background: conic-gradient(#5A6B4E 0 38deg, #2A3326 38deg 90deg,
+                #5A6B4E 90deg 128deg, #2A3326 128deg 180deg,
+                #5A6B4E 180deg 218deg, #2A3326 218deg 270deg,
+                #5A6B4E 270deg 308deg, #2A3326 308deg 360deg);
+  }
+  .fanunit::after {
+    content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px;
+    margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #74856A;
   }
   .mshelf {
     position: absolute; left: 16px; width: 94px; height: 5px; border-radius: 2px;
