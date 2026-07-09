@@ -446,6 +446,8 @@
   .econbar { margin-top: 30px; }
   .econbar .bar { display: flex; gap: 2px; height: 40px; border-radius: 6px; overflow: hidden; }
   .econbar .seg-cost { background: color-mix(in srgb, var(--muted) 38%, var(--surface)); flex: 0 0 52%; }
+  .econbar .seg-fee { background: color-mix(in srgb, var(--muted) 24%, var(--surface)); flex: 0 0 15%; color: var(--ink); }
+  .econbar .seg-ship { background: color-mix(in srgb, var(--muted) 15%, var(--surface)); flex: 0 0 9%; color: var(--ink); }
   .econbar .seg-gp { background: var(--leaf); flex: 1; }
   .econbar .seg { display: flex; align-items: center; padding: 0 14px; font-size: 12.5px; white-space: nowrap; }
   .econbar .seg-cost { color: var(--ink); }
@@ -570,7 +572,7 @@
         </div>
         <div class="gshadow"></div>
       </div>
-      <p class="cab-cap">天井吊りLEDパネル×2/右側面ガラスの奥に吊り下げメッシュ+板付けビカク/<b>電源は背面上部の防滴ボックス(外に出るのはACコード1本)</b><br><b>床は大鉢ごと置ける防水パン+引き出せる水受けトレイ — そのまま水やりOK</b>。庫内目安 <span class="num">30°C / 70%RH</span></p>
+      <p class="cab-cap">天井吊りLEDパネル×2/右側面ガラスの奥に吊り下げメッシュ+板付けビカク/<b>電源は背面上部の防滴ボックスに集約(ヒーター等の増設ポート×4)</b><br><b>床は大鉢ごと置ける防水パン+引き出せる水受けトレイ — そのまま水やりOK</b>。庫内目安 <span class="num">30°C / 70%RH</span></p>
     </div>
   </section>
 
@@ -707,27 +709,34 @@
   <!-- 07 ビジネス -->
   <section class="slide">
     <div class="eyebrow"><span class="no">07</span>ビジネスモデル — ECONOMICS</div>
-    <h2>本体で信頼を、増設アクセサリーで継続売上を。</h2>
+    <h2>発売期は利益率20%。コスパのレビューを集めて、数で勝つ。</h2>
+    <p class="lead">高粗利で少なく売るより、<strong>「この内容でこの価格」というレビューを最速で積み、販売数を伸ばす</strong>(オーナー方針)。定価はアンカーとして維持し、発売期はクーポンで実質価格を下げる——実売実績のない二重価格表示を避けるAmazonの定石。</p>
     <div class="tbl-wrap" style="margin-top: 26px;">
       <table>
-        <thead><tr><th>SKU</th><th>内容</th><th class="r">FOB原価</th><th class="r">売価(税込)</th></tr></thead>
+        <thead><tr><th>SKU</th><th>内容</th><th class="r">FOB原価</th><th class="r">定価(税込)</th><th class="r">発売期の実質価格</th></tr></thead>
         <tbody>
-          <tr><td><strong>フルセット</strong></td><td>本体+LED×2+ファン×2+電源系+付属品一式</td><td class="r num">$150–160</td><td class="r num"><strong>¥59,800</strong></td></tr>
-          <tr><td>本体のみ</td><td>キャビネット+グリッド+小棚×2+電源ボックス+トレイ</td><td class="r num">$107</td><td class="r num">¥39,800</td></tr>
-          <tr><td>増設: LEDパネル</td><td>1枚(フック磁石・吊りハンガー・テザー付き)</td><td class="r num">$11</td><td class="r num">¥4,980</td></tr>
-          <tr><td>増設: マグネット小棚</td><td>2枚組</td><td class="r num">$4</td><td class="r num">¥1,980</td></tr>
-          <tr><td>増設: 循環ファン</td><td>1基</td><td class="r num">$4.5</td><td class="r num">¥2,480</td></tr>
+          <tr><td><strong>フルセット</strong></td><td>本体+LED×2+ファン×2+電源系+付属品一式</td><td class="r num">$158</td><td class="r num"><strong>¥59,800</strong></td><td class="r num"><strong>¥54,800</strong>(クーポン▲5,000)</td></tr>
+          <tr><td>本体のみ</td><td>キャビネット+グリッド+小棚×2+電源ボックス+トレイ</td><td class="r num">$105</td><td class="r num">¥39,800</td><td class="r num">据置(元々約20%)</td></tr>
+          <tr><td>増設: LEDパネル</td><td>1枚(フック磁石・吊りハンガー・テザー付き)</td><td class="r num">$11</td><td class="r num">¥4,980</td><td class="r num">—</td></tr>
+          <tr><td>増設: 小棚2枚組 / ファン1基</td><td>リピート・利益率補完の主力</td><td class="r num">$4 / $4.5</td><td class="r num">¥1,980 / ¥2,480</td><td class="r num">—</td></tr>
         </tbody>
       </table>
     </div>
     <div class="econbar">
       <div class="bar">
-        <div class="seg seg-cost">着地原価 <span class="num">&nbsp;約¥31,000</span>(製造+輸送+関税+検品)</div>
-        <div class="seg seg-gp">粗利 <span class="num">&nbsp;約¥28,800(48%)</span></div>
+        <div class="seg seg-cost" style="flex:0 0 56%;">着地原価 <span class="num">&nbsp;¥31,000</span>(製造+輸送+関税+検品)</div>
+        <div class="seg seg-fee">手数料15% <span class="num">&nbsp;¥8,200</span></div>
+        <div class="seg seg-ship">配送 <span class="num">&nbsp;¥5,000</span></div>
+        <div class="seg seg-gp">利益 <span class="num">&nbsp;¥10,600</span></div>
       </div>
-      <div class="cap"><span>フルセット売価 <span class="num">¥59,800</span> の内訳(概算)</span><span>MOQ <span class="num">100–200</span>台 / 初回ロット <span class="num">100</span>台想定</span></div>
+      <div class="cap"><span>発売期・フルセット実質 <span class="num">¥54,800</span> の内訳(概算)= 利益率 <span class="num">約20%</span></span><span>定価復帰後の利益率 <span class="num">約25%</span> / 初回ロット <span class="num">100</span>台想定</span></div>
     </div>
-    <p class="note" style="margin-top: 14px;">原価は交渉前の概算上限。ガラス破損・返品は梱包試験(ISTA-2A相当)+補修部品在庫5%で吸収する設計。</p>
+    <div class="grid3" style="margin-top: 18px;">
+      <div class="card"><span class="k">PHASE 1</span><h3>発売〜レビュー30件</h3><p>実質¥54,800+広告投下。利益は薄くても<strong>「コスパ」のレビューを最速で積む</strong>。初期不良は即交換で★を守る。</p></div>
+      <div class="card"><span class="k">PHASE 2</span><h3>レビュー30〜50件</h3><p>クーポンを終了して定価¥59,800へ(利益率約25%)。レビュー資産で広告依存を下げる。</p></div>
+      <div class="card"><span class="k">PHASE 3</span><h3>継続売上</h3><p>増設LED・小棚・ファン・ビカク用メッシュ・寒冷地セットのリピートで利益率を補完。防湿版へ横展開。</p></div>
+    </div>
+    <p class="note" style="margin-top: 14px;">原価は交渉前の概算上限(200台発注で1割前後の低減余地)。配送¥5,000は出品者出荷(神田氏物流)・2個口の実費想定。発売期の広告費(売上の10%前後)は利益と別枠の投資として管理。ガラス破損・返品は梱包試験(ISTA-2A相当)+補修部品在庫5%で吸収する設計。</p>
   </section>
 
   <!-- 08 GTM -->
