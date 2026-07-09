@@ -332,8 +332,10 @@
   .race3 { position: absolute; top: 26px; width: 4px; height: 270px; border-radius: 2px;
            background: rgba(70, 84, 63, .8); }
   .race3.r1 { left: 3px; } .race3.r2 { left: 209px; }
-  .eboxsil { width: 104px; height: 13px; left: 58px; top: 9px; transform: translateZ(-34px);
-           background: linear-gradient(#232B1F, #171D14); border: 1px solid #10140D; border-radius: 2px; }
+  .eboxw { position: absolute; left: 57px; top: 4px; width: 91px; height: 54px;
+           background: linear-gradient(#20281D, #141A12); border: 1px solid #0F130D; border-radius: 3px; }
+  .eboxw::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 5px; height: 3px;
+           border-radius: 2px; background: rgba(122, 142, 112, .28); }
   .wallglow { position: absolute; top: 0; left: 0; right: 0; height: 160px;
            background: radial-gradient(62% 95% at 50% 0%, rgba(232, 255, 238, .35), rgba(232, 255, 238, .06) 58%, transparent 76%); }
   .leg3 { position: absolute; width: 10px; height: 36px; top: 356px; background: #20261D;
@@ -514,14 +516,14 @@
       </div>
     </div>
     <div class="cab-wrap">
-      <div class="scene" role="img" aria-label="グロウキャビネットを左斜め上から見た透視図。前面と両側面がガラスで中が透けて見える。天井からLEDパネル2枚が吊られ、背面はスチールのマグネット壁にマグネット小棚・温湿度計(30°C/70%RH)、電源ボックスは天板裏に磁石で吊る。右側面ガラスの奥に床近くまで伸びる吊り下げメッシュパネルと板付けビカクシダ。天板は無孔。">
+      <div class="scene" role="img" aria-label="グロウキャビネットを左斜め上から見た透視図。前面と両側面がガラスで中が透けて見える。天井からLEDパネル2枚が吊られ、背面はスチールのマグネット壁にマグネット小棚・温湿度計(30°C/70%RH)、電源ボックスは背面上部に磁石で貼り付く。右側面ガラスの奥に床近くまで伸びる吊り下げメッシュパネルと板付けビカクシダ。天板は無孔。">
         <div class="box">
           <div class="face f-back"></div>
           <div class="face f-bottom"></div>
-          <div class="plane eboxsil"></div>
           <div class="plane wall-plane">
             <div class="wallglow"></div>
             <i class="race3 r1"></i><i class="race3 r2"></i>
+            <div class="eboxw"></div>
             <i class="grom g1"></i><i class="grom g2"></i><i class="grom g3"></i><i class="grom g4"></i>
             <div class="mshelf a"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s1" style="left: 8px; bottom: 14px;"></span></div>
             <div class="mshelf b"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s2" style="left: 41px; bottom: 14px;"></span></div>
@@ -568,7 +570,7 @@
         </div>
         <div class="gshadow"></div>
       </div>
-      <p class="cab-cap">天井吊りLEDパネル×2/右側面ガラスの奥に吊り下げメッシュ+板付けビカク/<b>電源は天板裏の防滴ボックス(外に出るのはACコード1本)</b><br><b>床は大鉢ごと置ける防水パン+引き出せる水受けトレイ — そのまま水やりOK</b>。庫内目安 <span class="num">30°C / 70%RH</span></p>
+      <p class="cab-cap">天井吊りLEDパネル×2/右側面ガラスの奥に吊り下げメッシュ+板付けビカク/<b>電源は背面上部の防滴ボックス(外に出るのはACコード1本)</b><br><b>床は大鉢ごと置ける防水パン+引き出せる水受けトレイ — そのまま水やりOK</b>。庫内目安 <span class="num">30°C / 70%RH</span></p>
     </div>
   </section>
 
@@ -610,9 +612,9 @@
         <p>φ40の膜付き電気グロメットを背面四隅に工場装着。<strong>使う穴だけカッターで切り込んで通線</strong>——膜がコードに密着し、ACプラグごと通る(1穴3本まで)。未使用穴は膜のまま完全密閉。縦の配線は庫内両隅のマグネット式レースウェイで隠す。</p>
       </div>
       <div class="card">
-        <span class="k">CEILING BOX</span>
-        <h3>天井裏の電源ボックス</h3>
-        <p>アダプター・ハブは防滴の専用ボックスに収まり、<strong>天板の裏(庫内天井)にマグネット+テザーで吊る</strong>。箱ごと外して机上でメンテ。背面突出ゼロで壁際20mmまで寄せられ、天板は無孔だから上に鉢も置ける。</p>
+        <span class="k">POWER BOX</span>
+        <h3>背面上部の電源ボックス</h3>
+        <p>アダプター・ハブは防滴の専用ボックスに収まり、<strong>庫内背面の上部にマグネット+テザーで貼り付く</strong>。箱ごと外して机上でメンテ。天井はライト吊り専用に全面フリー。背面突出ゼロで壁際20mmまで寄せられ、天板は無孔だから上に鉢も置ける。</p>
       </div>
       <div class="card">
         <span class="k">ONE ROOM</span>
@@ -753,7 +755,7 @@
     </div>
     <div class="grid3">
       <div class="card risk"><span class="k">RISK 1</span><h3>ガラス破損・物流</h3><p>ISTA-2A相当の梱包試験を出荷条件に。補修部品5%在庫で本体交換を回避。</p></div>
-      <div class="card risk"><span class="k">RISK 2</span><h3>コピー品</h3><p>天井裏電源収納+四隅グロメットポート+小棚の組合せで意匠登録を検討。レビューとブランドの先行者利益で防衛。</p></div>
+      <div class="card risk"><span class="k">RISK 2</span><h3>コピー品</h3><p>庫内電源収納+四隅グロメットポート+小棚の組合せで意匠登録を検討。レビューとブランドの先行者利益で防衛。</p></div>
       <div class="card risk"><span class="k">RISK 3</span><h3>安全・PL</h3><p>転倒防止ベルト標準・強化ガラス証明・PSE整理済み・PL保険加入を発売条件に。</p></div>
     </div>
     <div class="ask">
