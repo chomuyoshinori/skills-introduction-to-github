@@ -223,6 +223,76 @@
   .cab-cap { margin-top: 46px; font-size: 12.5px; color: var(--muted); }
   .cab-cap .num { color: var(--ink-2); }
 
+
+  /* ---------- 3Dシーン(左斜めビュー) ---------- */
+  .scene { width: 360px; height: 486px; margin: 0 auto; position: relative;
+           perspective: 1300px; perspective-origin: 58% 34%; }
+  .box { position: absolute; left: 76px; top: 34px; width: 230px; height: 356px;
+         transform-style: preserve-3d; transform: rotateX(-5deg) rotateY(27deg); }
+  .face { position: absolute; box-sizing: border-box; }
+  .f-front { width: 230px; height: 356px; transform: translateZ(53px);
+             border: 7px solid #20261D; border-radius: 3px; background: #0D140E;
+             box-shadow: 0 30px 60px rgba(10,25,15,.35); }
+  .f-left { width: 106px; height: 356px; left: 62px; transform: rotateY(-90deg) translateZ(115px);
+            border: 7px solid #1C221A; border-radius: 3px; background: #0C130D; }
+  .f-top { width: 230px; height: 106px; top: 125px; transform: rotateX(90deg) translateZ(178px);
+           border: 5px solid #20261D; border-radius: 3px;
+           background: linear-gradient(135deg, #313B2C, #232B20); }
+  .f-top::after { content: ""; position: absolute; inset: 6px;
+           border: 1px solid rgba(214,232,214,.10); border-radius: 2px; }
+  .int-f { position: absolute; inset: 0; overflow: hidden; border-radius: 1px; }
+  .int-f::before { content: ""; position: absolute; inset: 8% 6% 34% 6%;
+           background-image: radial-gradient(rgba(214,232,214,.10) 1.1px, transparent 1.5px);
+           background-size: 19px 19px; }
+  .int-l { position: absolute; inset: 0; overflow: hidden;
+           background: linear-gradient(90deg, #17231A, #0F1810 75%); filter: brightness(.92); }
+  .shine { position: absolute; inset: 0; pointer-events: none;
+           background: linear-gradient(115deg, transparent 32%, rgba(255,255,255,.13) 43%,
+                       rgba(255,255,255,.03) 51%, transparent 62%); }
+  /* 側面: 吊り下げメッシュパネル+板付けビカク */
+  .mesh { position: absolute; top: 16px; left: 11px; right: 11px; height: 220px;
+          border: 1.5px solid rgba(160,180,158,.55);
+          background-image: linear-gradient(rgba(160,180,158,.38) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(160,180,158,.38) 1px, transparent 1px);
+          background-size: 13px 13px; }
+  .mesh::before, .mesh::after { content: ""; position: absolute; top: -12px; width: 4px; height: 12px;
+          background: #556452; border-radius: 2px 2px 0 0; }
+  .mesh::before { left: 12px; } .mesh::after { right: 12px; }
+  .stag3 { position: absolute; width: 40px; height: 50px; }
+  .stag3 .board { position: absolute; left: 0; right: 0; bottom: 0; height: 44px; border-radius: 5px;
+          background: linear-gradient(#7A5A3A, #5A3F27); box-shadow: 0 2px 6px rgba(0,0,0,.55); }
+  .stag3 .shield { position: absolute; bottom: 13px; left: 8px; width: 24px; height: 20px;
+          border-radius: 50% 50% 42% 42%; background: linear-gradient(#8FBF87, #5C8F58); }
+  .stag3 .frond { position: absolute; bottom: 24px; width: 8px; height: 30px;
+          border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+          background: linear-gradient(#6FB477, #3F7A4C); transform-origin: bottom center; }
+  .stag3 .f1 { left: 6px; transform: rotate(-30deg); }
+  .stag3 .f2 { left: 16px; transform: rotate(-3deg); height: 35px; }
+  .stag3 .f3 { left: 25px; transform: rotate(25deg); }
+  .stag3.sA { top: 40px; left: 26px; }
+  .stag3.sB { top: 128px; left: 44px; transform: scale(.78); }
+  .leafside { position: absolute; }
+  /* 天板の上の鉢(ビルボード) */
+  .pot3d { position: absolute; left: 44px; top: -47px; width: 44px; height: 48px;
+           transform: rotateY(-27deg) rotateX(5deg); transform-origin: bottom center; }
+  .pot3d .pb { position: absolute; bottom: 0; left: 11px; width: 22px; height: 17px;
+           background: linear-gradient(#3A473A, #2A342A); border-radius: 2px 2px 6px 6px; }
+  .pot3d .pb::before { content: ""; position: absolute; top: -14px; left: 2px; width: 15px; height: 15px;
+           border-radius: 0 100% 4px 100%; transform: rotate(-20deg);
+           background: linear-gradient(135deg, #6FB477, #3F7A4C); }
+  .pot3d .pb::after { content: ""; position: absolute; top: -10px; left: 11px; width: 11px; height: 11px;
+           border-radius: 0 100% 4px 100%; transform: rotate(34deg);
+           background: linear-gradient(135deg, #8FCB96, #4E8F60); }
+  .leg3 { position: absolute; width: 10px; height: 36px; top: 356px; background: #20261D;
+          border-radius: 0 0 3px 3px; }
+  .leg3.fl { left: 8px;  transform: translateZ(53px); }
+  .leg3.fr { left: 212px; transform: translateZ(53px); }
+  .leg3.bl { left: 8px;  transform: translateZ(-53px); background: #171c15; }
+  .leg3.br { left: 212px; transform: translateZ(-53px); background: #171c15; }
+  .gshadow { position: absolute; left: 26px; bottom: 2px; width: 320px; height: 30px;
+          background: radial-gradient(50% 50% at 50% 50%, rgba(10, 25, 15, .32), transparent 72%);
+          filter: blur(5px); }
+
   /* ---------- 汎用グリッド・カード ---------- */
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -392,25 +462,40 @@
       </div>
     </div>
     <div class="cab-wrap">
-      <div class="cabinet" role="img" aria-label="グロウキャビネットの構成図。無孔の天板の上に鉢、庫内にLEDライト・板付けビカクシダ・マグネット小棚・温湿度計・底面トレイ。側面もガラスで中が見える。">
-        <div class="top-pot"></div>
-        <div class="cab-top"></div>
-        <div class="cab-side"><span class="leaf" style="width:26px;height:26px;position:absolute;bottom:120px;left:2px;transform:rotate(160deg);"></span><span class="leaf" style="width:20px;height:20px;position:absolute;bottom:60px;left:5px;transform:rotate(200deg);background:linear-gradient(135deg,#79C48B,#3C7D52);"></span></div>
-        <div class="cab-inner">
-          <i class="wire w1"></i><i class="wire w2"></i>
-          <div class="lightbar"></div>
-          <div class="fanunit"></div>
-          <div class="stag"><div class="board"></div><i class="frond f1"></i><i class="frond f2"></i><i class="frond f3"></i><div class="shield"></div></div>
-          <div class="mshelf a"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s1" style="left: 8px; bottom: 14px;"></span></div>
-          <div class="mshelf b"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s2" style="left: 41px; bottom: 14px;"></span></div>
-          <div class="hygro">25.6°C<br>67%RH</div>
-          <span class="leaf l1"></span><span class="leaf l2"></span><span class="leaf l3"></span>
-          <span class="leaf l4"></span><span class="leaf l5"></span>
-          <div class="tray"></div>
-          <div class="doorline"></div>
+      <div class="scene" role="img" aria-label="グロウキャビネットを左斜め上から見た図。正面と左側面がガラスで、左側面の内側に吊り下げたメッシュパネルに板付けビカクシダが掛かっている。庫内にLEDライト・マグネット小棚・温湿度計、無孔の天板の上に鉢。">
+        <div class="box">
+          <div class="face f-top"></div>
+          <div class="face f-left">
+            <div class="int-l">
+              <div class="mesh"></div>
+              <div class="stag3 sA"><div class="board"></div><i class="frond f1"></i><i class="frond f2"></i><i class="frond f3"></i><div class="shield"></div></div>
+              <div class="stag3 sB"><div class="board"></div><i class="frond f1"></i><i class="frond f2"></i><i class="frond f3"></i><div class="shield"></div></div>
+              <span class="leaf leafside" style="width:30px;height:30px;bottom:26px;left:18px;transform:rotate(-16deg);"></span>
+              <span class="leaf leafside" style="width:22px;height:22px;bottom:44px;left:50px;transform:rotate(28deg);background:linear-gradient(135deg,#79C48B,#3C7D52);"></span>
+              <div class="shine"></div>
+            </div>
+          </div>
+          <div class="face f-front">
+            <div class="cab-inner int-f">
+              <i class="wire w1"></i><i class="wire w2"></i>
+              <div class="lightbar"></div>
+              <div class="fanunit"></div>
+              <div class="mshelf a"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s1" style="left: 8px; bottom: 14px;"></span></div>
+              <div class="mshelf b"><i class="pot p1"></i><i class="pot p2"></i><i class="pot p3"></i><span class="leaf s2" style="left: 41px; bottom: 14px;"></span></div>
+              <div class="hygro">25.6°C<br>67%RH</div>
+              <span class="leaf l1"></span><span class="leaf l2"></span><span class="leaf l3"></span>
+              <span class="leaf l4"></span><span class="leaf l5"></span>
+              <div class="tray"></div>
+              <div class="doorline"></div>
+              <div class="shine"></div>
+            </div>
+          </div>
+          <div class="pot3d"><div class="pb"></div></div>
+          <i class="leg3 fl"></i><i class="leg3 fr"></i><i class="leg3 bl"></i><i class="leg3 br"></i>
         </div>
+        <div class="gshadow"></div>
       </div>
-      <p class="cab-cap">開発者自作のDIY温室(原器)実測 <span class="num">25.6°C / 67%RH</span><br>3面ガラス・板付けビカクの壁掛け・天板の上にも鉢が置ける</p>
+      <p class="cab-cap">左側面の内側に吊り下げメッシュパネル — <b>板付けビカクをガラス越しに「見せる壁面」に</b><br>正面・両側面がガラス、天板は無孔(上にも鉢が置ける)。原器実測 <span class="num">25.6°C / 67%RH</span></p>
     </div>
   </section>
 
