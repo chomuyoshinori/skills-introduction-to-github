@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"></head><body><title>グロウキャビネット 設計図 v0.4</title>
+<!doctype html><html><head><meta charset="utf-8"></head><body><title>グロウキャビネット 設計図 v0.7</title>
 <style>
   :root { --pg: #E9EDE7; --ink: #1D2B21; --mut: #5A6A5E; }
   @media (prefers-color-scheme: dark) { :root { --pg: #10160F; --ink: #E7EFE7; --mut: #97A99B; } }
@@ -60,7 +60,7 @@
       <div class="tb"><span>GRC-DWG-000</span><span>版 v0.7</span></div></div>
     <table class="spec">
       <tr><th>本体外形 W×D×H</th><td>800 × 370 × 1080(+脚120 = 総高 1200)</td></tr>
-      <tr><th>庫内有効 W×D×H</th><td>760 × 330 × <b>1020</b>(棚なし一室空間・v0.4でベイ分を還元)</td></tr>
+      <tr><th>庫内有効 W×D×H</th><td>760 × 330 × <b>1020</b>(棚なし一室空間)</td></tr>
       <tr><th>電源収納</th><td><b>庫内天井裏にEBOX 320×160×45をマグネット+テザーで吊る(v0.6・防滴)</b>。背面突出なし・壁クリアランス20mm。<b>天板は無孔・耐荷重10kg</b></td></tr>
       <tr><th>防水パン</th><td>内寸 740 × 320・立上り30(ハーフトレイ 360×315×25 ×2)</td></tr>
       <tr><th>扉</th><td>観音開き2枚(各 約396×1050)・強化ガラス5mm・EPDMガスケット・上下ピボットピンヒンジ(RUDSTA方式)・スライドラッチ</td></tr>
@@ -81,7 +81,7 @@
     <div class="sheet-head"><h2>S1 — 全体図(正面・側面)</h2>
       <div class="tb"><span>GRC-DWG-001</span><span>版 v0.7</span></div></div>
     <div class="cv"><svg id="s1" width="920" height="600" viewBox="0 0 920 600"></svg></div>
-    <div class="notes"><b>注記</b>: 扉は上下ピボットピンヒンジ(RUDSTA方式)・開き角110°以上。脚はM10アジャスター±10。<b>天板は無孔(上面積載10kg)</b>。転倒防止はRUDSTA式壁直結金具+スペーサー60mm(石膏ボードはベルト代替)。配線口(φ40×4・膜付きグロメット)はすべて背面(S3/S4参照)。ベントはv0.7で廃止(必要ならv1.1で追加)。</div>
+    <div class="notes"><b>注記</b>: 扉は上下ピボットピンヒンジ(RUDSTA方式)・開き角110°以上。脚はM10アジャスター±10。<b>天板は無孔(上面積載10kg)</b>。転倒防止はRUDSTA式壁直結金具+スペーサー積層20〜60mm(石膏ボードはベルト代替)。背面突出ゼロ・壁クリアランス20mm(ACコード分)。配線口(φ40×4・膜付きグロメット)はすべて背面(S3/S4参照)。ベントはv0.7で廃止(必要ならv1.1で追加)。</div>
   </div>
 
   <!-- SHEET 2 -->
@@ -221,11 +221,10 @@ function ctx(svg, ox, oy, s, up) {
   g.line(0,25,370,25,'th');
   g.rect(0,28,22,1020,'th'); g.txt(34,580,'扉框','lb2','start');
   g.line(362,28,362,1048,'hd'); g.txt(354,700,'背面パネル t0.8(上下2分割)','lb2','end');
-  g.rect(370,80,55,220,'hd');
   g.rect(40,1080,24,120,'ol'); g.rect(306,1080,24,120,'ol');
   g.line(0,1080,370,1080,'ol');
   g.line(22,1040,362,1040,'hd'); g.txt(190,1022,'防水パン立上り30','lb2');
-  g.txt(185,1265,'背面ポケット(破線): 突出55・壁から60mm離して設置','lb2');
+  g.txt(185,1265,'背面突出ゼロ(v0.6): 壁クリアランス20mm(ACコード分)','lb2');
   g.dimH(0,370,60,'370',1200);
   g.dimV(0,1200,64,'1200',370);
 })();
