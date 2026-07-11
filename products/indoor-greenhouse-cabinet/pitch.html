@@ -362,6 +362,54 @@
     font-size: 11px; letter-spacing: .14em; color: var(--leaf); display: block; margin-bottom: 10px;
   }
 
+  /* ---------- 02-2 DIY原器 ---------- */
+  .diy-grid { display: grid; grid-template-columns: 330px 1fr; gap: 28px; margin-top: 26px; align-items: start; }
+  .diy-scene { position: relative; height: 480px; }
+  .diy-cab {
+    position: absolute; left: 40px; top: 14px; width: 230px; height: 400px;
+    border: 6px solid var(--cab-frame); border-radius: 4px; background: var(--leaf-soft);
+  }
+  .diy-cab .dline { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--cab-frame); opacity: .55; }
+  .diy-cab .dknob { position: absolute; top: 46%; width: 4px; height: 22px; background: var(--cab-frame); border-radius: 2px; }
+  .dknob.kl2 { left: calc(50% - 10px); }
+  .dknob.kr2 { left: calc(50% + 6px); }
+  .dled { position: absolute; top: 34px; left: 26px; width: 166px; height: 13px; background: var(--cab-frame); border-radius: 3px; }
+  .dled::after { content: ""; position: absolute; left: 6px; right: 6px; top: 13px; height: 26px;
+    background: linear-gradient(180deg, rgba(255,220,120,.55), rgba(255,220,120,0)); }
+  .dwire { position: absolute; top: 0; width: 2px; height: 34px; background: var(--muted); }
+  .dwire.w1 { left: 44px; } .dwire.w2 { left: 172px; }
+  .dfan { position: absolute; top: 30px; right: 12px; width: 26px; height: 26px; border: 2.5px solid var(--cab-frame); border-radius: 50%; }
+  .dfan::after { content: ""; position: absolute; inset: 5px; border-radius: 50%;
+    background: conic-gradient(var(--cab-frame) 0 25%, transparent 0 50%, var(--cab-frame) 0 75%, transparent 0); }
+  .dmesh { position: absolute; top: 96px; right: 8px; width: 44px; height: 250px; opacity: .8;
+    background:
+      repeating-linear-gradient(0deg, var(--muted) 0 1.5px, transparent 0 11px),
+      repeating-linear-gradient(90deg, var(--muted) 0 1.5px, transparent 0 11px);
+    border: 1.5px solid var(--muted); border-radius: 2px; }
+  .dshelf { position: absolute; left: 14px; width: 74px; height: 5px; background: var(--cab-frame); border-radius: 2px; }
+  .dshelf.s1 { top: 130px; } .dshelf.s2 { top: 210px; }
+  .dshelf i { position: absolute; bottom: 5px; width: 14px; height: 12px; background: #8A6B4F; border-radius: 2px 2px 3px 3px; }
+  .dshelf i:first-child { left: 8px; } .dshelf i:last-child { left: 34px; }
+  .dpot { position: absolute; bottom: 12px; width: 34px; height: 30px; background: #8A6B4F; border-radius: 3px 3px 6px 6px; }
+  .dpot.p1 { left: 34px; } .dpot.p2 { left: 104px; width: 28px; height: 24px; }
+  .dleg { position: absolute; bottom: -26px; width: 8px; height: 26px; background: var(--cab-frame); }
+  .dleg.l1 { left: 12px; } .dleg.l2 { right: 12px; }
+  .dcable { position: absolute; left: 152px; top: 336px; width: 130px; height: 96px;
+    border-bottom: 2.5px solid var(--muted); border-right: 2.5px solid var(--muted); border-radius: 0 0 14px 0; }
+  .dtap { position: absolute; right: 46px; bottom: 34px; width: 64px; height: 16px; background: var(--surface);
+    border: 2px solid var(--muted); border-radius: 3px; }
+  .dtap::after { content: ""; position: absolute; inset: 3px 6px; opacity: .7;
+    background: repeating-linear-gradient(90deg, var(--muted) 0 3px, transparent 0 14px); }
+  .dnum { position: absolute; z-index: 2; width: 22px; height: 22px; border-radius: 50%; background: var(--leaf); color: #fff;
+    font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .diy-cap { position: absolute; bottom: -40px; left: 0; right: 0; font-size: 11px; color: var(--muted); margin: 0; }
+  .recipe { display: grid; gap: 10px; }
+  .ritem { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; background: var(--surface); }
+  .ritem b { font-size: 13px; }
+  .ritem span { font-size: 12px; color: var(--muted); margin-left: 8px; }
+  .ritem p { font-size: 12px; color: var(--ink-2); margin: 4px 0 0; line-height: 1.55; }
+  @media (max-width: 760px) { .diy-grid { grid-template-columns: 1fr; } }
+
   .rivals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 26px; }
   .rival {
     display: grid; grid-template-columns: 104px 1fr; gap: 12px; align-items: center;
@@ -629,6 +677,61 @@
     <p class="quote">「湿度は保てた。植物はよく育った。でも、穴がない。置き場がない。棚が邪魔。
       <span class="note">— 開発者自身のDIY実機(Instagram公開)で実証済みの不満。これが本製品の設計要求そのものです。</span>
     </p>
+  </section>
+
+  <!-- 02-2 DIY原器 -->
+  <section class="slide">
+    <div class="eyebrow"><span class="no">02-2</span>DIY原器 — ORIGIN</div>
+    <h2>IKEA RUDSTA+市販パーツの<span style="white-space:nowrap">「原器」</span>が、そのまま製品仕様になった。</h2>
+    <p class="lead">開発者のDIY実機は、IKEAのガラスキャビネット<strong>RUDSTA(ルードスタ)ワイド</strong>に市販パーツを組み込んだもの。
+    <strong>電装と金物はすべて「取り替え前提」の汎用市販品</strong>で構成しており、この思想を製品版でもそのまま採用します。</p>
+    <div class="diy-grid">
+      <div class="diy-scene" role="img" aria-label="IKEA RUDSTAワイドを正面から見たDIY原器のイメージ図。天井からBrim LEDパネルを吊り、上部右に循環ファン、背面にマグネット小棚2枚、右側面に市販ワイヤーネットのメッシュ柵、床に鉢、扉の隙間からケーブルが床の電源タップへ伸びる。番号①〜⑥が各部品を指す。">
+        <div class="diy-cab">
+          <i class="dline"></i><i class="dknob kl2"></i><i class="dknob kr2"></i>
+          <div class="dled"></div><i class="dwire w1"></i><i class="dwire w2"></i>
+          <div class="dfan"></div>
+          <div class="dmesh"></div>
+          <div class="dshelf s1"><i></i><i></i></div>
+          <div class="dshelf s2"><i></i><i></i></div>
+          <div class="dpot p1"></div><div class="dpot p2"></div>
+          <span class="leaf" style="width:34px;height:34px;position:absolute;bottom:52px;left:38px;transform:rotate(-20deg);"></span>
+          <span class="leaf" style="width:26px;height:26px;position:absolute;bottom:70px;left:74px;transform:rotate(28deg);background:linear-gradient(135deg,#79C48B,#3C7D52);"></span>
+          <span class="leaf" style="width:30px;height:30px;position:absolute;bottom:58px;left:118px;transform:rotate(200deg);background:linear-gradient(135deg,#4E9A63,#26543A);"></span>
+          <i class="dleg l1"></i><i class="dleg l2"></i>
+          <span class="dnum" style="top:-12px;left:50%;transform:translateX(-50%);">①</span>
+          <span class="dnum" style="top:34px;left:24px;">②</span>
+          <span class="dnum" style="top:16px;right:-12px;">③</span>
+          <span class="dnum" style="top:150px;left:8px;">⑤</span>
+          <span class="dnum" style="top:150px;right:2px;">⑥</span>
+        </div>
+        <i class="dcable"></i>
+        <div class="dtap"></div>
+        <span class="dnum" style="bottom:56px;right:16px;">④</span>
+        <p class="diy-cap">DIY原器(イメージ図)。実機写真(Instagram公開)・RUDSTA製品写真に差し替え可。</p>
+      </div>
+      <div class="recipe">
+        <div class="ritem"><b>① キャビネット</b><span>IKEA RUDSTA ワイド(80×37×120cm・¥29,990)</span>
+          <p>→ 製品版は同寸の専用躯体。DIYで不可能だった<strong>配線穴・防水パン・磁性壁・扉シール</strong>を最初から設計。</p></div>
+        <div class="ritem"><b>② 育成ライト</b><span>Brim LED植物育成パネル(国内ブランド・市販)</span>
+          <p>→ 同クラスの汎用LEDパネル×2を中国調達で同梱。<strong>吊り金具・電源規格を汎用に合わせ、故障時は市販パネルへ交換可</strong>。</p></div>
+        <div class="ritem"><b>③ 循環ファン</b><span>市販USBファンを結束バンド留め</span>
+          <p>→ 120mm汎用規格の防湿ファン×2をマグネット座で標準装備。規格品なのでPC用ファンでも代替できる。</p></div>
+        <div class="ritem"><b>④ 電源・タイマー</b><span>床置きの電源タップ+市販タイマー</span>
+          <p>→ 防滴電源ボックス(庫内)+庫外ポーチのスマートプラグ運用(SwitchBot等)に整理。</p></div>
+        <div class="ritem"><b>⑤ マグネット小棚</b><span>市販のキッチン用マグネット棚</span>
+          <p>→ 汎用品ベースの小棚×2を標準付属。単品の補修販売にも対応。</p></div>
+        <div class="ritem"><b>⑥ メッシュ柵</b><span>市販ワイヤーネット+フック磁石</span>
+          <p>→ 側面ワイヤーグリッドとして標準付属。板付けビカクシダの壁掛けに。</p></div>
+      </div>
+    </div>
+    <div class="ask" style="margin-top: 22px;">
+      <h3>「取り替え前提の汎用品」は、そのまま中国OEMの調達戦略になる</h3>
+      <p>LEDパネル・ファン・磁石金物・ワイヤーグリッドはいずれも中国の汎用品市場で調達できるコモディティ——
+      <strong>専用金型も専用基板も起こさず、キャビネットと同梱で一括調達できる</strong>(BOM反映済み: LED $11×2/ファン$4.5×2 ほか、フルセット原価 ≒$158)。
+      ユーザーは壊れても市販品で自力交換でき、本体が「電装の故障で死ぬ」ことがない——競合退場の主因(電装不良・★1.0)への直接の回答。
+      ※ACアダプター類はPSE適合を調達条件にする。工場同梱か別調達同梱かはRFQで比較。</p>
+    </div>
   </section>
 
   <!-- 03 解決 -->
