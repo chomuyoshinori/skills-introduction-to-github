@@ -362,6 +362,23 @@
     font-size: 11px; letter-spacing: .14em; color: var(--leaf); display: block; margin-bottom: 10px;
   }
 
+  .anywhere {
+    margin-top: 22px; background: var(--leaf-soft); border: 1.5px solid var(--leaf);
+    border-radius: 12px; padding: 24px 28px;
+  }
+  .anywhere .k {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px; letter-spacing: .14em; color: var(--leaf); display: block; margin-bottom: 8px;
+  }
+  .anywhere h3 { font-size: 18px; margin: 0 0 8px; }
+  .anywhere > p { font-size: 14px; color: var(--ink-2); margin: 0; }
+  .spots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 16px; }
+  .spot {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 10px; text-align: center; font-size: 13px; font-weight: 700;
+  }
+  .spot small { display: block; font-weight: 400; color: var(--muted); margin-top: 3px; font-size: 11px; line-height: 1.4; }
+
   /* ---------- 02 課題 ---------- */
   .pains { margin-top: 30px; }
   .pain { display: grid; grid-template-columns: 200px 1fr; gap: 20px; padding: 18px 0; border-top: 1px dashed var(--line); }
@@ -495,6 +512,7 @@
     .cab-wrap { order: -1; }
     .grid2, .grid3, .grid4, .tiles, .steps { grid-template-columns: 1fr 1fr; }
     .pain { grid-template-columns: 1fr; gap: 6px; }
+    .spots { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 480px) {
     .grid2, .grid3, .grid4, .tiles, .steps { grid-template-columns: 1fr; }
@@ -508,12 +526,12 @@
     <div>
       <div class="brand"><b>HAJIMER</b> グロウキャビネット — 事業ピッチ 2026.07 <span style="opacity:.7;">(商標・JAN申請済み)</span></div>
       <h1>リビングに、<br>熱帯をひと部屋。</h1>
-      <p class="sub">配線も、電源も、湿度も。ぜんぶ設計済みの室内温室。
-      ガラスキャビネットを自作改造してきた植物愛好家の不満を、製品仕様で最初から解決します。</p>
+      <p class="sub">配線も、電源も、湿度も、<strong>光も</strong>。ぜんぶ設計済みの室内温室。
+      光と気候を内蔵しているから、<strong>窓のない部屋でも、北向きでも、地下でも</strong>——家じゅうどこでも植物を育てて、飾れます。</p>
       <div class="meta">
+        <span class="pill">日当たり不要 — 置き場所は自由</span>
         <span class="pill">中国OEM製造 × 日本市場</span>
         <span class="pill">フルセット <span class="num">¥59,800</span></span>
-        <span class="pill">3面ガラスのショーケース造形</span>
         <span class="pill">国内完成品市場はほぼ空白</span>
       </div>
     </div>
@@ -581,8 +599,8 @@
     <div class="eyebrow"><span class="no">02</span>課題 — PROBLEM</div>
     <h2>高湿度系の植物は、日本のリビングで枯れる。<br>解決策は今も「自作」しかない。</h2>
     <p class="lead">アロイド・ビカクシダ・ジュエルオーキッドなど1株数千〜数万円の「コレクション株」市場が拡大する一方、
-    エアコンの乾燥と冬の低温が最大の枯死要因。世界的にはIKEAのガラスキャビネットを改造する
-    「Greenhouse Cabinet」文化が定着しましたが、<strong>完成品を売るプレイヤーは国内にほぼ存在しません</strong>。</p>
+    <strong>エアコンの乾燥・冬の低温・日照不足</strong>が三大枯死要因。植物の置き場所はいまも「日当たりの良い窓際」に縛られています。
+    世界的にはガラスキャビネットを改造する「Greenhouse Cabinet」文化が定着しましたが、<strong>完成品を売るプレイヤーは国内にほぼ存在しません</strong>。</p>
     <div class="pains">
       <div class="pain">
         <div class="q">配線を通す穴がない</div>
@@ -627,6 +645,19 @@
         <span class="k">MAGNET WALL</span>
         <h3>マグネット壁面</h3>
         <p>背面・天井はスチール。<strong>プレステラ105が3鉢載る小棚×2枚</strong>が標準付属。側面ワイヤーグリッドとフック磁石で<strong>板付けビカクシダの壁掛け</strong>もできる。</p>
+      </div>
+    </div>
+    <div class="anywhere">
+      <span class="k">ANYWHERE</span>
+      <h3>光ごと内蔵。だから「日当たり」から、植物が自由になる。</h3>
+      <p>LEDパネル×2が太陽の代わりに毎日決まった時間だけ光を届け、密閉キャビネットが温度と湿度を守る——<strong>窓も日当たりも要りません</strong>。
+      これまで植物を置けなかった場所にこそ、「育ち続ける緑」を飾れます。</p>
+      <div class="spots">
+        <div class="spot">窓のない玄関・廊下<small>帰宅を迎える緑に</small></div>
+        <div class="spot">北向き・日陰の部屋<small>日照ゼロでも生育OK</small></div>
+        <div class="spot">寝室・書斎<small>静音ファンで24時間</small></div>
+        <div class="spot">地下室・半地下<small>光と気候ごと持ち込む</small></div>
+        <div class="spot">オフィス・店舗<small>夜も主役のショーケース</small></div>
       </div>
     </div>
   </section>
@@ -687,6 +718,12 @@
         <h3>寒冷地・冬越し断念層</h3>
         <p>「冬に全滅するから」と熱帯植物を諦めていた層。<strong>点灯中はLEDパネルの排熱で庫内が室温+3〜5℃</strong>に保たれ、密閉が冷気と乾燥風を遮る。夜間の冷え込みには背面P3ポートからパネルヒーターを増設できる。</p>
         <p class="copyline">北国でも、熱帯は諦めなくていい。</p>
+      </div>
+      <div class="card">
+        <h3>日当たりゼロ層(都市部の間取り)</h3>
+        <p>窓のない玄関・廊下、北向きワンルーム、半地下。「置きたい場所に光がない」から植物を諦めていた層。
+        光と気候を内蔵しているから、<strong>日当たりと無関係に、間取りのどこにでも「育つ緑」を置ける</strong>。</p>
+        <p class="copyline">日当たりは、もう部屋選びの条件じゃない。</p>
       </div>
       <div class="card">
         <h3>インテリア文脈層(25–40歳)</h3>
