@@ -78,5 +78,14 @@ export function createImmichClient(baseUrl: string, apiKey: string): ImmichClien
         body: await res.arrayBuffer(),
       };
     },
+
+    async smartSearch(query) {
+      const res = await call('/api/search/smart', {
+        method: 'POST',
+        body: JSON.stringify({ query, size: 250 }),
+      });
+      const data = (await res.json()) as { assets?: { items?: { id: string }[] } };
+      return (data.assets?.items ?? []).map((a) => a.id);
+    },
   };
 }

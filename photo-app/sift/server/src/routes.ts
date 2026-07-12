@@ -1,9 +1,10 @@
 import { Hono } from 'hono';
 import { getSetting, setSetting, type Db } from './db';
 import type { ImmichClient } from './immich/types';
+import { runFullScanOnce } from './services/analyze';
 import { applyDecisions, keepBest, undoLast, DECISIONS, type DecisionInput } from './services/decisions';
 import { getGroups, getQueueItems, getQueues, getStats, getTrashPending } from './services/queues';
-import { DEFAULT_RESOLUTIONS, runScanOnce } from './services/scan';
+import { DEFAULT_RESOLUTIONS } from './services/scan';
 import { commitTrash } from './services/trash';
 
 export function createApp(db: Db, immich: ImmichClient): Hono {
@@ -36,7 +37,7 @@ export function createApp(db: Db, immich: ImmichClient): Hono {
 
   app.post('/api/undo', async (c) => c.json(await undoLast(db, immich)));
 
-  app.get('/api/groups', (c) => c.json({ groups: getGroups(db, c.req.query('kind') ?? 'duplicate') }));
+  app.get('/api/groups', (c) => c.json({ groups: getGroups(db, c.req.query('kind') || undefined) }));
 
   app.post('/api/groups/:id/keep-best', async (c) => {
     const body = await c.req.json().catch(() => ({}));
@@ -49,7 +50,7 @@ export function createApp(db: Db, immich: ImmichClient): Hono {
 
   app.post('/api/jobs/scan', async (c) => {
     try {
-      return c.json(await runScanOnce(db, immich));
+      return c.json(await runFullScanOnce(db, immich));
     } catch (e) {
       return c.json({ error: `スキャン失敗: ${(e as Error).message}` }, 502);
     }
@@ -57,12 +58,30 @@ export function createApp(db: Db, immich: ImmichClient): Hono {
 
   app.get('/api/stats', (c) => c.json(getStats(db)));
 
-  app.get('/api/settings', (c) =>
-    c.json({
+  const NUMERIC_SETTINGS = [
+    'screenshot_threshold', // スクショ判定スコアのしきい値(既定 0.5)
+    'memo_threshold', //       メモ写真スコアのしきい値(既定 0.5)
+    'memo_age_days', //        メモの「賞味期限切れ」日数(既定 30)
+    'blur_threshold', //       ラプラシアン分散のぼやけしきい値(既定 25)
+    'similar_hamming', //      類似判定のハミング距離(既定 10)
+    'burst_gap_seconds', //    連写判定の撮影間隔秒数(既定 5)
+  ];
+
+  app.get('/api/settings', (c) => {
+    const defaults: Record<string, string> = {
+      screenshot_threshold: '0.5',
+      memo_threshold: '0.5',
+      memo_age_days: '30',
+      blur_threshold: '60',
+      similar_hamming: '10',
+      burst_gap_seconds: '5',
+    };
+    const out: Record<string, unknown> = {
       device_resolutions: JSON.parse(getSetting(db, 'device_resolutions', JSON.stringify(DEFAULT_RESOLUTIONS))),
-      screenshot_threshold: Number(getSetting(db, 'screenshot_threshold', '0.5')),
-    })
-  );
+    };
+    for (const k of NUMERIC_SETTINGS) out[k] = Number(getSetting(db, k, defaults[k]));
+    return c.json(out);
+  });
 
   app.put('/api/settings', async (c) => {
     const body = await c.req.json().catch(() => null);
@@ -70,8 +89,8 @@ export function createApp(db: Db, immich: ImmichClient): Hono {
     if (Array.isArray(body.device_resolutions)) {
       setSetting(db, 'device_resolutions', JSON.stringify(body.device_resolutions));
     }
-    if (typeof body.screenshot_threshold === 'number') {
-      setSetting(db, 'screenshot_threshold', String(body.screenshot_threshold));
+    for (const k of NUMERIC_SETTINGS) {
+      if (typeof body[k] === 'number') setSetting(db, k, String(body[k]));
     }
     return c.json({ ok: true });
   });

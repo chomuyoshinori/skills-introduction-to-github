@@ -80,8 +80,8 @@ export async function runScan(db: Db, immich: ImmichClient): Promise<ScanResult>
 
   const assets = await immich.fetchAllAssets();
   const upsert = db.prepare(`
-    INSERT INTO asset_state (asset_id, category, score, file_name, taken_at, size_bytes, width, height, is_favorite, mime)
-    VALUES (@asset_id, @category, @score, @file_name, @taken_at, @size_bytes, @width, @height, @is_favorite, @mime)
+    INSERT INTO asset_state (asset_id, category, score, file_name, taken_at, size_bytes, width, height, is_favorite, mime, camera)
+    VALUES (@asset_id, @category, @score, @file_name, @taken_at, @size_bytes, @width, @height, @is_favorite, @mime, @camera)
     ON CONFLICT(asset_id) DO UPDATE SET
       category = excluded.category,
       score = excluded.score,
@@ -91,7 +91,8 @@ export async function runScan(db: Db, immich: ImmichClient): Promise<ScanResult>
       width = excluded.width,
       height = excluded.height,
       is_favorite = excluded.is_favorite,
-      mime = excluded.mime
+      mime = excluded.mime,
+      camera = excluded.camera
   `); // decision / group_id には触らない(ユーザーの判断を上書きしない)
 
   let screenshots = 0;
@@ -112,6 +113,7 @@ export async function runScan(db: Db, immich: ImmichClient): Promise<ScanResult>
         height: a.exifInfo?.exifImageHeight ?? null,
         is_favorite: a.isFavorite ? 1 : 0,
         mime: a.originalMimeType ?? null,
+        camera: [a.exifInfo?.make, a.exifInfo?.model].filter(Boolean).join(' ') || null,
       });
     }
   });
@@ -119,15 +121,4 @@ export async function runScan(db: Db, immich: ImmichClient): Promise<ScanResult>
 
   const duplicateGroups = await importDuplicates(db, immich);
   return { scanned: assets.length, screenshots, duplicateGroups };
-}
-
-// スキャンの同時実行ガード(起動時スキャンと手動スキャンの重複防止)
-let inflight: Promise<ScanResult> | null = null;
-export function runScanOnce(db: Db, immich: ImmichClient): Promise<ScanResult> {
-  if (!inflight) {
-    inflight = runScan(db, immich).finally(() => {
-      inflight = null;
-    });
-  }
-  return inflight;
 }

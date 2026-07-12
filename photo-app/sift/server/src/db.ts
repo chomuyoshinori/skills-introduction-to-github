@@ -48,7 +48,18 @@ export function openDb(dbPath: string = config.dbPath): Db {
   const db = new Database(dbPath);
   db.pragma('journal_mode = WAL');
   db.exec(SCHEMA);
+  // Phase 2 で追加した列(既存DBにも適用できるよう ALTER で足す)
+  ensureColumn(db, 'asset_state', 'phash', 'phash TEXT');
+  ensureColumn(db, 'asset_state', 'sharpness', 'sharpness REAL');
+  ensureColumn(db, 'asset_state', 'doc_like', 'doc_like INTEGER NOT NULL DEFAULT 0');
+  ensureColumn(db, 'asset_state', 'memo_clip', 'memo_clip INTEGER NOT NULL DEFAULT 0');
+  ensureColumn(db, 'asset_state', 'camera', 'camera TEXT');
   return db;
+}
+
+function ensureColumn(db: Db, table: string, name: string, ddl: string): void {
+  const cols = db.prepare(`PRAGMA table_info(${table})`).all() as { name: string }[];
+  if (!cols.some((c) => c.name === name)) db.exec(`ALTER TABLE ${table} ADD COLUMN ${ddl}`);
 }
 
 export function getSetting(db: Db, key: string, fallback: string): string {

@@ -10,7 +10,7 @@ const DIR_TO_DECISION: Record<Dir, { decision: Decision; label: string }> = {
   down: { decision: 'later', label: 'あとで' },
 };
 
-const CATEGORY_LABEL: Record<string, string> = { screenshot: 'スクショ' };
+const CATEGORY_LABEL: Record<string, string> = { screenshot: 'スクショ', memo: 'メモ写真', blurry: 'ぼやけ' };
 
 // SPEC S-2: 1画面1判断のスワイプ選別。50枚で1セッション
 export function Swipe({ category }: { category: string }) {

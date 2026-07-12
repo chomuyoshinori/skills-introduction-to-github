@@ -9,18 +9,28 @@ export interface AssetItem {
   height: number | null;
   score: number;
   decision: string | null;
+  sharpness: number | null;
+}
+
+export interface QueueSummary {
+  count: number;
+  bytes: number;
 }
 
 export interface QueuesRes {
-  screenshot: { count: number; bytes: number };
-  duplicates: { groups: number; bytes: number };
-  trashPending: { count: number; bytes: number };
+  screenshot: QueueSummary;
+  memo: QueueSummary;
+  blurry: QueueSummary;
+  groups: QueueSummary;
+  trashPending: QueueSummary;
 }
 
 export interface Stats {
   freedBytes: number;
   trashedCount: number;
   reviewedCount: number;
+  remaining: { screenshot: number; memo: number; blurry: number; groups: number };
+  monthlyFreed: { month: string; bytes: number; count: number }[];
 }
 
 export interface Group {
@@ -28,6 +38,17 @@ export interface Group {
   kind: string;
   bestAssetId: string | null;
   assets: (AssetItem & { isFavorite: boolean })[];
+}
+
+export interface ScanResult {
+  scanned: number;
+  screenshots: number;
+  duplicateGroups: number;
+  analyzed: number;
+  memo: number;
+  blurry: number;
+  burstGroups: number;
+  similarGroups: number;
 }
 
 async function j<T>(path: string, init?: RequestInit): Promise<T> {
@@ -48,15 +69,14 @@ export const api = {
   decide: (assetIds: string[], decision: Decision) =>
     j<{ updated: number }>('/api/decisions', { method: 'POST', body: JSON.stringify({ assetIds, decision }) }),
   undo: () => j<{ undone: string | null }>('/api/undo', { method: 'POST' }),
-  groups: (kind = 'duplicate') => j<{ groups: Group[] }>(`/api/groups?kind=${kind}`),
+  groups: (kind?: string) => j<{ groups: Group[] }>(`/api/groups${kind ? `?kind=${kind}` : ''}`),
   keepBest: (id: number, bestAssetId?: string) =>
     j<{ kept: string; trashed: number }>(`/api/groups/${id}/keep-best`, {
       method: 'POST',
       body: JSON.stringify({ bestAssetId }),
     }),
   commitTrash: () => j<{ moved: number; bytes: number }>('/api/trash/commit', { method: 'POST' }),
-  scan: () =>
-    j<{ scanned: number; screenshots: number; duplicateGroups: number }>('/api/jobs/scan', { method: 'POST' }),
+  scan: () => j<ScanResult>('/api/jobs/scan', { method: 'POST' }),
   stats: () => j<Stats>('/api/stats'),
 };
 

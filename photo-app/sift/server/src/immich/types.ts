@@ -38,4 +38,6 @@ export interface ImmichClient {
   restoreAssets(ids: string[]): Promise<void>;
   setFavorite(id: string, isFavorite: boolean): Promise<void>;
   getThumbnail(id: string, size: 'thumbnail' | 'preview'): Promise<Thumb>;
+  /** CLIP スマート検索。ヒットしたアセットIDを返す(Immich の ML を利用) */
+  smartSearch(query: string): Promise<string[]>;
 }

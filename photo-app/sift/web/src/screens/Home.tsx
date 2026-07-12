@@ -19,7 +19,12 @@ export function Home() {
     setScanning(true);
     try {
       const r = await api.scan();
-      showToast(`スキャン完了: ${r.scanned}枚 / スクショ${r.screenshots}枚 / 重複${r.duplicateGroups}組`, { ms: 4000 });
+      showToast(
+        `スキャン完了: ${r.scanned}枚 / スクショ${r.screenshots} メモ${r.memo} ぼやけ${r.blurry} / グループ${
+          r.duplicateGroups + r.burstGroups + r.similarGroups
+        }組`,
+        { ms: 5000 }
+      );
       load();
     } catch {
       showToast('スキャンに失敗しました(Immich接続を確認)', { ms: 4000 });
@@ -49,23 +54,42 @@ export function Home() {
         />
         <Card
           emoji="🔁"
-          title="重複"
-          detail={queues ? `${queues.duplicates.groups}組 ≈${fmtBytes(queues.duplicates.bytes)}` : '…'}
-          href="#/duplicates"
+          title="重複・類似"
+          detail={queues ? `${queues.groups.count}組 ≈${fmtBytes(queues.groups.bytes)}` : '…'}
+          href="#/groups"
           cta="比較する →"
-          disabled={!queues || queues.duplicates.groups === 0}
+          disabled={!queues || queues.groups.count === 0}
         />
-        <Card emoji="📄" title="メモ写真" detail="Phase 2 で対応" disabled />
-        <Card emoji="🌫" title="ぼやけ" detail="Phase 2 で対応" disabled />
+        <Card
+          emoji="📄"
+          title="メモ写真"
+          detail={queues ? `${queues.memo.count}枚 ≈${fmtBytes(queues.memo.bytes)}` : '…'}
+          href="#/swipe/memo"
+          cta="整理する →"
+          disabled={!queues || queues.memo.count === 0}
+        />
+        <Card
+          emoji="🌫"
+          title="ぼやけ"
+          detail={queues ? `${queues.blurry.count}枚 ≈${fmtBytes(queues.blurry.bytes)}` : '…'}
+          href="#/swipe/blurry"
+          cta="整理する →"
+          disabled={!queues || queues.blurry.count === 0}
+        />
       </div>
 
-      <button
-        onClick={scan}
-        disabled={scanning}
-        className="mt-6 self-center rounded-full border border-neutral-700 px-4 py-2 text-sm text-neutral-400 disabled:opacity-50"
-      >
-        {scanning ? 'スキャン中…' : '候補を再スキャン'}
-      </button>
+      <div className="mt-6 flex items-center justify-center gap-4">
+        <button
+          onClick={scan}
+          disabled={scanning}
+          className="rounded-full border border-neutral-700 px-4 py-2 text-sm text-neutral-400 disabled:opacity-50"
+        >
+          {scanning ? 'スキャン中…' : '候補を再スキャン'}
+        </button>
+        <a href="#/stats" className="rounded-full border border-neutral-700 px-4 py-2 text-sm text-neutral-400">
+          📊 統計
+        </a>
+      </div>
 
       {stats && (
         <p className="mt-4 self-center text-xs text-neutral-600">
