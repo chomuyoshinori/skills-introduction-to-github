@@ -77,6 +77,10 @@ export async function runScan(db: Db, immich: ImmichClient): Promise<ScanResult>
     JSON.parse(getSetting(db, 'device_resolutions', JSON.stringify(DEFAULT_RESOLUTIONS))) as string[]
   );
   const threshold = Number(getSetting(db, 'screenshot_threshold', '0.5'));
+  // F-10 自動ルール: 撮影から N 日経過したスクショだけ候補に入れる(0 = 即候補)。
+  // 新しいスクショは「まだ使う」可能性があるため寝かせられるようにする
+  const minAgeDays = Number(getSetting(db, 'screenshot_min_age_days', '0'));
+  const now = Date.now();
 
   const assets = await immich.fetchAllAssets();
   const upsert = db.prepare(`
@@ -99,8 +103,10 @@ export async function runScan(db: Db, immich: ImmichClient): Promise<ScanResult>
   const tx = db.transaction((rows: ImmichAsset[]) => {
     for (const a of rows) {
       const score = screenshotScore(a, resolutions);
+      const takenAt = a.localDateTime ?? a.fileCreatedAt;
+      const ageDays = takenAt ? (now - Date.parse(takenAt)) / 86_400_000 : Number.POSITIVE_INFINITY;
       // お気に入りはセーフリスト(SPEC §6.4)— 候補に入れない
-      const isShot = !a.isFavorite && score >= threshold;
+      const isShot = !a.isFavorite && score >= threshold && ageDays >= minAgeDays;
       if (isShot) screenshots++;
       upsert.run({
         asset_id: a.id,

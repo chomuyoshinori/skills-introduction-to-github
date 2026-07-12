@@ -89,6 +89,9 @@ export function Home() {
         <a href="#/stats" className="rounded-full border border-neutral-700 px-4 py-2 text-sm text-neutral-400">
           📊 統計
         </a>
+        <a href="#/settings" className="rounded-full border border-neutral-700 px-4 py-2 text-sm text-neutral-400">
+          ⚙️ 設定
+        </a>
       </div>
 
       {stats && (

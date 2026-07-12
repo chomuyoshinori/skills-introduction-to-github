@@ -1,8 +1,8 @@
-# Sift — 写真選別アプリ(Phase 1 + 2)
+# Sift — 写真選別アプリ(Phase 1〜3 完成)
 
-[SPEC.md](../SPEC.md) の Phase 1・2 実装。Immich 上の写真から**スクショ・メモ写真・ぼやけ・
+[SPEC.md](../SPEC.md) の全フェーズ実装。Immich 上の写真から**スクショ・メモ写真・ぼやけ・
 重複・連写・類似**を見つけ、スワイプとグループ比較で振り分けて、確認画面から Immich の
-ゴミ箱へ安全に移動する。
+ゴミ箱へ安全に移動する。PWA としてスマホのホーム画面に追加でき、Mac ではキーボードで高速選別できる。
 
 ## 実装済み
 
@@ -17,6 +17,9 @@
 | F-7 | メモ写真検出(Immich CLIP検索 + 書類ヒューリスティック + 経過日数) | 2 |
 | F-8 | ぼやけ写真検出(低シャープネス) | 2 |
 | F-9 | 統計画面(解放容量・レビュー数・残り候補・月別実績) | 2 |
+| F-10 | 自動ルール(「撮影からN日過ぎたスクショだけ候補」+夜間自動スキャン+DB自動バックアップ) | 3 |
+| F-11 | キーボード操作(J=削除予定 K=残す F=お気に入り S=あとで Z=元に戻す Space=拡大) | 3 |
+| — | PWA(ホーム画面に追加・standalone 起動・オフラインシェル)/ 設定画面 | 3 |
 
 ### Phase 2 の実装メモ
 
@@ -38,8 +41,13 @@ npm run start           # → http://localhost:8787
 ```
 
 - Immich の API キー: Immich Web → 右上アイコン → **Account Settings → API Keys → New API Key**
-- 初回起動時に自動でライブラリをスキャンする(以後はホームの「候補を再スキャン」)
+- 初回起動時に自動でライブラリをスキャンする(以後は毎日 3時に自動スキャン。時刻は設定画面で変更、-1 で無効)
 - スマホからは Tailscale 経由で `http://<Mac miniのTailscale名>:8787` を開く
+
+### スマホのホーム画面に追加(PWA)
+
+- **iPhone**: Safari で開く → 共有ボタン → **「ホーム画面に追加」** → アプリのように全画面で起動
+- **Android**: Chrome で開く → メニュー → **「アプリをインストール」**
 
 ## Immich なしで試す(モックモード)
 
@@ -60,24 +68,20 @@ npm run typecheck    # 型チェック
 
 ## 設定
 
-`GET /api/settings` で現在値を確認、`PUT /api/settings` で変更できる(反映には再スキャン)。
+アプリ内の **⚙️ 設定** 画面から変更できる(反映は「保存して再スキャン」)。API でも可:
+`GET /api/settings` / `PUT /api/settings`。
 
 | キー | 既定 | 意味 |
 |---|---|---|
 | `device_resolutions` | 主要 iPhone/Android | スクショ判定に使う端末画面解像度 |
 | `screenshot_threshold` | 0.5 | スクショ判定スコアのしきい値 |
+| `screenshot_min_age_days` | 0 | スクショを候補に入れるまでの日数(F-10。30なら撮影後30日寝かせる) |
 | `memo_threshold` | 0.5 | メモ写真スコアのしきい値 |
 | `memo_age_days` | 30 | メモの「賞味期限切れ」日数 |
 | `blur_threshold` | 60 | ぼやけ判定(ラプラシアン分散がこれ未満) |
 | `similar_hamming` | 10 | 類似判定の pHash ハミング距離(0〜64) |
 | `burst_gap_seconds` | 5 | 連写判定の撮影間隔 |
-
-```bash
-curl -X PUT localhost:8787/api/settings \
-  -H 'Content-Type: application/json' \
-  -d '{"device_resolutions":["1179x2556","1290x2796"],"blur_threshold":60}'
-curl -X POST localhost:8787/api/jobs/scan   # 反映
-```
+| `auto_scan_hour` | 3 | 夜間自動スキャンの時刻(0〜23、-1で無効)。実行前に `sift.db.bak` へ自動バックアップ |
 
 ## データとリセット
 

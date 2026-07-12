@@ -6,6 +6,7 @@ import { createImmichClient } from './immich/client';
 import { createMockImmich } from './immich/mock';
 import { createApp } from './routes';
 import { runFullScanOnce } from './services/analyze';
+import { startAutoScanTimer } from './services/autoscan';
 
 const immich = config.mock ? createMockImmich() : createImmichClient(config.immichUrl, config.immichApiKey);
 const db = openDb();
@@ -39,3 +40,6 @@ if (count.c === 0) {
     )
     .catch((e) => console.error('初回スキャン失敗:', (e as Error).message));
 }
+
+// 夜間自動スキャン(auto_scan_hour 設定。既定 3時、-1 で無効)
+startAutoScanTimer(db, immich);

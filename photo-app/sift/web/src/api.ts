@@ -51,6 +51,18 @@ export interface ScanResult {
   similarGroups: number;
 }
 
+export interface Settings {
+  device_resolutions: string[];
+  screenshot_threshold: number;
+  screenshot_min_age_days: number;
+  memo_threshold: number;
+  memo_age_days: number;
+  blur_threshold: number;
+  similar_hamming: number;
+  burst_gap_seconds: number;
+  auto_scan_hour: number;
+}
+
 async function j<T>(path: string, init?: RequestInit): Promise<T> {
   const withJson =
     init?.body != null
@@ -78,6 +90,9 @@ export const api = {
   commitTrash: () => j<{ moved: number; bytes: number }>('/api/trash/commit', { method: 'POST' }),
   scan: () => j<ScanResult>('/api/jobs/scan', { method: 'POST' }),
   stats: () => j<Stats>('/api/stats'),
+  getSettings: () => j<Settings>('/api/settings'),
+  putSettings: (s: Partial<Settings>) =>
+    j<{ ok: boolean }>('/api/settings', { method: 'PUT', body: JSON.stringify(s) }),
 };
 
 export function thumbUrl(id: string, size: 'thumbnail' | 'preview' = 'thumbnail'): string {

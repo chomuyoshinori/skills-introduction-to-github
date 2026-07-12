@@ -52,6 +52,25 @@ export function Swipe({ category }: { category: string }) {
     setIdx(last.index);
   }
 
+  // F-11: Mac のブラウザ向けキーボード高速選別
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === 'j') decide('left');
+      else if (k === 'k') decide('right');
+      else if (k === 'f') decide('up');
+      else if (k === 's') decide('down');
+      else if (k === 'z') undo();
+      else if (k === ' ') {
+        e.preventDefault();
+        setZoom((z) => !z);
+      } else if (k === 'escape') setZoom(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
+
   const current = items && idx < items.length ? items[idx] : null;
   const next = items && idx + 1 < items.length ? items[idx + 1] : null;
 
@@ -83,13 +102,22 @@ export function Swipe({ category }: { category: string }) {
         </div>
       )}
 
-      <footer className="flex items-center justify-center gap-5 px-4 pb-8 pt-3">
+      <footer className="flex items-center justify-center gap-5 px-4 pb-4 pt-3">
         <ActionBtn label="削除予定" onClick={() => decide('left')} disabled={!current}>🗑</ActionBtn>
         <ActionBtn label="元に戻す" small onClick={undo} disabled={historyRef.current.length === 0}>↩︎</ActionBtn>
         <ActionBtn label="あとで" small onClick={() => decide('down')} disabled={!current}>⏬</ActionBtn>
         <ActionBtn label="お気に入り" small onClick={() => decide('up')} disabled={!current}>♡</ActionBtn>
         <ActionBtn label="残す" onClick={() => decide('right')} disabled={!current} accent>✓</ActionBtn>
       </footer>
+
+      <div className="hidden items-center justify-center gap-4 pb-4 text-[11px] text-neutral-600 sm:flex">
+        <span><Kbd>J</Kbd> 削除予定</span>
+        <span><Kbd>K</Kbd> 残す</span>
+        <span><Kbd>F</Kbd> お気に入り</span>
+        <span><Kbd>S</Kbd> あとで</span>
+        <span><Kbd>Z</Kbd> 元に戻す</span>
+        <span><Kbd>Space</Kbd> 拡大</span>
+      </div>
 
       {zoom && current && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95" onClick={() => setZoom(false)}>
@@ -99,6 +127,10 @@ export function Swipe({ category }: { category: string }) {
       <Toast toast={toast} onHide={hideToast} />
     </div>
   );
+}
+
+function Kbd({ children }: { children: React.ReactNode }) {
+  return <kbd className="rounded border border-neutral-700 bg-neutral-900 px-1.5 py-0.5 font-sans">{children}</kbd>;
 }
 
 function ActionBtn({

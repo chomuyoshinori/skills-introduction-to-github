@@ -59,22 +59,26 @@ export function createApp(db: Db, immich: ImmichClient): Hono {
   app.get('/api/stats', (c) => c.json(getStats(db)));
 
   const NUMERIC_SETTINGS = [
-    'screenshot_threshold', // スクショ判定スコアのしきい値(既定 0.5)
-    'memo_threshold', //       メモ写真スコアのしきい値(既定 0.5)
-    'memo_age_days', //        メモの「賞味期限切れ」日数(既定 30)
-    'blur_threshold', //       ラプラシアン分散のぼやけしきい値(既定 25)
-    'similar_hamming', //      類似判定のハミング距離(既定 10)
-    'burst_gap_seconds', //    連写判定の撮影間隔秒数(既定 5)
+    'screenshot_threshold', //    スクショ判定スコアのしきい値(既定 0.5)
+    'screenshot_min_age_days', // スクショを候補に入れるまでの日数(既定 0 = 即候補)
+    'memo_threshold', //          メモ写真スコアのしきい値(既定 0.5)
+    'memo_age_days', //           メモの「賞味期限切れ」日数(既定 30)
+    'blur_threshold', //          ラプラシアン分散のぼやけしきい値(既定 60)
+    'similar_hamming', //         類似判定のハミング距離(既定 10)
+    'burst_gap_seconds', //       連写判定の撮影間隔秒数(既定 5)
+    'auto_scan_hour', //          夜間自動スキャンの実行時刻 0-23(既定 3、-1 で無効)
   ];
 
   app.get('/api/settings', (c) => {
     const defaults: Record<string, string> = {
       screenshot_threshold: '0.5',
+      screenshot_min_age_days: '0',
       memo_threshold: '0.5',
       memo_age_days: '30',
       blur_threshold: '60',
       similar_hamming: '10',
       burst_gap_seconds: '5',
+      auto_scan_hour: '3',
     };
     const out: Record<string, unknown> = {
       device_resolutions: JSON.parse(getSetting(db, 'device_resolutions', JSON.stringify(DEFAULT_RESOLUTIONS))),

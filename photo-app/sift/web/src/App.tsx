@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Home } from './screens/Home';
 import { Swipe } from './screens/Swipe';
 import { Groups } from './screens/Groups';
+import { Settings } from './screens/Settings';
 import { Stats } from './screens/Stats';
 import { Trash } from './screens/Trash';
 
@@ -20,6 +21,7 @@ export function App() {
   if (route.startsWith('/swipe/')) return <Swipe category={route.slice('/swipe/'.length)} />;
   if (route === '/groups' || route === '/duplicates') return <Groups />;
   if (route === '/stats') return <Stats />;
+  if (route === '/settings') return <Settings />;
   if (route === '/trash') return <Trash />;
   return <Home />;
 }
