@@ -1,4 +1,7 @@
+import { createHash } from 'node:crypto';
 import { Hono } from 'hono';
+import { getCookie, setCookie } from 'hono/cookie';
+import { config } from './config';
 import { getSetting, setSetting, type Db } from './db';
 import type { ImmichClient } from './immich/types';
 import { runFullScanOnce } from './services/analyze';
@@ -7,8 +10,35 @@ import { getGroups, getQueueItems, getQueues, getStats, getTrashPending } from '
 import { DEFAULT_RESOLUTIONS } from './services/scan';
 import { commitTrash } from './services/trash';
 
+const sha256 = (s: string) => createHash('sha256').update(s).digest('hex');
+
 export function createApp(db: Db, immich: ImmichClient): Hono {
   const app = new Hono();
+
+  // 簡易PINロック(SPEC §11)。SIFT_PIN 設定時のみ有効。
+  // 認証はハッシュ値のクッキー(サムネイルの <img> はヘッダを付けられないため)
+  const pinHash = config.pin ? sha256(config.pin) : null;
+
+  app.post('/api/auth/login', async (c) => {
+    if (!pinHash) return c.json({ ok: true });
+    const body = await c.req.json().catch(() => ({}));
+    if (typeof body?.pin === 'string' && sha256(body.pin) === pinHash) {
+      setCookie(c, 'sift_auth', pinHash, {
+        httpOnly: true,
+        sameSite: 'Lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 30,
+      });
+      return c.json({ ok: true });
+    }
+    return c.json({ error: 'PINが違います' }, 401);
+  });
+
+  app.use('/api/*', async (c, next) => {
+    if (!pinHash || c.req.path.startsWith('/api/auth/')) return next();
+    if (getCookie(c, 'sift_auth') === pinHash || c.req.header('x-sift-pin') === config.pin) return next();
+    return c.json({ error: 'pin_required' }, 401);
+  });
 
   app.get('/api/health', async (c) => {
     const ok = await immich.ping();
@@ -66,6 +96,7 @@ export function createApp(db: Db, immich: ImmichClient): Hono {
     'blur_threshold', //          ラプラシアン分散のぼやけしきい値(既定 60)
     'similar_hamming', //         類似判定のハミング距離(既定 10)
     'burst_gap_seconds', //       連写判定の撮影間隔秒数(既定 5)
+    'video_large_mb', //          「大きい動画」候補のサイズしきい値 MB(既定 200)
     'auto_scan_hour', //          夜間自動スキャンの実行時刻 0-23(既定 3、-1 で無効)
   ];
 
@@ -78,6 +109,7 @@ export function createApp(db: Db, immich: ImmichClient): Hono {
       blur_threshold: '60',
       similar_hamming: '10',
       burst_gap_seconds: '5',
+      video_large_mb: '200',
       auto_scan_hour: '3',
     };
     const out: Record<string, unknown> = {

@@ -46,11 +46,19 @@
 ## ロードマップ
 
 ### Phase 0 — 開発なしで土台を作る(半日)
-1. Mac mini に [OrbStack](https://orbstack.dev/)(個人無料のDocker環境。Docker Desktopより軽い)を入れ、Immich を docker compose で起動。写真実体の保存先は外付けSSDを指定。
+1. Mac mini に [OrbStack](https://orbstack.dev/)(個人無料のDocker環境。Docker Desktopより軽い)を入れ、Immich を起動:
+   ```bash
+   mkdir -p ~/immich && cd ~/immich
+   curl -LO https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml
+   curl -L -o .env https://github.com/immich-app/immich/releases/latest/download/example.env
+   # .env を編集: UPLOAD_LOCATION=/Volumes/<外付けSSD名>/immich-photos / DB_PASSWORD を変更
+   docker compose up -d   # → http://localhost:2283
+   ```
 2. スマホに Immich アプリを入れ、自動バックアップを設定 → 完了後「アップロード済みをデバイスから削除」で容量解放。
 3. Mac mini とスマホに Tailscale を入れ、外出先からも Immich が開けることを確認。
-4. Time Machine(またはrsync)で写真実体+ImmichのDBを別ディスクへ自動バックアップ。
+4. Time Machine(またはrsync)で写真実体+ImmichのDBを別ディスクへ自動バックアップ。**これを飛ばすと Mac mini 故障=写真全損**。
 5. (RAWが一眼カメラ由来なら)Immich の外部ライブラリ機能で取り込みフォルダを登録。
+6. Mac のスリープを無効化(システム設定 → エネルギー、または `sudo pmset -c sleep 0`)。
 
 **→ この時点で「スマホ容量がいっぱいになる」問題はほぼ解決する。**
 

@@ -37,18 +37,20 @@ export function createImmichClient(baseUrl: string, apiKey: string): ImmichClien
 
     async fetchAllAssets() {
       const all: ImmichAsset[] = [];
-      let page: number | null = 1;
-      while (page !== null) {
-        const res = await call('/api/search/metadata', {
-          method: 'POST',
-          body: JSON.stringify({ page, size: 1000, withExif: true, type: 'IMAGE' }),
-        });
-        const data = (await res.json()) as {
-          assets?: { items?: ImmichAsset[]; nextPage?: string | number | null };
-        };
-        all.push(...(data.assets?.items ?? []));
-        const next = data.assets?.nextPage;
-        page = next ? Number(next) : null;
+      for (const type of ['IMAGE', 'VIDEO']) {
+        let page: number | null = 1;
+        while (page !== null) {
+          const res = await call('/api/search/metadata', {
+            method: 'POST',
+            body: JSON.stringify({ page, size: 1000, withExif: true, type }),
+          });
+          const data = (await res.json()) as {
+            assets?: { items?: ImmichAsset[]; nextPage?: string | number | null };
+          };
+          all.push(...(data.assets?.items ?? []));
+          const next = data.assets?.nextPage;
+          page = next ? Number(next) : null;
+        }
       }
       return all;
     },

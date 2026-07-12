@@ -32,9 +32,11 @@ export function Stats() {
           <h2 className="mb-2 text-sm font-medium text-neutral-400">残っている候補</h2>
           <div className="mb-6 grid grid-cols-2 gap-2 text-sm">
             <RemainRow label="📱 スクショ" value={`${stats.remaining.screenshot}枚`} />
+            <RemainRow label="🎬 画面収録" value={`${stats.remaining.screenRecording}本`} />
+            <RemainRow label="🔁 重複・類似" value={`${stats.remaining.groups}組`} />
+            <RemainRow label="🎞 大きい動画" value={`${stats.remaining.videoLarge}本`} />
             <RemainRow label="📄 メモ写真" value={`${stats.remaining.memo}枚`} />
             <RemainRow label="🌫 ぼやけ" value={`${stats.remaining.blurry}枚`} />
-            <RemainRow label="🔁 重複・類似" value={`${stats.remaining.groups}組`} />
           </div>
 
           {stats.monthlyFreed.length > 0 && (

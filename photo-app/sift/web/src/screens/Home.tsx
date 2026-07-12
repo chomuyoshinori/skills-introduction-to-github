@@ -53,12 +53,28 @@ export function Home() {
           disabled={!queues || queues.screenshot.count === 0}
         />
         <Card
+          emoji="🎬"
+          title="画面収録"
+          detail={queues ? `${queues.screenRecording.count}本 ≈${fmtBytes(queues.screenRecording.bytes)}` : '…'}
+          href="#/swipe/screen_recording"
+          cta="整理する →"
+          disabled={!queues || queues.screenRecording.count === 0}
+        />
+        <Card
           emoji="🔁"
           title="重複・類似"
           detail={queues ? `${queues.groups.count}組 ≈${fmtBytes(queues.groups.bytes)}` : '…'}
           href="#/groups"
           cta="比較する →"
           disabled={!queues || queues.groups.count === 0}
+        />
+        <Card
+          emoji="🎞"
+          title="大きい動画"
+          detail={queues ? `${queues.videoLarge.count}本 ≈${fmtBytes(queues.videoLarge.bytes)}` : '…'}
+          href="#/swipe/video_large"
+          cta="整理する →"
+          disabled={!queues || queues.videoLarge.count === 0}
         />
         <Card
           emoji="📄"

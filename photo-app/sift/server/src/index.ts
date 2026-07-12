@@ -34,8 +34,9 @@ if (count.c === 0) {
   runFullScanOnce(db, immich)
     .then((r) =>
       console.log(
-        `スキャン完了: ${r.scanned}枚 / スクショ${r.screenshots} メモ${r.memo} ぼやけ${r.blurry} / ` +
-          `重複${r.duplicateGroups}組 連写${r.burstGroups}組 類似${r.similarGroups}組(解析${r.analyzed}枚 失敗${r.analyzeFailed})`
+        `スキャン完了: ${r.scanned}件 / スクショ${r.screenshots} 画面収録${r.screenRecordings} 大動画${r.largeVideos} ` +
+          `メモ${r.memo} ぼやけ${r.blurry} RAWペア${r.rawPairs} / ` +
+          `重複${r.duplicateGroups}組 連写${r.burstGroups}組 類似${r.similarGroups}組(解析${r.analyzed}件 失敗${r.analyzeFailed})`
       )
     )
     .catch((e) => console.error('初回スキャン失敗:', (e as Error).message));

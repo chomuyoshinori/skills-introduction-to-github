@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { getSetting, type Db } from '../db';
 import type { ImmichClient } from '../immich/types';
-import { runScan, type ScanResult } from './scan';
+import { RAW_FILE_RE, runScan, type ScanResult } from './scan';
 
 // ─────────────────────────────────────────────────────────────
 // Phase 2: 画像解析(SPEC §6.2, §6.3)
@@ -120,7 +120,10 @@ async function pool<T>(items: T[], n: number, fn: (t: T) => Promise<void>): Prom
 /** 未解析アセットのサムネイルを取得して pHash・シャープネス・書類度を計算(増分) */
 export async function analyzeAssets(db: Db, immich: ImmichClient): Promise<{ analyzed: number; failed: number }> {
   const rows = db
-    .prepare(`SELECT asset_id FROM asset_state WHERE phash IS NULL AND (decision IS NULL OR decision != 'trashed')`)
+    .prepare(
+      `SELECT asset_id FROM asset_state
+       WHERE phash IS NULL AND type = 'IMAGE' AND (decision IS NULL OR decision != 'trashed')`
+    )
     .all() as { asset_id: string }[];
   const upd = db.prepare(`UPDATE asset_state SET phash = ?, sharpness = ?, doc_like = ? WHERE asset_id = ?`);
   let analyzed = 0;
@@ -165,10 +168,11 @@ export function categorize(db: Db): { memo: number; blurry: number } {
   const ageDaysTh = Number(getSetting(db, 'memo_age_days', '30'));
   const now = Date.now();
 
+  // 動画のカテゴリ(screen_recording / video_large)はスキャン側の判定を保持する
   const rows = db
     .prepare(
       `SELECT asset_id, taken_at, sharpness, doc_like, memo_clip FROM asset_state
-       WHERE category != 'screenshot' AND (decision IS NULL OR decision != 'trashed')`
+       WHERE category != 'screenshot' AND type = 'IMAGE' AND (decision IS NULL OR decision != 'trashed')`
     )
     .all() as { asset_id: string; taken_at: string | null; sharpness: number | null; doc_like: number; memo_clip: number }[];
   const upd = db.prepare(`UPDATE asset_state SET category = ?, score = ? WHERE asset_id = ?`);
@@ -207,15 +211,28 @@ export function buildGroups(db: Db): { burstGroups: number; similarGroups: numbe
     DELETE FROM groups WHERE kind IN ('burst','similar');
   `);
 
-  // スクショ・メモは専用キューがあるためグループ化対象から外す
-  const rows = db
-    .prepare(
-      `SELECT asset_id, taken_at, camera, phash, group_id FROM asset_state
-       WHERE (decision IS NULL OR decision != 'trashed') AND phash IS NOT NULL
-         AND category NOT IN ('screenshot', 'memo')
-       ORDER BY taken_at`
-    )
-    .all() as { asset_id: string; taken_at: string | null; camera: string | null; phash: string; group_id: number | null }[];
+  // スクショ・メモは専用キューがあるためグループ化対象から外す。
+  // RAW+JPEG ペアの RAW 側も外す(JPEG 側と phash がほぼ同一で、ペアが「類似」として
+  // グループ化されると keep-best で RAW だけ削除予定になる事故が起きるため。
+  // 判断は JPEG 側からペアに連動する)
+  const rows = (
+    db
+      .prepare(
+        `SELECT asset_id, taken_at, camera, phash, group_id, file_name, pair_asset_id FROM asset_state
+         WHERE (decision IS NULL OR decision != 'trashed') AND phash IS NOT NULL
+           AND category NOT IN ('screenshot', 'memo')
+         ORDER BY taken_at`
+      )
+      .all() as {
+      asset_id: string;
+      taken_at: string | null;
+      camera: string | null;
+      phash: string;
+      group_id: number | null;
+      file_name: string | null;
+      pair_asset_id: string | null;
+    }[]
+  ).filter((r) => !(r.pair_asset_id && RAW_FILE_RE.test(r.file_name ?? '')));
 
   const insGroup = db.prepare(`INSERT INTO groups(kind, best_asset_id) VALUES(?, ?)`);
   const setMember = db.prepare(`UPDATE asset_state SET group_id = ? WHERE asset_id = ?`);

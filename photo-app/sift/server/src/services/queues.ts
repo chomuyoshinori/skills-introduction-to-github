@@ -10,9 +10,12 @@ export interface QueueItem {
   score: number;
   decision: string | null;
   sharpness: number | null;
+  type: string;
+  duration: string | null;
+  pairAssetId: string | null;
 }
 
-const ITEM_COLS = `asset_id, file_name, taken_at, size_bytes, width, height, score, decision, sharpness`;
+const ITEM_COLS = `asset_id, file_name, taken_at, size_bytes, width, height, score, decision, sharpness, type, duration, pair_asset_id`;
 
 function toItem(r: Record<string, unknown>): QueueItem {
   return {
@@ -25,6 +28,9 @@ function toItem(r: Record<string, unknown>): QueueItem {
     score: (r.score as number) ?? 0,
     decision: r.decision as string | null,
     sharpness: r.sharpness as number | null,
+    type: (r.type as string) ?? 'IMAGE',
+    duration: r.duration as string | null,
+    pairAssetId: r.pair_asset_id as string | null,
   };
 }
 
@@ -55,6 +61,8 @@ export function getTrashPending(db: Db, limit = 1000): QueueItem[] {
 
 export interface QueuesSummary {
   screenshot: { count: number; bytes: number };
+  screenRecording: { count: number; bytes: number };
+  videoLarge: { count: number; bytes: number };
   memo: { count: number; bytes: number };
   blurry: { count: number; bytes: number };
   groups: { count: number; bytes: number };
@@ -92,6 +100,8 @@ export function getQueues(db: Db): QueuesSummary {
     .get() as { c: number; b: number };
   return {
     screenshot: categorySummary(db, 'screenshot'),
+    screenRecording: categorySummary(db, 'screen_recording'),
+    videoLarge: categorySummary(db, 'video_large'),
     memo: categorySummary(db, 'memo'),
     blurry: categorySummary(db, 'blurry'),
     groups: groupsSummary(db),
@@ -134,7 +144,14 @@ export interface Stats {
   freedBytes: number;
   trashedCount: number;
   reviewedCount: number;
-  remaining: { screenshot: number; memo: number; blurry: number; groups: number };
+  remaining: {
+    screenshot: number;
+    screenRecording: number;
+    videoLarge: number;
+    memo: number;
+    blurry: number;
+    groups: number;
+  };
   monthlyFreed: { month: string; bytes: number; count: number }[];
 }
 
@@ -159,6 +176,8 @@ export function getStats(db: Db): Stats {
     reviewedCount: reviewed.c,
     remaining: {
       screenshot: q.screenshot.count,
+      screenRecording: q.screenRecording.count,
+      videoLarge: q.videoLarge.count,
       memo: q.memo.count,
       blurry: q.blurry.count,
       groups: q.groups.count,

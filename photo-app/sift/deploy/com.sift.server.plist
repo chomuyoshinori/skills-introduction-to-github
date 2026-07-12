@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Sift を Mac mini に常駐させる launchd 設定。
+
+  使い方:
+    1. 下の /PATH/TO/photo-app/sift を実際のパスに書き換える
+    2. cp deploy/com.sift.server.plist ~/Library/LaunchAgents/
+    3. launchctl load ~/Library/LaunchAgents/com.sift.server.plist
+    (止める: launchctl unload ~/Library/LaunchAgents/com.sift.server.plist)
+
+  ログ: /tmp/sift.log / /tmp/sift.err.log
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.sift.server</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>cd /PATH/TO/photo-app/sift && npm run start</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/tmp/sift.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/sift.err.log</string>
+</dict>
+</plist>

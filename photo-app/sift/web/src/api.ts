@@ -10,6 +10,9 @@ export interface AssetItem {
   score: number;
   decision: string | null;
   sharpness: number | null;
+  type: string;
+  duration: string | null;
+  pairAssetId: string | null;
 }
 
 export interface QueueSummary {
@@ -19,6 +22,8 @@ export interface QueueSummary {
 
 export interface QueuesRes {
   screenshot: QueueSummary;
+  screenRecording: QueueSummary;
+  videoLarge: QueueSummary;
   memo: QueueSummary;
   blurry: QueueSummary;
   groups: QueueSummary;
@@ -29,7 +34,14 @@ export interface Stats {
   freedBytes: number;
   trashedCount: number;
   reviewedCount: number;
-  remaining: { screenshot: number; memo: number; blurry: number; groups: number };
+  remaining: {
+    screenshot: number;
+    screenRecording: number;
+    videoLarge: number;
+    memo: number;
+    blurry: number;
+    groups: number;
+  };
   monthlyFreed: { month: string; bytes: number; count: number }[];
 }
 
@@ -43,6 +55,9 @@ export interface Group {
 export interface ScanResult {
   scanned: number;
   screenshots: number;
+  screenRecordings: number;
+  largeVideos: number;
+  rawPairs: number;
   duplicateGroups: number;
   analyzed: number;
   memo: number;
@@ -60,7 +75,14 @@ export interface Settings {
   blur_threshold: number;
   similar_hamming: number;
   burst_gap_seconds: number;
+  video_large_mb: number;
   auto_scan_hour: number;
+}
+
+export class ApiError extends Error {
+  constructor(message: string, public status: number) {
+    super(message);
+  }
 }
 
 async function j<T>(path: string, init?: RequestInit): Promise<T> {
@@ -69,7 +91,7 @@ async function j<T>(path: string, init?: RequestInit): Promise<T> {
       ? { ...init, headers: { 'Content-Type': 'application/json', ...(init.headers ?? {}) } }
       : init;
   const res = await fetch(path, withJson);
-  if (!res.ok) throw new Error(`${path}: ${res.status}`);
+  if (!res.ok) throw new ApiError(`${path}: ${res.status}`, res.status);
   return res.json() as Promise<T>;
 }
 
@@ -93,6 +115,7 @@ export const api = {
   getSettings: () => j<Settings>('/api/settings'),
   putSettings: (s: Partial<Settings>) =>
     j<{ ok: boolean }>('/api/settings', { method: 'PUT', body: JSON.stringify(s) }),
+  login: (pin: string) => j<{ ok: boolean }>('/api/auth/login', { method: 'POST', body: JSON.stringify({ pin }) }),
 };
 
 export function thumbUrl(id: string, size: 'thumbnail' | 'preview' = 'thumbnail'): string {
@@ -116,4 +139,13 @@ export function fmtMonth(iso: string | null): string {
   if (!iso) return '不明';
   const d = new Date(iso);
   return d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long' });
+}
+
+/** Immich の "HH:MM:SS.mmm" を "M:SS" / "H:MM:SS" に整形 */
+export function fmtDuration(d: string | null): string {
+  if (!d) return '';
+  const m = d.match(/^(\d+):(\d+):(\d+)/);
+  if (!m) return d;
+  const [h, mm, ss] = [Number(m[1]), m[2], m[3]];
+  return h > 0 ? `${h}:${mm}:${ss}` : `${Number(mm)}:${ss}`;
 }

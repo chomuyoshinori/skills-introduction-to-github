@@ -91,6 +91,11 @@ export function Groups() {
                           ★ 残す
                         </span>
                       )}
+                      {a.isFavorite && (
+                        <span className="absolute right-1 top-1 rounded bg-black/60 px-1 text-xs text-pink-400" title="お気に入り(一括削除の対象外)">
+                          ♥
+                        </span>
+                      )}
                       <span className="absolute bottom-1 right-1 rounded bg-black/70 px-1 text-[10px]">
                         {fmtBytes(a.sizeBytes)}
                       </span>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { api, fmtBytes, fmtDate, thumbUrl, type AssetItem, type Decision } from '../api';
+import { api, fmtBytes, fmtDate, fmtDuration, thumbUrl, type AssetItem, type Decision } from '../api';
 import { SwipeCard, type Dir } from '../components/SwipeCard';
 import { Toast, useToast } from '../components/Toast';
 
@@ -10,7 +10,13 @@ const DIR_TO_DECISION: Record<Dir, { decision: Decision; label: string }> = {
   down: { decision: 'later', label: 'あとで' },
 };
 
-const CATEGORY_LABEL: Record<string, string> = { screenshot: 'スクショ', memo: 'メモ写真', blurry: 'ぼやけ' };
+const CATEGORY_LABEL: Record<string, string> = {
+  screenshot: 'スクショ',
+  screen_recording: '画面収録',
+  video_large: '大きい動画',
+  memo: 'メモ写真',
+  blurry: 'ぼやけ',
+};
 
 // SPEC S-2: 1画面1判断のスワイプ選別。50枚で1セッション
 export function Swipe({ category }: { category: string }) {
@@ -99,6 +105,10 @@ export function Swipe({ category }: { category: string }) {
       {current && (
         <div className="px-4 pb-1 text-center text-xs text-neutral-500">
           {fmtDate(current.takenAt)} ・ {current.fileName} ・ {fmtBytes(current.sizeBytes)}
+          {current.type === 'VIDEO' && <> ・ ▶ {fmtDuration(current.duration)}</>}
+          {current.pairAssetId && (
+            <div className="mt-0.5 text-amber-400/90">RAWペア: 判断はペアの2枚に適用されます</div>
+          )}
         </div>
       )}
 

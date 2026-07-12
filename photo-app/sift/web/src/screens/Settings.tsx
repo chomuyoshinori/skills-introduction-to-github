@@ -33,6 +33,10 @@ const FIELDS: { section: string; items: NumField[] }[] = [
     ],
   },
   {
+    section: '🎞 動画',
+    items: [{ key: 'video_large_mb', label: '大きい動画のしきい値(MB)', hint: 'このサイズ以上の動画を「大きい動画」候補に' }],
+  },
+  {
     section: '🌙 自動実行',
     items: [{ key: 'auto_scan_hour', label: '自動スキャンの時刻', hint: '0〜23時。-1 で無効。実行前にDBを自動バックアップ' }],
   },

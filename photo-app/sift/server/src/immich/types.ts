@@ -14,6 +14,7 @@ export interface ImmichAsset {
   localDateTime?: string;
   isFavorite: boolean;
   type: string; // IMAGE | VIDEO
+  duration?: string | null; // 動画のみ "HH:MM:SS.mmm"
   exifInfo?: ImmichExif | null;
 }
 

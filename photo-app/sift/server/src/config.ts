@@ -23,4 +23,6 @@ export const config = {
   immichUrl: (process.env.IMMICH_URL || 'http://localhost:2283').replace(/\/+$/, ''),
   immichApiKey: process.env.IMMICH_API_KEY || '',
   mock: process.env.SIFT_MOCK === '1',
+  // 簡易PINロック(SPEC §11)。未設定なら認証なし(Tailscale内のみでの利用が前提)
+  pin: process.env.SIFT_PIN || '',
 };

@@ -30,6 +30,17 @@ function applyMixed(db: Db, entries: { assetId: string; decision: string | null 
   return prev;
 }
 
+// SPEC §9: RAW+JPEG ペアは必ずペア単位で扱う。判断対象にペアの片割れを自動で含める
+function expandWithPairs(db: Db, assetIds: string[]): string[] {
+  const stmt = db.prepare(`SELECT pair_asset_id FROM asset_state WHERE asset_id = ?`);
+  const out = new Set(assetIds);
+  for (const id of assetIds) {
+    const r = stmt.get(id) as { pair_asset_id: string | null } | undefined;
+    if (r?.pair_asset_id) out.add(r.pair_asset_id);
+  }
+  return [...out];
+}
+
 export async function applyDecisions(
   db: Db,
   immich: ImmichClient,
@@ -37,9 +48,11 @@ export async function applyDecisions(
   decision: DecisionInput
 ): Promise<{ updated: number }> {
   const value = decision === 'reset' ? null : decision;
+  // お気に入りは「その1枚」への操作。それ以外(削除予定・残す等)はペアに連動させる
+  const targets = decision === 'favorite' ? assetIds : expandWithPairs(db, assetIds);
   const prev = applyMixed(
     db,
-    assetIds.map((assetId) => ({ assetId, decision: value })),
+    targets.map((assetId) => ({ assetId, decision: value })),
     decision
   );
   // お気に入りは Immich にも反映する(SPEC S-2)
@@ -61,15 +74,31 @@ export function keepBest(db: Db, groupId: number, bestAssetId?: string): { kept:
   const best = bestAssetId ?? g.best_asset_id;
   if (!best) return null;
   const members = db
-    .prepare(`SELECT asset_id FROM asset_state WHERE group_id = ? AND (decision IS NULL OR decision = 'later')`)
-    .all(groupId) as { asset_id: string }[];
-  const entries = members.map((m) => ({
-    assetId: m.asset_id,
-    decision: m.asset_id === best ? 'keep' : 'trash_pending',
-  }));
-  if (!entries.some((e) => e.decision === 'trash_pending')) return { kept: best, trashed: 0 };
+    .prepare(
+      `SELECT asset_id, is_favorite, pair_asset_id FROM asset_state
+       WHERE group_id = ? AND (decision IS NULL OR decision = 'later')`
+    )
+    .all(groupId) as { asset_id: string; is_favorite: number; pair_asset_id: string | null }[];
+
+  const entries: { assetId: string; decision: string }[] = [];
+  const add = (assetId: string, decision: string) => {
+    if (!entries.some((e) => e.assetId === assetId)) entries.push({ assetId, decision });
+  };
+  // best(とそのRAWペア)を先に keep 登録してから、残りを削除予定にする
+  const bestMember = members.find((m) => m.asset_id === best);
+  add(best, 'keep');
+  if (bestMember?.pair_asset_id) add(bestMember.pair_asset_id, 'keep');
+  let trashed = 0;
+  for (const m of members) {
+    if (m.asset_id === best) continue;
+    if (m.is_favorite) continue; // SPEC §9: お気に入りは一括操作で削除予定にしない
+    add(m.asset_id, 'trash_pending');
+    if (m.pair_asset_id) add(m.pair_asset_id, 'trash_pending');
+  }
+  trashed = entries.filter((e) => e.decision === 'trash_pending').length;
+  if (trashed === 0) return { kept: best, trashed: 0 };
   applyMixed(db, entries, 'keep-best');
-  return { kept: best, trashed: entries.length - 1 };
+  return { kept: best, trashed };
 }
 
 export async function undoLast(db: Db, immich: ImmichClient): Promise<{ undone: string | null }> {

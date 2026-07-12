@@ -54,6 +54,10 @@ export function openDb(dbPath: string = config.dbPath): Db {
   ensureColumn(db, 'asset_state', 'doc_like', 'doc_like INTEGER NOT NULL DEFAULT 0');
   ensureColumn(db, 'asset_state', 'memo_clip', 'memo_clip INTEGER NOT NULL DEFAULT 0');
   ensureColumn(db, 'asset_state', 'camera', 'camera TEXT');
+  // v1.1(レビュー改修)で追加した列
+  ensureColumn(db, 'asset_state', 'type', "type TEXT NOT NULL DEFAULT 'IMAGE'");
+  ensureColumn(db, 'asset_state', 'duration', 'duration TEXT');
+  ensureColumn(db, 'asset_state', 'pair_asset_id', 'pair_asset_id TEXT');
   return db;
 }
 

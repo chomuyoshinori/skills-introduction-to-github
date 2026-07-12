@@ -198,6 +198,79 @@ function buildLibrary(): { assets: MockAsset[]; duplicates: DuplicateGroup[]; me
     });
   }
 
+  // ⑧ RAW+JPEG ペア 2組(同ベース名・同時刻。判断のペア連動と類似グループ除外の確認用)
+  for (let p = 0; p < 2; p++) {
+    const scene = makeScene(rand);
+    const taken = date(15 + p * 25, 10, 30 + p * 7, 0);
+    for (const [ext, mime, mb] of [
+      ['DNG', 'image/x-adobe-dng', 40 + p * 5],
+      ['JPG', 'image/jpeg', 3.8 + p * 0.4],
+    ] as const) {
+      assets.push({
+        id: `mock-raw-${p}-${ext.toLowerCase()}`,
+        originalFileName: `IMG_${6001 + p}.${ext}`,
+        originalMimeType: mime,
+        fileCreatedAt: taken,
+        localDateTime: taken,
+        isFavorite: false,
+        type: 'IMAGE',
+        exifInfo: { ...appleExif, fileSizeInByte: Math.round(mb * 1_000_000) },
+        kind: 'photo',
+        scene,
+        label: `RAWペア${p + 1} (${ext})`,
+        portrait: false,
+      });
+    }
+  }
+
+  // ⑨ 動画: 画面収録 3本(EXIFなし・名前パターン)+ カメラ動画 3本(1本は200MB未満)
+  const screenRecs: [string, number, string][] = [
+    ['ScreenRecording_2026-04-02-09-12-33.mp4', 130, '00:01:45.000'],
+    ['RPReplay_Final1770000001.MP4', 280, '00:04:12.000'],
+    ['ScreenRecording_2026-02-14-20-01-05.mp4', 95, '00:00:32.000'],
+  ];
+  screenRecs.forEach(([name, mb, dur], i) => {
+    const taken = date(30 + i * 40, 9 + i, i * 17, 0);
+    assets.push({
+      id: `mock-screc-${i}`,
+      originalFileName: name,
+      originalMimeType: 'video/mp4',
+      fileCreatedAt: taken,
+      localDateTime: taken,
+      isFavorite: false,
+      type: 'VIDEO',
+      duration: dur,
+      exifInfo: { fileSizeInByte: Math.round(mb * 1_000_000) },
+      kind: 'shot',
+      scene: null,
+      label: `画面収録 #${i + 1}`,
+      portrait: true,
+    });
+  });
+  const camVideos: [number, string][] = [
+    [90, '00:00:58.000'],
+    [250, '00:03:21.000'],
+    [850, '00:21:37.000'],
+  ];
+  camVideos.forEach(([mb, dur], i) => {
+    const taken = date(12 + i * 30, 15, i * 13, 0);
+    assets.push({
+      id: `mock-video-${i}`,
+      originalFileName: `IMG_${7001 + i}.MOV`,
+      originalMimeType: 'video/quicktime',
+      fileCreatedAt: taken,
+      localDateTime: taken,
+      isFavorite: false,
+      type: 'VIDEO',
+      duration: dur,
+      exifInfo: { ...appleExif, fileSizeInByte: Math.round(mb * 1_000_000) },
+      kind: 'photo',
+      scene: makeScene(rand),
+      label: `動画 #${i + 1} (${mb}MB)`,
+      portrait: false,
+    });
+  });
+
   // ⑦ 通常写真 25枚(うち2枚はお気に入り → 候補除外の確認用)
   for (let i = 0; i < 25; i++) {
     const taken = date(Math.floor(rand() * 300), 8 + (i % 10), (i * 3) % 60, (i * 17) % 60);
@@ -276,9 +349,17 @@ function thumbnailSvg(a: MockAsset, size: 'thumbnail' | 'preview'): string {
   const scale = size === 'thumbnail' ? 0.5 : 1;
   const w = Math.round((a.portrait ? 360 : 640) * scale);
   const h = Math.round((a.portrait ? 780 : 480) * scale);
-  if (a.kind === 'shot') return shotSvg(a, w, h);
-  if (a.kind === 'doc') return docSvg(a, w, h, lcg(a.id.length * 7919 + a.id.charCodeAt(a.id.length - 1)));
-  return photoSvg(a, w, h);
+  let svg: string;
+  if (a.kind === 'shot') svg = shotSvg(a, w, h);
+  else if (a.kind === 'doc') svg = docSvg(a, w, h, lcg(a.id.length * 7919 + a.id.charCodeAt(a.id.length - 1)));
+  else svg = photoSvg(a, w, h);
+  if (a.type === 'VIDEO') {
+    // 再生マークを重ねて動画サムネらしくする
+    const play = `<circle cx="${w / 2}" cy="${h / 2}" r="${Math.round(w * 0.09)}" fill="rgba(0,0,0,0.55)"/>
+  <path d="M ${w / 2 - w * 0.03} ${h / 2 - w * 0.045} L ${w / 2 + w * 0.055} ${h / 2} L ${w / 2 - w * 0.03} ${h / 2 + w * 0.045} Z" fill="#fff"/>`;
+    svg = svg.replace('</svg>', `${play}</svg>`);
+  }
+  return svg;
 }
 
 export function createMockImmich(): ImmichClient {
