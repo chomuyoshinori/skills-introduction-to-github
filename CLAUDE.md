@@ -64,3 +64,36 @@ INVESTMENT_PROFILE.md + LESSONS.md を踏まえる
 1. **分業**: マクロ・個別・セクター・ニュースを専門化し、深さと網羅を両立。
 2. **批判を制度化**: レッドチームを必須ゲートにし、強気論への流されを防ぐ。確信度と反証条件を必ず付す。
 3. **学習し続ける**: 見立てを記録し実績と照合、キャリブレーションを是正して精度を上げ続ける。
+
+---
+
+# PTEG学術集会 プロモーションチーム
+
+第25回 日本PTEG研究会 学術集会(2027年9月12日(日)・札幌市教育文化会館、テーマ「地域・PTEG・ケアの近未来」)の
+プロモーションを企画・制作・改善する、投資チームとは独立したもう1つのエージェント組織。
+運用マニュアル: `pteg-promotion/README.md` / 組織設計の経緯と代替案比較: `pteg-promotion/ORG_DESIGN.md`
+
+## 組織(社長=ユーザー、`.claude/agents/`)
+| エージェント | 役職 |
+|---|---|
+| `pteg-vice-president` | **副社長**。全成果物の批判的検証ゲート+社長指示への対案上申(必須ゲート) |
+| `pteg-strategy-planner` | 戦略企画部長(戦略・ターゲット・KPI・逆算スケジュール) |
+| `pteg-marketing-pr` | 広報・マーケティング部長(チャネル計画・告知カレンダー) |
+| `pteg-creative-director` | クリエイティブ制作部長(コピー・文面・制作指示書) |
+| `pteg-engagement-lead` | 参加者体験部長(演題募集・参加登録・多職種/若手) |
+| `pteg-insight-analyst` | 分析評価部長(ベンチマーク・比較評価・測定設計) |
+| `pteg-innovation-lead` | 挑戦・イノベーション部長(挑戦枠の実験設計) |
+| `pteg-secretariat` | 事務局長(統合編集・提案書化・ログ記録) |
+| `pteg-kaizen-reviewer` | PDCA・改善担当(実績照合・教訓蓄積・組織改善) |
+
+## 使い方(スラッシュコマンド)
+- `/pteg-plan [テーマ]` — 企画提案書を作成(→ `pteg-promotion/proposals/`)。テーマ指定で軽量モード(関連部署のみ起動)。
+- `/pteg-review [実績データ]` — PDCAのCheck→Act(実績照合・教訓蓄積・挑戦判定・組織改善提案)。
+- `/pteg-challenge [テーマ]` — 挑戦枠のアイデア補充(→ `pteg-promotion/CHALLENGES.md`)。
+
+## 運用原則
+1. **副社長ゲート必須**: 提案・制作物は必ず `pteg-vice-president` の批判的検証を通す(批判には対案を添える)。
+2. **上申ルール**: 社長の指示より良い案があれば、指示通り案と対案を並記して提案する。最終決定は常に社長。却下された対案も記録する。
+3. **PDCA**: 提案は `pteg-promotion/PROMO_DECISION_LOG.md` に記録 → `/pteg-review` で実績照合 → `pteg-promotion/PROMO_LESSONS.md` へ教訓蓄積。全部署は作業前に `PROMO_PROFILE.md` と `PROMO_LESSONS.md` を必読。組織自体もPDCAの対象。
+4. **挑戦枠**: 毎回の提案に、仮説・実験・成功基準・撤退基準つきの挑戦を最低1件含める。
+5. **医療学会広報の品質**: 正確性最優先・誇大表現禁止。表現ルール(`pteg-promotion/PROMO_PROFILE.md` §3: 玉ねぎ不使用・ポスター改変禁止・AIによる日本語文字生成禁止 等)を厳守。
